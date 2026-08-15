@@ -134,6 +134,8 @@
   .timer-bar{height:5px;background:var(--border);border-radius:3px;overflow:hidden;margin:8px 0;}
   .timer-bar>div{height:100%;background:var(--violet);transition:width 1s linear;}
   .timer-bar>div.done{background:var(--green);}
+  .timer-box.timer-flash{animation:timerFlash .5s ease-in-out 3;}
+  @keyframes timerFlash{0%,100%{background:var(--panel2);}50%{background:rgba(34,197,94,.5);}}
   .timer-btns{display:flex;gap:6px;}
   .t-btn{flex:1;padding:8px 0;border-radius:8px;cursor:pointer;font-size:11.5px;font-weight:700;border:1px solid var(--border);background:transparent;color:var(--muted);}
   .t-btn.start{border-color:var(--violet);background:var(--violet);color:#0a0a0c;}
@@ -909,8 +911,12 @@ function saveHistoryEntry(){
   var day=DAYS[state.dayIdx];
   var done=[];
   day.exercises.forEach(function(ex,i){
-    if (!state.progress[i]) return;
     var ts=state.topSets[i];
+    var hasData = !!state.progress[i] ||
+      !!(state.weights[i]&&String(state.weights[i]).trim()) ||
+      !!(state.bonus[i]&&String(state.bonus[i]).trim()) ||
+      !!(ts&&ts.weight&&ts.reps);
+    if (!hasData) return;
     done.push({
       name:ex.name,
       weight:state.weights[i]||"",
@@ -1283,9 +1289,38 @@ function parseRestSeconds(restStr){
   if (nums.length===1) return nums[0];
   return Math.round((nums[0]+nums[1])/2);
 }
+/* Shared, persistent AudioContext. iOS Safari only lets an AudioContext run
+   if it was unlocked during a real tap — a fresh context created later
+   inside a setInterval callback (as the old code did) starts "suspended"
+   and Safari drops it silently, which shows up worst when a Bluetooth
+   device already holds the audio route. We unlock/resume this one context
+   on the Start button tap (a genuine user gesture) and reuse it. */
+var sharedAudioCtx=null;
+function unlockAudio(){
+  try{
+    if (!sharedAudioCtx) sharedAudioCtx=new (window.AudioContext||window.webkitAudioContext)();
+    if (sharedAudioCtx.state==="suspended") sharedAudioCtx.resume();
+  }catch(e){}
+}
+function playAlertTone(){
+  try{
+    unlockAudio();
+    if (!sharedAudioCtx) return;
+    var ctx=sharedAudioCtx, now=ctx.currentTime;
+    [0,0.42,0.84].forEach(function(offset){
+      var osc=ctx.createOscillator(), gain=ctx.createGain();
+      osc.type="sine"; osc.frequency.value=880;
+      gain.gain.setValueAtTime(0.0001,now+offset);
+      gain.gain.exponentialRampToValueAtTime(1,now+offset+0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001,now+offset+0.32);
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.start(now+offset); osc.stop(now+offset+0.34);
+    });
+  }catch(e){}
+}
 function attachTimer(box,restLabel){
   var base=parseRestSeconds(restLabel);
-  var left=base, running=false, iv=null;
+  var left=base, running=false, iv=null, endAt=null, alerted=false;
   var timeEl=box.querySelector(".timer-time");
   var barEl=box.querySelector(".timer-bar>div");
   var startBtn=box.querySelector(".start");
@@ -1300,32 +1335,52 @@ function attachTimer(box,restLabel){
     startBtn.textContent=running?"Pause":(left===0?"Restart":"Start");
     startBtn.className="t-btn "+(running?"pause":"start");
   }
-  function stopIv(){ if (iv){ clearInterval(iv); iv=null; } running=false; }
+  function fireAlert(){
+    if (alerted) return;
+    alerted=true;
+    if (navigator.vibrate) navigator.vibrate([250,100,250,100,250]);
+    playAlertTone();
+    // Visual cue always works regardless of what's happening with audio
+    // routing over Bluetooth — this is the fallback that can't be blocked.
+    box.classList.add("timer-flash");
+    setTimeout(function(){ box.classList.remove("timer-flash"); },1500);
+  }
+  function onVis(){ if (document.visibilityState==="visible") tick(); }
+  function stopIv(){
+    if (iv){ clearInterval(iv); iv=null; }
+    running=false;
+    document.removeEventListener("visibilitychange",onVis);
+  }
+  // Timestamp-based, not tick-decrement: iOS pauses/throttles setInterval
+  // while the app is backgrounded (switching to Bluetooth/Music controls,
+  // locking the phone), so a simple left-- per tick drifts or stalls.
+  // Recomputing from a fixed end time keeps the countdown accurate and
+  // still fires the alert on the tick right after you come back.
+  function tick(){
+    if (!running||!endAt) return;
+    left=Math.max(0,Math.round((endAt-Date.now())/1000));
+    if (left<=0){ left=0; stopIv(); fireAlert(); }
+    paint();
+  }
   startBtn.addEventListener("click",function(e){
     e.stopPropagation();
+    unlockAudio();
     if (running){ stopIv(); paint(); return; }
     if (left===0) left=base;
+    alerted=false;
+    endAt=Date.now()+left*1000;
     running=true;
-    iv=trackInterval(setInterval(function(){
-      left--;
-      if (left<=0){
-        left=0;
-        stopIv();
-        if (navigator.vibrate) navigator.vibrate([250,100,250]);
-        try{
-          var ctx=new (window.AudioContext||window.webkitAudioContext)();
-          var osc=ctx.createOscillator();
-          osc.type="sine"; osc.frequency.value=880;
-          osc.connect(ctx.destination); osc.start();
-          osc.stop(ctx.currentTime+0.35);
-        }catch(e2){}
-      }
-      paint();
-    },1000));
+    iv=trackInterval(setInterval(tick,1000));
+    document.addEventListener("visibilitychange",onVis);
     paint();
   });
-  plusBtn.addEventListener("click",function(e){ e.stopPropagation(); left=Math.max(0,left+15); paint(); });
-  rstBtn.addEventListener("click",function(e){ e.stopPropagation(); stopIv(); left=base; paint(); });
+  plusBtn.addEventListener("click",function(e){
+    e.stopPropagation();
+    left=Math.max(0,left+15);
+    if (running&&endAt) endAt=Date.now()+left*1000;
+    paint();
+  });
+  rstBtn.addEventListener("click",function(e){ e.stopPropagation(); stopIv(); left=base; alerted=false; paint(); });
   paint();
 }
 /* ============================= HISTORY VIEW ============================= */
@@ -1660,6 +1715,16 @@ storageSelfTest();
 loadHistory();
 loadDay(0);
 renderApp();
+// Safety net: force a save whenever the app is backgrounded (switching to
+// Bluetooth/Music controls, locking the phone, etc.) so an in-progress
+// entry that was only wired to fire on input "blur" never gets stranded.
+function forceSaveNow(){
+  try{ saveDayState(); saveHistoryEntry(); }catch(e){}
+}
+document.addEventListener("visibilitychange",function(){
+  if (document.visibilityState==="hidden") forceSaveNow();
+});
+window.addEventListener("pagehide",forceSaveNow);
 if ("serviceWorker" in navigator){
   window.addEventListener("load",function(){
     navigator.serviceWorker.register("./sw.js").catch(function(){});
