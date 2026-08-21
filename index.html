@@ -180,6 +180,20 @@
   .coverage-grid>div{display:flex;align-items:center;gap:6px;font-size:12px;}
   .footer-note{text-align:center;padding:8px 0 24px;font-size:10px;color:var(--muted);letter-spacing:1px;}
 
+  .sync-card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:14px;}
+  .sync-head{display:flex;align-items:center;gap:8px;}
+  .sync-dot{width:9px;height:9px;border-radius:50%;background:var(--muted);flex-shrink:0;}
+  .sync-dot.on{background:var(--green);}
+  .sync-dot.syncing{background:var(--amber);}
+  .sync-dot.error{background:var(--rose);}
+  .sync-title{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--text);}
+  .sync-status{font-size:11.5px;color:var(--muted);margin:4px 0 10px;}
+  .sync-btns{display:flex;gap:8px;flex-wrap:wrap;}
+  .sync-btn{padding:8px 12px;border-radius:8px;cursor:pointer;font-size:11.5px;font-weight:700;border:1px solid var(--violet);background:rgba(139,92,246,.13);color:var(--text);}
+  .sync-btn.ghost{border-color:var(--border);background:transparent;color:var(--muted);}
+  .sync-code{font-size:12px;color:var(--text);margin-bottom:10px;letter-spacing:.3px;}
+  .sync-code strong{color:var(--amber);font-family:'Oswald',sans-serif;font-size:14px;}
+  .sync-help{font-size:10.5px;color:var(--muted);line-height:1.5;margin-top:10px;}
   .hist-entry{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px;cursor:pointer;}
   .hist-top{display:flex;justify-content:space-between;align-items:center;}
   .hist-date{font-size:10px;color:var(--amber);font-weight:700;letter-spacing:.5px;}
@@ -810,8 +824,14 @@ function showStorageError(msg){
 }
 var store={
   get:function(k){ try{ return localStorage.getItem(k); }catch(e){ showStorageError("Read failed: "+e.message); return null; } },
-  set:function(k,v){ try{ localStorage.setItem(k,v); return true; }catch(e){ showStorageError("Save failed: "+e.message); return false; } },
-  del:function(k){ try{ localStorage.removeItem(k); }catch(e){} }
+  set:function(k,v){
+    try{
+      localStorage.setItem(k,v);
+      markDirtyAndScheduleSync();
+      return true;
+    }catch(e){ showStorageError("Save failed: "+e.message); return false; }
+  },
+  del:function(k){ try{ localStorage.removeItem(k); markDirtyAndScheduleSync(); }catch(e){} }
 };
 function jparse(s,fb){ try{ return s?JSON.parse(s):fb; }catch(e){ return fb; } }
 function storageSelfTest(){
@@ -824,6 +844,128 @@ function storageSelfTest(){
   }catch(e){
     showStorageError("Storage self-test threw an error: "+e.message);
   }
+}
+/* ============================= CLOUD SYNC ============================= */
+// No-account, no-server sync between your two devices, using a free
+// anonymous JSON storage bucket (jsonblob.com) as the go-between.
+// localStorage on THIS device always stays the working copy — sync is
+// best-effort. If you're offline or the remote service is unreachable,
+// the app keeps working exactly as it always has; it just won't have
+// picked up the other device's latest entries until the next successful
+// sync. Whichever device saves most recently wins if both devices logged
+// something before either one got a chance to sync.
+var SYNC_ID_KEY="m165-sync-id";
+var SYNC_TS_KEY="m165-sync-updatedAt";
+var SYNC_EXCLUDE=[SYNC_ID_KEY,SYNC_TS_KEY,"m165-storagetest"];
+var SYNC_API="https://jsonblob.com/api/jsonBlob";
+var syncState={status:"off",lastSync:0,lastError:""}; // off|idle|syncing|error
+var syncPushTimer=null;
+function syncPaired(){ return !!localStorage.getItem(SYNC_ID_KEY); }
+function setSyncStatus(status,err){
+  syncState.status=status;
+  if (status==="idle") syncState.lastSync=Date.now();
+  syncState.lastError=err||"";
+  if (state.view==="history") renderApp();
+}
+function buildSnapshot(){
+  var data={};
+  for (var i=0;i<localStorage.length;i++){
+    var k=localStorage.key(i);
+    if (!k||k.indexOf("m165-")!==0) continue;
+    if (SYNC_EXCLUDE.indexOf(k)>=0) continue;
+    data[k]=localStorage.getItem(k);
+  }
+  return data;
+}
+function applySnapshot(data){
+  for (var i=localStorage.length-1;i>=0;i--){
+    var k=localStorage.key(i);
+    if (!k||k.indexOf("m165-")!==0) continue;
+    if (SYNC_EXCLUDE.indexOf(k)>=0) continue;
+    localStorage.removeItem(k);
+  }
+  Object.keys(data||{}).forEach(function(k){
+    if (SYNC_EXCLUDE.indexOf(k)>=0) return;
+    localStorage.setItem(k,data[k]);
+  });
+}
+function markDirtyAndScheduleSync(){
+  if (typeof syncPaired!=="function"||!syncPaired()) return;
+  if (syncPushTimer) clearTimeout(syncPushTimer);
+  syncPushTimer=setTimeout(pushSnapshot,2200);
+}
+function syncFetch(url,opts){
+  return fetch(url,opts).then(function(r){
+    if (!r.ok) throw new Error("HTTP "+r.status);
+    return r;
+  });
+}
+function pushSnapshot(){
+  var id=localStorage.getItem(SYNC_ID_KEY);
+  if (!id) return;
+  setSyncStatus("syncing");
+  var now=Date.now();
+  var payload={updatedAt:now,data:buildSnapshot()};
+  syncFetch(SYNC_API+"/"+id,{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)})
+    .then(function(){ localStorage.setItem(SYNC_TS_KEY,String(now)); setSyncStatus("idle"); })
+    .catch(function(e){ setSyncStatus("error",e.message); });
+}
+function pullSnapshot(cb){
+  var id=localStorage.getItem(SYNC_ID_KEY);
+  if (!id){ if (cb) cb(); return; }
+  setSyncStatus("syncing");
+  syncFetch(SYNC_API+"/"+id).then(function(r){ return r.json(); }).then(function(remote){
+    var localTs=Number(localStorage.getItem(SYNC_TS_KEY)||0);
+    if (remote&&remote.updatedAt&&remote.updatedAt>localTs){
+      applySnapshot(remote.data);
+      localStorage.setItem(SYNC_TS_KEY,String(remote.updatedAt));
+      loadHistory(); loadDay(state.dayIdx); renderApp();
+    }
+    setSyncStatus("idle");
+    if (cb) cb();
+  }).catch(function(e){ setSyncStatus("error",e.message); if (cb) cb(); });
+}
+function startNewSync(cb){
+  setSyncStatus("syncing");
+  var now=Date.now();
+  var payload={updatedAt:now,data:buildSnapshot()};
+  syncFetch(SYNC_API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)})
+    .then(function(r){
+      var loc=r.headers.get("Location")||r.headers.get("location");
+      var id=loc?loc.split("/").pop():null;
+      if (!id) throw new Error("No code returned — try again");
+      localStorage.setItem(SYNC_ID_KEY,id);
+      localStorage.setItem(SYNC_TS_KEY,String(now));
+      setSyncStatus("idle");
+      if (cb) cb(null,id);
+    })
+    .catch(function(e){ setSyncStatus("error",e.message); if (cb) cb(e); });
+}
+function joinSync(id,cb){
+  id=String(id||"").trim();
+  if (!id){ if (cb) cb(new Error("Enter a code")); return; }
+  setSyncStatus("syncing");
+  syncFetch(SYNC_API+"/"+id).then(function(r){ return r.json(); }).then(function(remote){
+    localStorage.setItem(SYNC_ID_KEY,id);
+    if (remote&&remote.data){
+      applySnapshot(remote.data);
+      localStorage.setItem(SYNC_TS_KEY,String(remote.updatedAt||Date.now()));
+    }
+    loadHistory(); loadDay(state.dayIdx); renderApp();
+    setSyncStatus("idle");
+    if (cb) cb(null);
+  }).catch(function(e){ setSyncStatus("error","Code not found, or offline"); if (cb) cb(e); });
+}
+function unpairSync(){
+  localStorage.removeItem(SYNC_ID_KEY);
+  localStorage.removeItem(SYNC_TS_KEY);
+  setSyncStatus("off");
+}
+function initCloudSync(){
+  if (syncPaired()) pullSnapshot();
+  document.addEventListener("visibilitychange",function(){
+    if (document.visibilityState==="visible") pullSnapshot();
+  });
 }
 function PK(d){return "m165-progress-day-"+d;}
 function WK(d){return "m165-weights-day-"+d;}
@@ -1427,8 +1569,54 @@ function backupText(){
   }
   return lines.join("\n");
 }
+function renderSyncCard(){
+  var card=el('<div class="sync-card"></div>');
+  var dotClass="off",statusText="Not set up — data stays on this device only";
+  if (syncState.status==="syncing"){ dotClass="syncing"; statusText="Syncing…"; }
+  else if (syncState.status==="error"){ dotClass="error"; statusText="Sync error: "+esc(syncState.lastError||"offline")+" — will retry"; }
+  else if (syncPaired()){
+    dotClass="on";
+    var mins=syncState.lastSync?Math.max(0,Math.round((Date.now()-syncState.lastSync)/60000)):null;
+    statusText=mins==null?"Paired — waiting for first sync":(mins<1?"Synced just now":"Synced "+mins+" min ago");
+  }
+  card.appendChild(el('<div class="sync-head"><span class="sync-dot '+dotClass+'"></span><span class="sync-title">Cloud Sync</span></div>'));
+  card.appendChild(el('<div class="sync-status">'+statusText+'</div>'));
+  if (!syncPaired()){
+    var row=el('<div class="sync-btns"></div>');
+    var newBtn=el('<button class="sync-btn">Start New Sync</button>');
+    newBtn.addEventListener("click",function(){
+      newBtn.disabled=true;
+      startNewSync(function(){ renderApp(); });
+    });
+    var joinBtn=el('<button class="sync-btn ghost">Enter Code From Other Device</button>');
+    joinBtn.addEventListener("click",function(){
+      var code=prompt("Enter the sync code shown on your other device:");
+      if (code==null) return;
+      joinSync(code,function(){ renderApp(); });
+    });
+    row.appendChild(newBtn); row.appendChild(joinBtn);
+    card.appendChild(row);
+    card.appendChild(el('<div class="sync-help">On your first device, tap "Start New Sync" — you\'ll get a short code. On your other device, tap "Enter Code From Other Device" and type that code in.</div>'));
+  } else {
+    var id=localStorage.getItem(SYNC_ID_KEY);
+    card.appendChild(el('<div class="sync-code">Code: <strong>'+esc(id)+'</strong></div>'));
+    var row2=el('<div class="sync-btns"></div>');
+    var syncNow=el('<button class="sync-btn">Sync Now</button>');
+    syncNow.addEventListener("click",function(){ pullSnapshot(function(){ pushSnapshot(); }); });
+    var unpair=el('<button class="sync-btn ghost">Unpair This Device</button>');
+    unpair.addEventListener("click",function(){
+      if (!confirm("Stop syncing this device? Your local data stays here, but it won't send or receive updates from your other device anymore.")) return;
+      unpairSync(); renderApp();
+    });
+    row2.appendChild(syncNow); row2.appendChild(unpair);
+    card.appendChild(row2);
+  }
+  return card;
+}
 function renderHistoryView(){
   var wrap=el('<div class="content"></div>');
+  wrap.appendChild(renderSyncCard());
+  trackInterval(setInterval(function(){ if (state.view==="history") renderApp(); },30000));
   var bk=el('<button class="backup-btn">📋 Copy Backup (paste to Claude to sync the log)</button>');
   bk.addEventListener("click",function(){
     var txt=backupText();
@@ -1725,6 +1913,7 @@ document.addEventListener("visibilitychange",function(){
   if (document.visibilityState==="hidden") forceSaveNow();
 });
 window.addEventListener("pagehide",forceSaveNow);
+initCloudSync();
 if ("serviceWorker" in navigator){
   window.addEventListener("load",function(){
     navigator.serviceWorker.register("./sw.js").catch(function(){});
