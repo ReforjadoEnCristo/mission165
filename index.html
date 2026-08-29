@@ -847,17 +847,22 @@ function storageSelfTest(){
 }
 /* ============================= CLOUD SYNC ============================= */
 // No-account, no-server sync between your two devices, using a free
-// anonymous JSON storage bucket (jsonblob.com) as the go-between.
-// localStorage on THIS device always stays the working copy — sync is
-// best-effort. If you're offline or the remote service is unreachable,
-// the app keeps working exactly as it always has; it just won't have
-// picked up the other device's latest entries until the next successful
-// sync. Whichever device saves most recently wins if both devices logged
+// anonymous key-value bucket (kvdb.io) as the go-between. localStorage on
+// THIS device always stays the working copy — sync is best-effort. If
+// you're offline or the remote service is unreachable, the app keeps
+// working exactly as it always has; it just won't have picked up the
+// other device's latest entries until the next successful sync.
+// Whichever device saves most recently wins if both devices logged
 // something before either one got a chance to sync.
+// (Tried jsonblob.com first — it turned out to be unreachable/CORS-broken
+// in live testing, so this was switched to kvdb.io, which was verified
+// working directly against its real API before shipping.)
 var SYNC_ID_KEY="m165-sync-id";
 var SYNC_TS_KEY="m165-sync-updatedAt";
 var SYNC_EXCLUDE=[SYNC_ID_KEY,SYNC_TS_KEY,"m165-storagetest"];
-var SYNC_API="https://jsonblob.com/api/jsonBlob";
+var SYNC_API="https://kvdb.io";
+var SYNC_OWNER_EMAIL="dsenanm72@gmail.com";
+var SYNC_STATE_KEY="state";
 var syncState={status:"off",lastSync:0,lastError:""}; // off|idle|syncing|error
 var syncPushTimer=null;
 function syncPaired(){ return !!localStorage.getItem(SYNC_ID_KEY); }
@@ -896,8 +901,12 @@ function markDirtyAndScheduleSync(){
 }
 function syncFetch(url,opts){
   return fetch(url,opts).then(function(r){
-    if (!r.ok) throw new Error("HTTP "+r.status);
-    return r;
+    if (r.ok) return r;
+    return r.text().then(function(bodyText){
+      var err=new Error(bodyText||("HTTP "+r.status));
+      err.status=r.status;
+      throw err;
+    });
   });
 }
 function pushSnapshot(){
@@ -906,7 +915,7 @@ function pushSnapshot(){
   setSyncStatus("syncing");
   var now=Date.now();
   var payload={updatedAt:now,data:buildSnapshot()};
-  syncFetch(SYNC_API+"/"+id,{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)})
+  syncFetch(SYNC_API+"/"+id+"/"+SYNC_STATE_KEY,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)})
     .then(function(){ localStorage.setItem(SYNC_TS_KEY,String(now)); setSyncStatus("idle"); })
     .catch(function(e){ setSyncStatus("error",e.message); });
 }
@@ -914,7 +923,7 @@ function pullSnapshot(cb){
   var id=localStorage.getItem(SYNC_ID_KEY);
   if (!id){ if (cb) cb(); return; }
   setSyncStatus("syncing");
-  syncFetch(SYNC_API+"/"+id).then(function(r){ return r.json(); }).then(function(remote){
+  syncFetch(SYNC_API+"/"+id+"/"+SYNC_STATE_KEY).then(function(r){ return r.json(); }).then(function(remote){
     var localTs=Number(localStorage.getItem(SYNC_TS_KEY)||0);
     if (remote&&remote.updatedAt&&remote.updatedAt>localTs){
       applySnapshot(remote.data);
@@ -923,21 +932,27 @@ function pullSnapshot(cb){
     }
     setSyncStatus("idle");
     if (cb) cb();
-  }).catch(function(e){ setSyncStatus("error",e.message); if (cb) cb(); });
+  }).catch(function(e){
+    if (e.status===404){ setSyncStatus("idle"); if (cb) cb(); return; } // nothing pushed yet — not an error
+    setSyncStatus("error",e.message); if (cb) cb();
+  });
 }
 function startNewSync(cb){
   setSyncStatus("syncing");
   var now=Date.now();
   var payload={updatedAt:now,data:buildSnapshot()};
-  syncFetch(SYNC_API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)})
-    .then(function(r){
-      var loc=r.headers.get("Location")||r.headers.get("location");
-      var id=loc?loc.split("/").pop():null;
-      if (!id) throw new Error("No code returned — try again");
-      localStorage.setItem(SYNC_ID_KEY,id);
+  syncFetch(SYNC_API+"/",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:"email="+encodeURIComponent(SYNC_OWNER_EMAIL)})
+    .then(function(r){ return r.text(); })
+    .then(function(bucket){
+      bucket=bucket.trim();
+      if (!bucket) throw new Error("No code returned — try again");
+      localStorage.setItem(SYNC_ID_KEY,bucket);
+      return syncFetch(SYNC_API+"/"+bucket+"/"+SYNC_STATE_KEY,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
+    })
+    .then(function(){
       localStorage.setItem(SYNC_TS_KEY,String(now));
       setSyncStatus("idle");
-      if (cb) cb(null,id);
+      if (cb) cb(null,localStorage.getItem(SYNC_ID_KEY));
     })
     .catch(function(e){ setSyncStatus("error",e.message); if (cb) cb(e); });
 }
@@ -945,8 +960,8 @@ function joinSync(id,cb){
   id=String(id||"").trim();
   if (!id){ if (cb) cb(new Error("Enter a code")); return; }
   setSyncStatus("syncing");
-  syncFetch(SYNC_API+"/"+id).then(function(r){ return r.json(); }).then(function(remote){
-    localStorage.setItem(SYNC_ID_KEY,id);
+  localStorage.setItem(SYNC_ID_KEY,id);
+  syncFetch(SYNC_API+"/"+id+"/"+SYNC_STATE_KEY).then(function(r){ return r.json(); }).then(function(remote){
     if (remote&&remote.data){
       applySnapshot(remote.data);
       localStorage.setItem(SYNC_TS_KEY,String(remote.updatedAt||Date.now()));
@@ -954,7 +969,18 @@ function joinSync(id,cb){
     loadHistory(); loadDay(state.dayIdx); renderApp();
     setSyncStatus("idle");
     if (cb) cb(null);
-  }).catch(function(e){ setSyncStatus("error","Code not found, or offline"); if (cb) cb(e); });
+  }).catch(function(e){
+    if (e.status===404){
+      // valid bucket, just nothing pushed from the other device yet
+      loadHistory(); loadDay(state.dayIdx); renderApp();
+      setSyncStatus("idle");
+      if (cb) cb(null);
+      return;
+    }
+    localStorage.removeItem(SYNC_ID_KEY);
+    setSyncStatus("error",e.message||"Code not found, or offline");
+    if (cb) cb(e);
+  });
 }
 function unpairSync(){
   localStorage.removeItem(SYNC_ID_KEY);
@@ -1573,7 +1599,14 @@ function renderSyncCard(){
   var card=el('<div class="sync-card"></div>');
   var dotClass="off",statusText="Not set up — data stays on this device only";
   if (syncState.status==="syncing"){ dotClass="syncing"; statusText="Syncing…"; }
-  else if (syncState.status==="error"){ dotClass="error"; statusText="Sync error: "+esc(syncState.lastError||"offline")+" — will retry"; }
+  else if (syncState.status==="error"){
+    dotClass="error";
+    if (/not verified/i.test(syncState.lastError||"")){
+      statusText="One-time step: check "+esc(SYNC_OWNER_EMAIL)+" for a verification email from kvdb.io, click the link, then tap Sync Now.";
+    } else {
+      statusText="Sync error: "+esc(syncState.lastError||"offline")+" — will retry";
+    }
+  }
   else if (syncPaired()){
     dotClass="on";
     var mins=syncState.lastSync?Math.max(0,Math.round((Date.now()-syncState.lastSync)/60000)):null;
