@@ -1021,6 +1021,10 @@ var DAY_OFFSETS=[0,1,3,4]; // Fri, Sat, Mon, Tue
 function getAnchorFriday(){
   var now=new Date();
   var diff=(now.getDay()-5+7)%7;
+  // Wed and Thu fall after this week's last training day (Tue) and before
+  // the next Friday — roll forward to the upcoming week instead of still
+  // showing the week that's already finished.
+  if (diff===5||diff===6){ diff-=7; }
   var a=new Date(now);
   a.setDate(now.getDate()-diff);
   a.setHours(0,0,0,0);
