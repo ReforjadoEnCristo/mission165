@@ -403,7 +403,7 @@ var DAYS=[
 {
 "id": 1,
 "title": "Lower A — Glute Strength",
-"sub": "Hip Thrust / Squat · Tuesday",
+"sub": "Hip Thrust / Squat · Friday",
 "exercises": [
 {
 "name": "Barbell Hip Thrust",
@@ -653,7 +653,7 @@ var DAYS=[
 {
 "id": 2,
 "title": "Upper A — Pull-Ups & Arms",
-"sub": "Push / Pull · Wednesday",
+"sub": "Push / Pull · Saturday",
 "exercises": [
 {
 "name": "Band-Assisted Pull-Up",
@@ -940,7 +940,7 @@ var DAYS=[
 {
 "id": 3,
 "title": "Lower B — Hinge & Hamstrings",
-"sub": "RDL / Curl · Thursday",
+"sub": "RDL / Curl · Sunday",
 "exercises": [
 {
 "name": "Romanian Deadlift",
@@ -1185,7 +1185,7 @@ var DAYS=[
 {
 "id": 4,
 "title": "Full Body + Glute Finisher",
-"sub": "Landmine Day · Saturday",
+"sub": "Landmine Day · Monday",
 "exercises": [
 {
 "name": "Landmine Sumo Deadlift",
@@ -1751,12 +1751,12 @@ function formatDate(iso){
   var d=new Date(iso+"T00:00:00");
   return d.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
 }
-var DAY_OFFSETS=[0,1,2,4]; // Tue, Wed, Thu, Sat
+var DAY_OFFSETS=[0,1,2,3]; // Fri, Sat, Sun, Mon
 function getAnchorFriday(){
-  // Week anchor is now TUESDAY (Lower A). Sun/Mon roll forward to the
-  // upcoming Tuesday instead of showing the week that just finished (Sat).
+  // Week anchor is FRIDAY (Day 1). Wed/Thu roll forward to the upcoming
+  // Friday (week runs Fri-Mon).
   var now=new Date();
-  var diff=(now.getDay()-2+7)%7;
+  var diff=(now.getDay()-5+7)%7;
   if (diff===5||diff===6){ diff-=7; }
   var a=new Date(now);
   a.setDate(now.getDate()-diff);
@@ -2032,7 +2032,7 @@ function renderWorkout(){
   });
   eqHTML+='</div></details>';
   wrap.appendChild(el(eqHTML));
-  wrap.appendChild(el('<div class="footer-note">PHASE 3 · TUE / WED / THU / SAT · ROTATE VARIATIONS EVERY 4-5 WEEKS</div>'));
+  wrap.appendChild(el('<div class="footer-note">PHASE 3 · FRI / SAT / SUN / MON · ROTATE VARIATIONS EVERY 4-5 WEEKS</div>'));
   // Session timer live tick
   trackInterval(setInterval(updateSessionTimerUI,30000));
   return wrap;
