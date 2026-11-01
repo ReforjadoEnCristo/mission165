@@ -344,7 +344,14 @@ var FRONT_REGIONS=[
   {id:"add_l",key:"adductors",x:62,y:172,w:10,h:56,rx:6},
   {id:"add_r",key:"adductors",x:128,y:172,w:10,h:56,rx:6},
   {id:"tib_l",key:"tibialis",x:73,y:246,w:18,h:50,rx:8},
-  {id:"tib_r",key:"tibialis",x:109,y:246,w:18,h:50,rx:8}
+  {id:"tib_r",key:"tibialis",x:109,y:246,w:18,h:50,rx:8},
+  {id:"sd_l",key:"side_delts",x:28,y:70,w:10,h:24,rx:5},
+  {id:"sd_r",key:"side_delts",x:162,y:70,w:10,h:24,rx:5},
+  {id:"bra_l",key:"brachialis",x:34,y:124,w:17,h:20,rx:7},
+  {id:"bra_r",key:"brachialis",x:149,y:124,w:17,h:20,rx:7},
+  {id:"dcore",key:"deep_core",x:80,y:148,w:40,h:18,rx:7},
+  {id:"vi_l",key:"vastus_int",x:76,y:196,w:14,h:34,rx:6},
+  {id:"vi_r",key:"vastus_int",x:110,y:196,w:14,h:34,rx:6}
 ];
 var BACK_REGIONS=[
   {id:"traps",key:"traps",x:76,y:56,w:48,h:30,rx:10},
@@ -364,7 +371,14 @@ var BACK_REGIONS=[
   {id:"ham_l",key:"hamstrings",x:70,y:208,w:26,h:54,rx:11},
   {id:"ham_r",key:"hamstrings",x:104,y:208,w:26,h:54,rx:11},
   {id:"calf_l",key:"calves",x:72,y:266,w:22,h:48,rx:10},
-  {id:"calf_r",key:"calves",x:106,y:266,w:22,h:48,rx:10}
+  {id:"calf_r",key:"calves",x:106,y:266,w:22,h:48,rx:10},
+  {id:"rh",key:"rhomboids",x:88,y:88,w:24,h:14,rx:5},
+  {id:"rc_l",key:"rotator_cuff",x:64,y:82,w:20,h:12,rx:5},
+  {id:"rc_r",key:"rotator_cuff",x:116,y:82,w:20,h:12,rx:5},
+  {id:"gmin_l",key:"glute_min",x:76,y:186,w:20,h:10,rx:4},
+  {id:"gmin_r",key:"glute_min",x:104,y:186,w:20,h:10,rx:4},
+  {id:"sol_l",key:"soleus",x:74,y:292,w:18,h:20,rx:8},
+  {id:"sol_r",key:"soleus",x:108,y:292,w:18,h:20,rx:8}
 ];
 function roleColor(muscleKey,active){
   if (!active) return C.base;
@@ -398,1053 +412,219 @@ var SCRIPTURES=[
   {ref:"1 Corinthians 6:20",refEs:"1 Corintios 6:20",nkjv:"For you were bought at a price; therefore glorify God in your body and in your spirit, which are God's.",es:"Porque habéis sido comprados por precio; glorificad, pues, a Dios en vuestro cuerpo y en vuestro espíritu, los cuales son de Dios."},
   {ref:"Psalm 18:32",refEs:"Salmo 18:32",nkjv:"It is God who arms me with strength, and makes my way perfect.",es:"Dios es el que me ciñe de fuerza, y quien hace perfecto mi camino."}
 ];
-/* ============================= WORKOUT DATA — PHASE 3 (Tue/Wed/Thu/Sat, updated Sep 29, 2026) ============================= */
+/* ============================= WORKOUT DATA — PHASE 4 (Fri/Sat/Sun/Mon, updated Oct 31, 2026) ============================= */
+function X(n,eq,pat,pr,P,S,T,sets,reps,rest,tempo,why,joint,setup,mist,inj,alt){
+  return {name:n,equip:eq,pattern:pat,priority:pr,primary:P,secondary:S,stabilizers:T,sets:sets,reps:reps,rest:rest,tempo:tempo,why:why,joint:joint,setup:setup,mistakes:mist,injury:inj,alt:alt};
+}
 var DAYS=[
-{
-"id": 1,
-"title": "Lower A — Glute Strength",
-"sub": "Hip Thrust / Squat · Friday",
-"exercises": [
-{
-"name": "Barbell Hip Thrust",
-"equip": "Barbell + Bench",
-"pattern": "Hip Extension — Primary Glute (Heavy)",
-"priority": 5,
-"primary": [
-"glute_max"
-],
-"secondary": [
-"hamstrings",
-"quads"
-],
-"stabilizers": [
-"core",
-"adductors"
-],
-"sets": 4,
-"reps": "6-8",
-"rest": "120s",
-"tempo": "1-2-1-0",
-"why": "The highest glute-activation lift you have access to. Heavy, low-rep thrusts with a full squeeze at the top are the main driver of thick, round glutes. Always first while you are fresh.",
-"joint": "Hip extension with a posterior pelvic tilt at lockout.",
-"setup": [
-"Upper back on the bench edge, bar in the hip crease with a pad",
-"Feet flat, shins vertical at the top",
-"Chin tucked, drive through heels, ribs down",
-"Squeeze hard for a full second at the top"
-],
-"mistakes": [
-"Over-arching the low back at the top",
-"Feet too far forward (hamstring-dominant) or too close (quad-dominant)",
-"Bouncing off the floor"
-],
-"injury": "If the hip crease hurts, use a thick pad or a Smith machine; keep the reps clean over adding load.",
-"alt": "Smith machine hip thrust or Cybex glute bridge."
-},
-{
-"name": "Deep Leg Press",
-"equip": "Life Fitness Linear Leg Press",
-"pattern": "Squat — Primary Glute / Quad",
-"priority": 5,
-"primary": [
-"glute_max",
-"quads"
-],
-"secondary": [
-"adductors",
-"hamstrings"
-],
-"stabilizers": [
-"core"
-],
-"sets": 3,
-"reps": "8-10",
-"rest": "90-120s",
-"tempo": "3-1-1-0",
-"why": "Going deep with feet placed a little high and wide loads the glutes at their stretched position while keeping the spine supported — heavy leg work without taxing your low back before a welding day.",
-"joint": "Hip and knee flexion/extension.",
-"setup": [
-"Feet shoulder-width or slightly wider, mid-to-high on the plate",
-"Lower until hips are just about to tuck under",
-"Keep hips glued to the pad",
-"Drive through the whole foot, stop just short of lockout"
-],
-"mistakes": [
-"Hips peeling off the pad at the bottom",
-"Locking the knees hard",
-"Cutting depth to move more weight"
-],
-"injury": "If knees are cranky, raise the feet slightly and shorten the bottom range.",
-"alt": "Cybex iso-lateral leg press or hack squat."
-},
-{
-"name": "Bulgarian Split Squat",
-"equip": "Dumbbells + Bench",
-"pattern": "Single-Leg Squat — Primary Glute",
-"priority": 5,
-"primary": [
-"glute_max",
-"quads"
-],
-"secondary": [
-"adductors",
-"hamstrings"
-],
-"stabilizers": [
-"glute_med",
-"core"
-],
-"sets": 3,
-"reps": "8-10/leg",
-"rest": "90s",
-"tempo": "3-0-1-0",
-"why": "A long forward stride and a slight forward lean shifts the load onto the glute of the front leg and builds the balance and hip stability that keeps the whole lower body strong.",
-"joint": "Single-leg hip and knee flexion with a rear-foot elevated stance.",
-"setup": [
-"Rear foot on the bench, front foot about 2 ft forward",
-"Slight forward torso lean, dumbbells at your sides",
-"Lower until the front thigh is about parallel",
-"Drive through the front heel"
-],
-"mistakes": [
-"Front foot too close (knee shoots forward)",
-"Standing too upright (quad-dominant)",
-"Rushing the lowering phase"
-],
-"injury": "Use the Smith machine or hold a rack for balance if you wobble; drop to a lower step if the rear hip flexor complains.",
-"alt": "Reverse lunge or Smith machine split squat."
-},
-{
-"name": "Standing Cable Hip Abduction",
-"equip": "Cable Column with Ankle Cuff",
-"pattern": "Hip Abduction — Glute Med/Min",
-"priority": 4,
-"primary": [
-"glute_med"
-],
-"secondary": [
-"glute_max"
-],
-"stabilizers": [
-"core"
-],
-"sets": 3,
-"reps": "12-15/side",
-"rest": "60s",
-"tempo": "2-1-2-1",
-"why": "Builds the upper, side part of the glute — the shelf that makes glutes look round from the front and side, not just from behind.",
-"joint": "Hip abduction while standing on the opposite leg.",
-"setup": [
-"Cuff on the working ankle, cable low",
-"Hold the frame only for balance",
-"Sweep the leg out to the side and squeeze",
-"Control the return; do not swing"
-],
-"mistakes": [
-"Leaning away to cheat the range",
-"Using momentum",
-"Support arm doing the work"
-],
-"injury": "Low impact — fine even when the low back is tired.",
-"alt": "Hammer Strength or Cybex hip abduction machine."
-},
-{
-"name": "Standing Calf Raise",
-"equip": "Precor Plate-Loaded Calf Raise",
-"pattern": "Ankle Plantarflexion",
-"priority": 3,
-"primary": [
-"calves"
-],
-"secondary": [],
-"stabilizers": [
-"tibialis",
-"core"
-],
-"sets": 3,
-"reps": "12-15",
-"rest": "45-60s",
-"tempo": "2-1-2-1",
-"why": "Straight-leg calf work for the muscle that shows most in shorts and drives your walking.",
-"joint": "Ankle plantarflexion, knees extended.",
-"setup": [
-"Shoulders under the pads, balls of feet on the platform",
-"Full stretch at the bottom",
-"Rise onto toes, pause at the top"
-],
-"mistakes": [
-"Bouncing out of the bottom",
-"Short range at the top",
-"Knees bending"
-],
-"injury": "Low risk. Keep the knees soft but straight.",
-"alt": "Leg press calf raise."
-},
-{
-"name": "Pallof Press",
-"equip": "Cable Column",
-"pattern": "Anti-Rotation Core",
-"priority": 3,
-"primary": [
-"core"
-],
-"secondary": [],
-"stabilizers": [
-"glute_med",
-"erectors"
-],
-"sets": 2,
-"reps": "10-12/side",
-"rest": "45s",
-"tempo": "1-2-1-0",
-"why": "Your core's job is to resist twisting and bending under load — the same job it does when you lift and carry at work. The Pallof press trains that directly and is very gentle on the spine.",
-"joint": "Anti-rotation; hips and shoulders stay square.",
-"setup": [
-"Cable at chest height, stand side-on with feet hip-width",
-"Hold the handle at your sternum",
-"Press straight out, hold 2 seconds, return slowly",
-"Do not let the cable twist you"
-],
-"mistakes": [
-"Rotating toward the stack",
-"Standing too close (no tension)",
-"Leaning back"
-],
-"injury": "Keep the low back neutral; stop the set when form breaks rather than grinding through.",
-"alt": "Band Pallof press or side plank."
-},
-{
-"name": "Front Plank",
-"equip": "Bodyweight (mat)",
-"pattern": "Anti-Extension Core",
-"priority": 3,
-"primary": [
-"core"
-],
-"secondary": [
-"front_delts"
-],
-"stabilizers": [
-"glute_max",
-"quads"
-],
-"sets": 2,
-"reps": "Hold 30-45s (controlled)",
-"rest": "45s",
-"tempo": "Controlled",
-"why": "Trains the whole trunk to stay rigid. Squeezing the glutes and tucking the pelvis makes it a real ab exercise instead of a low-back sag.",
-"joint": "Isometric trunk stabilization.",
-"setup": [
-"Forearms under shoulders, body in one line",
-"Squeeze glutes, ribs down, pelvis slightly tucked",
-"Breathe, do not hold your breath",
-"Stop when the hips sag"
-],
-"mistakes": [
-"Sagging hips",
-"Hips piked high",
-"Holding the breath"
-],
-"injury": "If shoulders or wrists complain, do it on an incline (hands on a bench).",
-"alt": "Ab wheel rollout or dead bug."
-}
-]
-},
-{
-"id": 2,
-"title": "Upper A — Pull-Ups & Arms",
-"sub": "Push / Pull · Saturday",
-"exercises": [
-{
-"name": "Band-Assisted Pull-Up",
-"equip": "Pull-Up Bar + Resistance Band",
-"pattern": "Vertical Pull (bilateral)",
-"priority": 5,
-"primary": [
-"lats"
-],
-"secondary": [
-"biceps",
-"rear_delts",
-"traps"
-],
-"stabilizers": [
-"core",
-"forearms"
-],
-"sets": 4,
-"reps": "5-8",
-"rest": "90s",
-"tempo": "1-0-3-0",
-"why": "Pull-ups are the best single upper-body pull for back width and biceps. A band lets you do full reps now; you progress by using a lighter band over the weeks.",
-"joint": "Shoulder adduction/extension with elbow flexion.",
-"setup": [
-"Band over the bar and under your knee or foot",
-"Shoulder-width grip, palms away (or neutral grips if available)",
-"Start each rep with shoulder blades pulled down",
-"Chin over the bar, lower for a slow 3 seconds"
-],
-"mistakes": [
-"Kipping or swinging",
-"Half reps from the bottom",
-"Shrugging into the ears"
-],
-"injury": "Elbow caution: keep the grip neutral or shoulder-width, avoid full dead hangs with heavy fatigue, and skip the last rep if the elbow tendon aches.",
-"alt": "Assisted pull-up machine or underhand lat pulldown."
-},
-{
-"name": "Incline Chest Press Machine",
-"equip": "Precor Plate-Loaded Incline Press",
-"pattern": "Upper Chest Push",
-"priority": 3,
-"primary": [
-"chest"
-],
-"secondary": [
-"front_delts",
-"triceps"
-],
-"stabilizers": [
-"core"
-],
-"sets": 3,
-"reps": "8-10",
-"rest": "90s",
-"tempo": "2-0-2-0",
-"why": "A stable heavy press for the chest, front delts and triceps — the pushing side of arm growth.",
-"joint": "Incline horizontal adduction with elbow extension.",
-"setup": [
-"Handles start at collarbone level",
-"Shoulder blades pinned back",
-"Press up and slightly back"
-],
-"mistakes": [
-"Elbows flared to 90°",
-"Partial top range",
-"Shoulders rolling forward"
-],
-"injury": "Keep the incline moderate.",
-"alt": "Incline dumbbell press."
-},
-{
-"name": "Landmine Half-Kneeling Press",
-"equip": "Landmine Attachment / Barbell in Corner",
-"pattern": "Vertical Push (unilateral, angled)",
-"priority": 3,
-"primary": [
-"front_delts",
-"triceps"
-],
-"secondary": [
-"chest"
-],
-"stabilizers": [
-"core",
-"glute_med"
-],
-"sets": 3,
-"reps": "8-10/side",
-"rest": "75s",
-"tempo": "2-0-2-0",
-"why": "The angled bar path is kind to the shoulder, and the half-kneeling position forces the glute and core on the down leg to brace — bonus glute work on an upper day.",
-"joint": "Angled shoulder flexion with elbow extension.",
-"setup": [
-"Kneel on one knee, the opposite knee up",
-"Grip the bar end at the shoulder",
-"Press up and slightly forward, keep ribs down",
-"Squeeze the down-leg glute"
-],
-"mistakes": [
-"Leaning back",
-"Flaring the ribs",
-"Rushing the lowering"
-],
-"injury": "Reduce weight or stand in a split stance if the kneeling knee hurts.",
-"alt": "Standing landmine press."
-},
-{
-"name": "Landmine T-Bar Row",
-"equip": "Landmine Attachment / Barbell in Corner + V-Handle",
-"pattern": "Horizontal Pull",
-"priority": 4,
-"primary": [
-"lats",
-"traps"
-],
-"secondary": [
-"rear_delts",
-"biceps"
-],
-"stabilizers": [
-"erectors",
-"core"
-],
-"sets": 3,
-"reps": "10-12",
-"rest": "75s",
-"tempo": "2-1-2-0",
-"why": "Heavy rowing for the mid-back and lats that adds thickness to the pull-up work. Chest-supported or braced hinge keeps the low back happy.",
-"joint": "Shoulder extension with elbow flexion and scapular retraction.",
-"setup": [
-"Straddle the bar, V-handle under the plates",
-"Hinge with a flat back, chest up",
-"Pull the handle to your lower ribs",
-"Pause and squeeze the shoulder blades"
-],
-"mistakes": [
-"Rounding the low back",
-"Jerking with the hips",
-"Shrugging"
-],
-"injury": "Support your chest on a bench or incline pad if your low back is tired from welding.",
-"alt": "Cable seated row or Hammer Strength row."
-},
-{
-"name": "Standing EZ-Bar Curl",
-"equip": "EZ Curl Bar",
-"pattern": "Elbow Flexion",
-"priority": 3,
-"primary": [
-"biceps"
-],
-"secondary": [
-"forearms"
-],
-"stabilizers": [
-"core"
-],
-"sets": 2,
-"reps": "10-12",
-"rest": "45-60s",
-"tempo": "2-0-2-0",
-"why": "Direct biceps work with the angled EZ grip that is easier on the wrists and elbows.",
-"joint": "Elbow flexion.",
-"setup": [
-"Grip the angled sections, elbows at your sides",
-"Curl without swinging",
-"Squeeze at the top, lower under control"
-],
-"mistakes": [
-"Swinging the torso",
-"Elbows drifting forward",
-"Rushing the lowering"
-],
-"injury": "If the elbow tendon aches from pull-ups, drop to the machine preacher curl and use a lighter load.",
-"alt": "Cable curl or preacher curl machine."
-},
-{
-"name": "One-Arm Band-Assisted Pull-Up",
-"equip": "Pull-Up Bar + Resistance Band",
-"pattern": "Vertical Pull (unilateral)",
-"priority": 3,
-"primary": [
-"lats",
-"biceps"
-],
-"secondary": [
-"rear_delts",
-"forearms"
-],
-"stabilizers": [
-"core",
-"traps"
-],
-"sets": 2,
-"reps": "3-5/side",
-"rest": "90s",
-"tempo": "1-0-3-0",
-"why": "The unilateral pull-up progression you are already using for biceps and pull-up strength. Do it after the main pull-up sets as a low-volume skill finisher.",
-"joint": "Unilateral shoulder adduction with elbow flexion.",
-"setup": [
-"Band around the working hand's side, off-hand lightly on the band or wrist",
-"Pull the working elbow to your hip",
-"Slow 3-second lowering",
-"Keep the shoulder packed down"
-],
-"mistakes": [
-"Twisting through the torso",
-"Dropping fast",
-"Going to failure every set"
-],
-"injury": "Elbow caution: stop 1-2 reps short of failure, do not do these on back-to-back days, and back off immediately for a sharp elbow or shoulder pinch.",
-"alt": "Two-arm band pull-up negatives (5-second lowerings)."
-},
-{
-"name": "Hanging Knee Raise",
-"equip": "Captain's Chair or Pull-Up Bar",
-"pattern": "Hip Flexion — Lower Abs",
-"priority": 3,
-"primary": [
-"core"
-],
-"secondary": [
-"forearms"
-],
-"stabilizers": [
-"lats"
-],
-"sets": 3,
-"reps": "10-12",
-"rest": "45-60s",
-"tempo": "Controlled",
-"why": "Lower-ab work that also trains grip and shoulder stability. Curl the pelvis up instead of only lifting the knees.",
-"joint": "Hip flexion with a posterior pelvic tilt.",
-"setup": [
-"Hang or brace on the chair",
-"Curl the pelvis up as the knees rise",
-"Lower without swinging"
-],
-"mistakes": [
-"Swinging",
-"Only lifting the knees without the pelvic curl",
-"Rushing"
-],
-"injury": "If grip or shoulders are fried from pull-ups, use the captain's chair with back support.",
-"alt": "Reverse crunch on a bench."
-},
-{
-"name": "Dead Bug",
-"equip": "Bodyweight (mat)",
-"pattern": "Anti-Extension Core",
-"priority": 3,
-"primary": [
-"core"
-],
-"secondary": [],
-"stabilizers": [
-"glute_max",
-"quads"
-],
-"sets": 2,
-"reps": "8-10/side",
-"rest": "45s",
-"tempo": "Controlled",
-"why": "Teaches the core to stay braced while the arms and legs move, with almost no spinal load.",
-"joint": "Anti-extension with contralateral limb movement.",
-"setup": [
-"Lie on your back, knees at 90° over the hips, arms up",
-"Press the low back gently into the floor",
-"Lower opposite arm and leg slowly",
-"Return and switch"
-],
-"mistakes": [
-"Low back arching off the floor",
-"Moving too fast",
-"Holding the breath"
-],
-"injury": "Keep the low back neutral; stop the set when form breaks rather than grinding through.",
-"alt": "Bird dog."
-}
-]
-},
-{
-"id": 3,
-"title": "Lower B — Hinge & Hamstrings",
-"sub": "RDL / Curl · Sunday",
-"exercises": [
-{
-"name": "Romanian Deadlift",
-"equip": "Barbell",
-"pattern": "Hip Hinge — Primary Glute / Hamstring",
-"priority": 5,
-"primary": [
-"hamstrings",
-"glute_max"
-],
-"secondary": [
-"erectors"
-],
-"stabilizers": [
-"core",
-"forearms",
-"lats"
-],
-"sets": 4,
-"reps": "8-10",
-"rest": "90-120s",
-"tempo": "3-1-1-0",
-"why": "The best hinge for full, thick hamstrings and the lower glute. The long stretch under load is what builds the glute-hamstring tie-in you see from behind.",
-"joint": "Hip hinge with soft knees.",
-"setup": [
-"Bar at the thighs, feet hip-width, soft knees",
-"Push the hips back, bar slides down the legs",
-"Stop when the hamstrings are stretched, back flat",
-"Drive hips forward and squeeze the glutes"
-],
-"mistakes": [
-"Rounding the back",
-"Squatting the bar down instead of hinging",
-"Bar drifting away from the legs"
-],
-"injury": "If the low back is tired from welding, use the trap bar or a lighter Smith machine RDL and shorten the range.",
-"alt": "Trap bar RDL or cable pull-through."
-},
-{
-"name": "Paused Hip Thrust",
-"equip": "Barbell + Bench",
-"pattern": "Hip Extension — Glute (Volume)",
-"priority": 4,
-"primary": [
-"glute_max"
-],
-"secondary": [
-"hamstrings"
-],
-"stabilizers": [
-"core",
-"adductors"
-],
-"sets": 3,
-"reps": "10-12",
-"rest": "90s",
-"tempo": "1-3-1-0",
-"why": "Your second hip-thrust exposure of the week uses a lighter load with a 3-second pause to build glute size without extra joint stress.",
-"joint": "Hip extension held at lockout.",
-"setup": [
-"Same setup as heavy hip thrusts, about 70% of the load",
-"Squeeze and hold 3 seconds at the top",
-"Lower under control"
-],
-"mistakes": [
-"Skipping the pause",
-"Arching the low back",
-"Going too heavy"
-],
-"injury": "Reduce load if it feels grindy after Tuesday.",
-"alt": "Cable pull-through or glute bridge."
-},
-{
-"name": "Prone Leg Curl",
-"equip": "Cybex Prone Hamstring Curl",
-"pattern": "Knee Flexion",
-"priority": 4,
-"primary": [
-"hamstrings"
-],
-"secondary": [],
-"stabilizers": [
-"glute_max",
-"calves"
-],
-"sets": 3,
-"reps": "10-12",
-"rest": "60-75s",
-"tempo": "2-1-3-0",
-"why": "Direct hamstring work through pure knee flexion, complementing the RDL's hip-hinge stimulus.",
-"joint": "Knee flexion, hips pinned.",
-"setup": [
-"Hips flat, knee aligned with the pivot",
-"Curl heels to glutes and squeeze",
-"Take 3 seconds to lower"
-],
-"mistakes": [
-"Hips lifting",
-"Bouncing",
-"Short range"
-],
-"injury": "Skip if the hamstring feels strained; slow the tempo to protect the tendon.",
-"alt": "Seated leg curl or stability ball curl."
-},
-{
-"name": "High Step-Up",
-"equip": "Dumbbells + Bench",
-"pattern": "Single-Leg Squat — Primary Glute",
-"priority": 4,
-"primary": [
-"glute_max",
-"quads"
-],
-"secondary": [
-"hamstrings",
-"adductors"
-],
-"stabilizers": [
-"glute_med",
-"core"
-],
-"sets": 3,
-"reps": "10/leg",
-"rest": "75-90s",
-"tempo": "1-0-3-0",
-"why": "A high box (knee height or above) makes the glute do the pulling. It is a single-leg glute builder with little spinal loading.",
-"joint": "Single-leg hip and knee extension.",
-"setup": [
-"Whole foot on a knee-high bench",
-"Lean slightly forward, dumbbells at your sides",
-"Drive through the front heel, do not push off the back foot",
-"Lower for 3 seconds"
-],
-"mistakes": [
-"Pushing off the trailing foot",
-"Bench too low",
-"Rushing down"
-],
-"injury": "Lower the box if the knee complains.",
-"alt": "Landmine step-up or reverse lunge."
-},
-{
-"name": "Donkey Calf Raise",
-"equip": "Hammer Strength Donkey Calf Raise",
-"pattern": "Ankle Plantarflexion (hip-flexed)",
-"priority": 3,
-"primary": [
-"calves"
-],
-"secondary": [],
-"stabilizers": [
-"tibialis",
-"core"
-],
-"sets": 3,
-"reps": "15-20",
-"rest": "45-60s",
-"tempo": "2-1-2-1",
-"why": "The hip-flexed position gives the calf a deeper stretch than the standing version, complementing Tuesday's work.",
-"joint": "Ankle plantarflexion, hip flexed.",
-"setup": [
-"Hips on the pad, balls of feet on the platform",
-"Full stretch at the bottom",
-"Rise high, pause, lower slowly"
-],
-"mistakes": [
-"Bouncing",
-"Short range",
-"Rushing"
-],
-"injury": "Low risk.",
-"alt": "Seated calf raise."
-},
-{
-"name": "Cable Crunch",
-"equip": "Cable Column with Rope",
-"pattern": "Spinal Flexion — Abs",
-"priority": 3,
-"primary": [
-"core"
-],
-"secondary": [],
-"stabilizers": [
-"glute_max",
-"erectors"
-],
-"sets": 3,
-"reps": "12-15",
-"rest": "45-60s",
-"tempo": "2-1-2-0",
-"why": "Loaded ab flexion with progressive resistance — the way to make abs grow and get visible as body fat drops.",
-"joint": "Spinal flexion, hips fixed.",
-"setup": [
-"Kneel facing the stack, rope by your ears",
-"Round the spine and pull your ribs toward your pelvis",
-"Hips stay still",
-"Return with control"
-],
-"mistakes": [
-"Sitting back on the heels",
-"Pulling with the arms",
-"Using too much weight"
-],
-"injury": "Skip if you have low-back disc irritation and use dead bugs instead.",
-"alt": "Decline sit-up or reverse crunch."
-},
-{
-"name": "Side Plank",
-"equip": "Bodyweight (mat)",
-"pattern": "Anti-Lateral Flexion Core",
-"priority": 3,
-"primary": [
-"core",
-"glute_med"
-],
-"secondary": [],
-"stabilizers": [
-"front_delts",
-"erectors"
-],
-"sets": 2,
-"reps": "Hold 30-40s/side (controlled)",
-"rest": "30-45s",
-"tempo": "Controlled",
-"why": "Trains the obliques, plus the glute med you are building for shape and hip stability.",
-"joint": "Isometric lateral trunk stabilization.",
-"setup": [
-"Elbow under shoulder, feet stacked or staggered",
-"Lift the hips into one straight line",
-"Top hip stacked over bottom"
-],
-"mistakes": [
-"Hips dropping",
-"Rolling forward or back",
-"Holding the breath"
-],
-"injury": "Bend the bottom knee to shorten the lever if needed.",
-"alt": "Suitcase carry."
-}
-]
-},
-{
-"id": 4,
-"title": "Full Body + Glute Finisher",
-"sub": "Landmine Day · Monday",
-"exercises": [
-{
-"name": "Landmine Sumo Deadlift",
-"equip": "Landmine Attachment / Barbell in Corner",
-"pattern": "Hip Hinge / Squat — Primary Glute",
-"priority": 4,
-"primary": [
-"glute_max",
-"adductors"
-],
-"secondary": [
-"quads",
-"hamstrings"
-],
-"stabilizers": [
-"core",
-"erectors"
-],
-"sets": 3,
-"reps": "8-10",
-"rest": "90s",
-"tempo": "2-0-1-0",
-"why": "A wide stance with the angled bar path keeps the load close, easy on the back, and heavy on the glutes and inner thighs.",
-"joint": "Hip and knee extension in a wide stance.",
-"setup": [
-"Straddle the bar end with a wide stance, toes turned out",
-"Hold the end of the bar at your hips, chest up",
-"Push the floor apart and stand tall",
-"Squeeze glutes at the top"
-],
-"mistakes": [
-"Rounding the back",
-"Knees caving",
-"Rushing"
-],
-"injury": "Reduce range if hips are tight.",
-"alt": "Trap bar deadlift."
-},
-{
-"name": "Landmine Reverse Lunge",
-"equip": "Landmine Attachment / Barbell in Corner",
-"pattern": "Single-Leg Squat — Primary Glute",
-"priority": 4,
-"primary": [
-"glute_max",
-"quads"
-],
-"secondary": [
-"adductors",
-"hamstrings"
-],
-"stabilizers": [
-"glute_med",
-"core"
-],
-"sets": 3,
-"reps": "8-10/leg",
-"rest": "75-90s",
-"tempo": "2-0-1-0",
-"why": "Stepping back keeps the front leg's glute loaded and is easier on the knees than a forward lunge.",
-"joint": "Single-leg hip and knee flexion.",
-"setup": [
-"Bar end at the shoulder, other hand supporting",
-"Step back and lower until the rear knee nears the floor",
-"Push through the front heel to stand"
-],
-"mistakes": [
-"Front knee caving",
-"Stepping too short",
-"Leaning back"
-],
-"injury": "Use a shorter step if the knee complains.",
-"alt": "Dumbbell reverse lunge."
-},
-{
-"name": "Flat Bench Press",
-"equip": "Barbell or Smith Machine",
-"pattern": "Horizontal Push",
-"priority": 3,
-"primary": [
-"chest"
-],
-"secondary": [
-"front_delts",
-"triceps"
-],
-"stabilizers": [
-"core",
-"lats"
-],
-"sets": 3,
-"reps": "8-10",
-"rest": "90s",
-"tempo": "2-0-1-0",
-"why": "Maintains chest and arm pressing strength during the cut.",
-"joint": "Horizontal adduction with elbow extension.",
-"setup": [
-"Shoulder blades pinned back and down",
-"Feet planted",
-"Lower to the mid-chest",
-"Press up and slightly back"
-],
-"mistakes": [
-"Bouncing the bar",
-"Flared elbows",
-"Butt lifting"
-],
-"injury": "Use dumbbells or the machine if a shoulder aches.",
-"alt": "Dumbbell bench press."
-},
-{
-"name": "Landmine Meadows Row",
-"equip": "Landmine Attachment / Barbell in Corner",
-"pattern": "Horizontal Pull (unilateral)",
-"priority": 4,
-"primary": [
-"lats"
-],
-"secondary": [
-"rear_delts",
-"biceps",
-"traps"
-],
-"stabilizers": [
-"core",
-"erectors"
-],
-"sets": 3,
-"reps": "10-12/side",
-"rest": "75s",
-"tempo": "2-1-2-0",
-"why": "A staggered stance single-arm row with the bar end lets you go heavy on the lats and stretch them fully.",
-"joint": "Shoulder extension with elbow flexion.",
-"setup": [
-"Stand perpendicular to the bar, staggered stance",
-"Hinge, grip the bar end with an overhand grip",
-"Pull to the hip, elbow driving back",
-"Control the stretch"
-],
-"mistakes": [
-"Rotating the torso",
-"Jerking",
-"Rounding"
-],
-"injury": "Support a hand on the thigh if the low back is tired.",
-"alt": "Single-arm cable row."
-},
-{
-"name": "Cable Glute Kickback",
-"equip": "Cable Column with Ankle Cuff",
-"pattern": "Hip Extension — Glute Isolation (Finisher)",
-"priority": 5,
-"primary": [
-"glute_max"
-],
-"secondary": [
-"hamstrings"
-],
-"stabilizers": [
-"core",
-"glute_med"
-],
-"sets": 3,
-"reps": "12-15/side",
-"rest": "45-60s",
-"tempo": "1-2-2-0",
-"why": "Your glute finisher: high-rep isolation work that fatigues the glutes after the compound lifts.",
-"joint": "Hip extension with a braced core.",
-"setup": [
-"Cuff on the ankle, cable low, hinge slightly at the hip",
-"Kick straight back, squeeze at the top for 2 seconds",
-"Do not arch the low back",
-"Return with control"
-],
-"mistakes": [
-"Arching the low back",
-"Swinging",
-"Using too much weight"
-],
-"injury": "Keep the range within where the low back stays still.",
-"alt": "Machine glute kickback or banded kickback."
-},
-{
-"name": "Landmine Rotation",
-"equip": "Landmine Attachment / Barbell in Corner",
-"pattern": "Rotational Core",
-"priority": 3,
-"primary": [
-"core"
-],
-"secondary": [
-"front_delts"
-],
-"stabilizers": [
-"glute_med",
-"erectors"
-],
-"sets": 3,
-"reps": "10-12/side",
-"rest": "45-60s",
-"tempo": "Controlled",
-"why": "Trains rotational power through the obliques using the bar's arc path — a core finisher for the full-body day.",
-"joint": "Trunk rotation with hip pivot.",
-"setup": [
-"Hold the bar end with both hands at chest height",
-"Rotate through the hips and trunk, arms stay extended",
-"Pivot the back foot",
-"Control the return"
-],
-"mistakes": [
-"Arm-only swing",
-"Too heavy",
-"Rushing"
-],
-"injury": "Keep the load light if the low back is sensitive.",
-"alt": "Cable chop."
-},
-{
-"name": "Long-Lever Plank",
-"equip": "Bodyweight (mat)",
-"pattern": "Anti-Extension Core",
-"priority": 3,
-"primary": [
-"core"
-],
-"secondary": [
-"front_delts"
-],
-"stabilizers": [
-"glute_max",
-"quads"
-],
-"sets": 2,
-"reps": "Hold 30-40s (controlled)",
-"rest": "45s",
-"tempo": "Controlled",
-"why": "Moving the elbows forward lengthens the lever and makes the plank far harder, so short holds work.",
-"joint": "Isometric anti-extension.",
-"setup": [
-"Elbows a hand's width in front of the shoulders",
-"Squeeze glutes and quads, ribs down",
-"Hold with steady breathing"
-],
-"mistakes": [
-"Sagging",
-"Piked hips",
-"Holding the breath"
-],
-"injury": "Return to the standard plank if the low back sags.",
-"alt": "Ab wheel rollout."
-}
-]
-}
+{id:1,title:"Lower A — Glute & Quad Strength",sub:"Hip Thrust / Squat · Friday",exercises:[
+X("Banded Barbell Hip Thrust","Barbell + Bench + Mini Band","Hip Extension — Primary Glute (Heavy)",5,["glute_max"],["glute_med","hamstrings"],["glute_min","adductors","core"],4,"6-8","120s","1-2-1-0",
+"Your heaviest glute lift. The mini band above the knees makes the deep glute layers (glute med/min and hip rotators under the glute max) work to keep the knees out, so the whole glute is trained, not just the top layer. You hit 270 x 10 last phase, so go heavier and drop to 6-8 reps.",
+"Hip extension with a posterior pelvic tilt at lockout; band adds hip abduction/external rotation.",
+["Upper back on the bench edge, bar padded in the hip crease, band just above the knees","Feet flat, shins vertical at the top","Push the knees out against the band the whole rep","Squeeze hard for a full second at the top"],
+["Knees caving in as the weight gets heavy","Arching the low back instead of tucking the pelvis","Bouncing off the floor"],
+"Do 2 lighter warm-up sets first. Use a bar pad and keep the ribs down.","Same lift without the band, or Smith machine hip thrust."),
+X("Barbell Back Squat","Barbell + Squat Rack","Squat — Primary Glute / Quad",5,["glute_max","quads"],["adductors","vastus_int","hamstrings"],["erectors","core","deep_core"],3,"6-8","120s","3-1-1-0",
+"The big strength builder for thighs and glutes. Going deep loads the glutes at full stretch, the vastus intermedius (the deep quad under the rectus femoris) works hard, and holding the bar builds the upper back and spinal erectors.",
+"Hip and knee flexion/extension under a loaded spine.",
+["Bar on the upper back, feet shoulder-width, toes slightly out","Big breath, brace the core, chest up","Sit down between the hips to at least parallel","Drive up through the whole foot"],
+["Knees caving in","Chest dropping so the hips shoot up first","Cutting depth to add weight"],
+"Warm up with 2-3 ramp-up sets and use the safety arms.","Hammer Strength ground-base squat machine or Smith machine squat."),
+X("Deep Leg Press","Life Fitness Linear Leg Press","Squat — Primary Glute / Quad",5,["quads","glute_max"],["vastus_int","adductors","hamstrings"],["core"],3,"8-10","90-120s","3-1-1-0",
+"Keep pushing this one. You went from 210 to 400 in three weeks. Feet a little high and wide with a deep range loads the glutes at the stretch and the deep quad, with the back fully supported. Pair each set with the calf raise below.",
+"Hip and knee flexion/extension with the back supported.",
+["Feet shoulder-width or a bit wider, mid-to-high on the plate","Lower until the hips are just about to tuck under","Keep the hips glued to the pad","Drive through the whole foot, stop just short of lockout"],
+["Hips peeling off the pad at the bottom","Locking the knees hard","Cutting depth to move more weight"],
+"Keep the range where the pelvis stays flat on the pad.","Iso-lateral leg press or Hammer Strength squat machine."),
+X("Dumbbell Walking Lunge","Dumbbells","Single-Leg Squat — Primary Glute",4,["glute_max","quads"],["adductors","hamstrings","vastus_int"],["glute_med","glute_min","core"],3,"10-12/leg","75-90s","2-0-1-0",
+"A long stride with a slight forward lean stretches the glute max under load, and the side-to-side balance work wakes up the deep stabilizers (glute med/min) that give the glute its shelf. It also works the area where the glute meets the hamstring.",
+"Single-leg hip and knee flexion/extension while moving forward.",
+["Dumbbells at your sides, long step forward","Slight forward lean, front heel stays down","Lower until the back knee nears the floor","Drive through the front heel into the next step"],
+["Steps too short (knee shoots over the toes)","Standing too upright","Knee caving inward"],
+"Shorten the stride or hold a rack for balance if you wobble.","Reverse lunge or Hammer Strength lunge machine."),
+X("Seated Hip Abduction","Life Fitness Hip Abduction Machine","Hip Abduction — Glute Med/Min (Deep)",4,["glute_med","glute_min"],["glute_max"],["core"],3,"15-20","60s","2-1-2-1",
+"Builds the upper-outer glute and the deep glute min and hip rotators underneath it. Leaning your torso forward shifts more work onto the deeper fibers and the glute max.",
+"Hip abduction against resistance, seated.",
+["Sit tall, pads outside the knees","Lean forward slightly for the last set","Push out slowly and squeeze for a second","Control the return, do not let the stack slam"],
+["Bouncing the weight","Using momentum from the torso","Stopping short of full range"],
+"Low impact. Keep the weight moderate so the squeeze stays strong.","Standing cable hip abduction with ankle cuff."),
+X("Leg Press Calf Raise","Life Fitness Linear Leg Press","Ankle Plantarflexion (straight knee)",3,["calves"],["soleus"],["tibialis","core"],3,"12-15","45s","2-1-2-1",
+"Do this between your leg press sets so you save time. The straight-knee position hits the gastrocnemius (the big outer calf muscle) and the soleus under it. Use a weight you can control, not the full leg press load.",
+"Ankle plantarflexion with the knees extended.",
+["Balls of the feet on the lower edge of the plate","Knees soft but straight","Full stretch at the bottom, rise high and pause","Lower slowly"],
+["Bouncing out of the bottom","Short range at the top","Bending the knees"],
+"Low risk. Keep the knees soft, never locked hard.","Standing calf raise with plates."),
+X("Bench Reverse Crunch","Flat Bench","Spinal Flexion — Lower Abs",3,["core"],["deep_core"],["lats"],3,"12-15","45s","2-1-2-0",
+"Curls the pelvis toward the ribs to work the lower abs and the deep transverse abdominis that pulls your belly flat.",
+"Posterior pelvic tilt with hip flexion.",
+["Lie on the bench holding the top edge behind your head","Knees bent over the hips","Curl the pelvis up, do not just swing the legs","Lower for 2 seconds"],
+["Swinging the legs","Using momentum","Rushing the lowering"],
+"Keep it slow; stop when you lose control of the lowering.","Floor reverse crunch or captain's chair knee raise."),
+X("Suitcase Carry","Dumbbell","Anti-Lateral Flexion Core / Grip",3,["core","deep_core"],["forearms","glute_med"],["erectors","traps"],2,"40 yd/side (walk)","45s","Controlled",
+"Walk with one heavy dumbbell and stay perfectly upright. It trains the obliques, the deep trunk stabilizers, grip, and the side glute on the standing leg, the same job your body does carrying steel at work.",
+"Anti-lateral flexion while walking.",
+["Heavy dumbbell in one hand, stand tall","Ribs stacked over hips, shoulders level","Walk slowly without leaning","Switch hands and repeat"],
+["Leaning toward the weight","Shrugging","Walking too fast"],
+"Grip fatigue is normal. Use straps only if grip ends the set before the core does.","Farmer carry with two dumbbells or side plank.")
+]},
+{id:2,title:"Upper A — Back, Shoulders & Arms",sub:"Pull / Press · Saturday",exercises:[
+X("Band-Assisted Chin-Up / Pull-Up","Pull-Up Bar + Resistance Band","Vertical Pull (bilateral)",5,["lats"],["biceps","brachialis","rhomboids","rear_delts","traps"],["core","forearms"],4,"5-8","90-120s","1-0-3-0",
+"Your main back-width and arm lift. Use chin-ups (palms toward you) for your first sets to hit the biceps harder, then a pull-up grip. Move to a lighter band when you hit the top of the rep range on every set.",
+"Shoulder adduction/extension with elbow flexion.",
+["Band over the bar and under your knee or foot","Start each rep with the shoulder blades pulled down","Chin over the bar","Lower for a slow 3 seconds"],
+["Kipping or swinging","Half reps from the bottom","Shrugging into the ears"],
+"Warm up the shoulders with a few easy hangs or scapular pulls first.","Assisted pull-up machine or lat pulldown."),
+X("Barbell Bent-Over Row","Barbell","Horizontal Pull (Heavy)",5,["lats","rhomboids","traps"],["rear_delts","biceps","brachialis"],["erectors","core","forearms"],4,"6-8","90-120s","1-1-2-0",
+"Builds the thick part of the back. The rhomboids and middle traps (the layers between your shoulder blades) do the squeeze, and the spinal erectors hold the hinge, which is the back strength you asked for.",
+"Shoulder extension with scapular retraction, hip hinged.",
+["Hinge to about 45 degrees with a flat back, bar below the knees","Pull the bar to your lower ribs","Squeeze the shoulder blades together for a second","Lower with control"],
+["Standing up and jerking the weight","Rounding the back","Pulling with the arms instead of the back"],
+"Brace the core and keep the neck neutral. Drop weight before form breaks.","Landmine T-bar row or chest-supported row."),
+X("Dumbbell Incline Press","Dumbbells + Incline Bench","Upper Chest Push",4,["chest"],["front_delts","triceps"],["rotator_cuff","core"],3,"8-10","90s","2-0-1-0",
+"Builds the upper chest and front shoulder so your upper body matches your legs. The rotator cuff under the shoulder works to keep the joint stable through the press.",
+"Incline horizontal adduction with elbow extension.",
+["Bench at a low-to-moderate incline","Shoulder blades pinned back and down","Lower the dumbbells to the upper chest","Press up and slightly together"],
+["Elbows flared out wide","Bouncing off the chest","Shoulders rolling forward"],
+"Keep the incline moderate and the wrists stacked over the elbows.","Precor incline chest press machine."),
+X("Face Pull","Cable Column with Rope","Rear Delt / External Rotation",4,["rear_delts","rotator_cuff"],["rhomboids","traps"],["core"],3,"12-15","60s","1-2-2-0",
+"Hits the small deep muscles that hold your shoulder healthy, the rotator cuff (infraspinatus and teres minor) and the rear delts, plus the rhomboids and lower traps. It keeps your shoulders and posture strong as you push heavier.",
+"Horizontal abduction with external rotation.",
+["Rope at upper-chest to face height","Pull toward your face, elbows high","Rotate the hands back and apart at the end","Hold a second, return slowly"],
+["Going too heavy and leaning back","Elbows dropping low","Rushing the rep"],
+"Light weight, strict form. This is a quality lift, not a heavy one.","Band pull-apart or rear delt fly."),
+X("Dumbbell Lateral Raise","Dumbbells","Shoulder Abduction",4,["side_delts"],["traps"],["rotator_cuff","core"],3,"12-15","60s","2-0-2-0",
+"Builds the side delts, the muscle that makes shoulders look wide and balances a strong lower body. The supraspinatus (rotator cuff) under it starts the lift.",
+"Shoulder abduction in the scapular plane.",
+["Dumbbells at your sides, slight bend in the elbows","Raise out to the side to shoulder height","Lead with the elbows, not the hands","Lower for 2 seconds"],
+["Swinging the body","Shrugging the shoulders up","Going too heavy"],
+"Use light weights and slow reps.","Cable lateral raise."),
+X("Rope Triceps Pushdown","Cable Column with Rope","Elbow Extension",3,["triceps"],[],["core","forearms"],3,"10-15","60s","2-0-2-0",
+"Direct arm work for the lateral and medial triceps heads, the deep medial head under the visible part. Bigger triceps are most of the size in your arm.",
+"Elbow extension with the upper arm fixed.",
+["Elbows pinned at your sides","Push the rope down and spread it at the bottom","Squeeze for a second","Let the hands rise only to chest height"],
+["Elbows drifting forward","Leaning over the weight","Bouncing"],
+"Keep the elbows still. Use a lighter weight if they move.","Straight-bar pushdown or dips."),
+X("Dumbbell Hammer Curl","Dumbbells","Elbow Flexion (Neutral Grip)",3,["brachialis","biceps"],["forearms"],["core"],3,"10-12","60s","2-0-2-0",
+"The neutral grip works the brachialis (the muscle under the biceps that pushes it up) and the forearm. Both add thickness to the arm from the side.",
+"Elbow flexion with a neutral forearm.",
+["Palms facing each other, elbows at your sides","Curl up without swinging","Squeeze at the top","Lower under control"],
+["Swinging the torso","Elbows drifting forward","Rushing the lowering"],
+"Keep the upper arms still.","Cross-body hammer curl or EZ-bar curl.")
+]},
+{id:3,title:"Lower B — Hinge, Hamstrings & Deep Glutes",sub:"RDL / Curl · Sunday",exercises:[
+X("Barbell Romanian Deadlift","Barbell","Hip Hinge — Primary Glute / Hamstring",5,["hamstrings","glute_max"],["adductors","erectors"],["lats","core","forearms","traps"],4,"6-8","120s","3-1-1-0",
+"The best hinge for thick hamstrings and the lower glute where it meets the leg. It also builds the erectors along your spine and the adductor magnus (the big deep inner-thigh muscle) at the stretch. You did 160 x 5 last phase; build from there.",
+"Hip hinge with soft knees.",
+["Bar at the thighs, feet hip-width, soft knees","Push the hips back, bar slides down the legs","Stop at a deep hamstring stretch with a flat back","Drive the hips forward and squeeze the glutes"],
+["Rounding the back","Squatting the bar down instead of hinging","Bar drifting away from the legs"],
+"Ramp up with 2 lighter sets. Brace hard before each rep.","Dumbbell RDL or cable pull-through."),
+X("Single-Leg Hip Thrust","Bench + Dumbbell","Hip Extension — Primary Glute (Unilateral)",4,["glute_max"],["hamstrings","glute_med"],["glute_min","adductors","core"],3,"10-12/leg","75s","1-2-2-0",
+"Works one glute at a time, so the deep stabilizers (glute med/min) have to keep your pelvis level while the glute max drives up. Great for shaping and for balancing the left and right sides.",
+"Single-leg hip extension with a level pelvis.",
+["Upper back on the bench, one foot planted, other leg held up","Dumbbell on the working hip if you can","Drive up with the heel and squeeze at the top","Keep the hips level, do not rotate"],
+["Hips rotating or dropping to one side","Arching the low back","Pushing off the other foot"],
+"Start bodyweight and add a dumbbell when 12 reps feel easy.","Banded or two-leg hip thrust."),
+X("Single-Leg Standing Leg Curl","Body Masters Standing Leg Curl","Knee Flexion",4,["hamstrings"],["calves"],["glute_max"],3,"10-12/leg","60s","2-1-3-0",
+"Pure knee flexion trains the short head of the biceps femoris, a deep hamstring muscle that the RDL barely touches. Pairs with the RDL for complete hamstrings.",
+"Knee flexion with the hips fixed.",
+["Pad above the heel, hips square to the machine","Curl the heel toward the glute and squeeze","Take 3 seconds to lower","Switch legs"],
+["Hips lifting or twisting","Bouncing","Short range"],
+"Use a smooth tempo and stop if you feel a hamstring grab.","Prone or seated leg curl."),
+X("45° Back Extension","Body Masters 45° Back Extension","Hip Extension — Posterior Chain",4,["erectors","glute_max"],["hamstrings"],["core","deep_core"],3,"10-12","75s","2-1-2-0",
+"Builds the erectors (long muscles along the spine) and the deep spinal stabilizers while also working glutes and hamstrings. Hold a plate or dumbbell at your chest as you get stronger.",
+"Hip extension with a neutral spine.",
+["Pad at the hip crease, feet locked in","Hinge down with a straight back","Raise until the body is in a line, squeeze glutes","Do not hyperextend the spine at the top"],
+["Swinging or using momentum","Arching past a straight line","Rounding at the bottom"],
+"Stop at a straight line. Add weight slowly, 5 lb at a time.","Reverse hyperextension or good morning."),
+X("Banded Lateral Walk","Mini Band","Hip Abduction — Glute Med/Min (Deep)",3,["glute_med","glute_min"],["glute_max"],["core","adductors"],3,"12-15 steps/side (controlled)","45s","Controlled",
+"A deep-glute burner. It works the glute min and the small hip rotators under the glute max and med, with the band keeping tension the whole way.",
+"Hip abduction with a stable pelvis.",
+["Band just above the knees (or around the ankles for harder)","Half-squat stance, toes forward","Step sideways, keeping tension on the band","Do not let the trailing foot drag in"],
+["Standing too tall","Knees caving in","Rushing steps"],
+"Stay low and slow. The burn on the outside of the hip is the goal.","Cable standing hip abduction."),
+X("Seated Calf Raise","Body Masters Seated Plate-Loaded Calf Raise","Ankle Plantarflexion (bent knee)",3,["soleus"],["calves"],["tibialis"],3,"15-20","45s","2-1-2-1",
+"With the knee bent, the soleus (the deep calf muscle under the gastrocnemius) does the work. Thick lower legs need this one.",
+"Ankle plantarflexion with the knees flexed.",
+["Pad on the lower thighs, balls of the feet on the platform","Full stretch at the bottom","Rise high and pause for a second","Lower slowly"],
+["Bouncing","Short range","Rushing"],
+"Low risk. Control the stretch.","Leg press calf raise with bent knees."),
+X("Leg Extension","Iso Leg Extension Machine","Knee Extension",3,["quads","vastus_int"],[],["core"],3,"12-15","60s","2-1-2-0",
+"The leg extension is the one lift that trains the rectus femoris and the vastus intermedius (the deep quad under it) through a full range. It gives your thighs a rounder, thicker look.",
+"Knee extension with the hip flexed.",
+["Back against the pad, knees aligned with the pivot","Extend until the legs are straight, pause and squeeze","Lower for 2-3 seconds","Keep the hips down"],
+["Swinging the weight up","Hips lifting off the seat","Dropping the weight on the way down"],
+"Moderate weight, slow lowering. Avoid slamming the stack.","Spanish squat with a band."),
+X("Side Plank with Top-Leg Raise","Bodyweight (mat)","Anti-Lateral Flexion Core",3,["core","glute_med"],["glute_min","deep_core"],["front_delts","erectors"],2,"8-10/side (controlled)","45s","Controlled",
+"Works the obliques and deep core while the raised top leg fires the glute med and min. Two jobs in one set.",
+"Isometric lateral trunk stabilization with hip abduction.",
+["Elbow under the shoulder, feet stacked","Lift the hips into one straight line","Raise the top leg slowly and lower","Keep the hips from dropping"],
+["Hips dropping","Rolling forward or back","Holding the breath"],
+"Bend the bottom knee to shorten the lever if needed.","Standard side plank or suitcase carry.")
+]},
+{id:4,title:"Full Body + Glute Finisher",sub:"Deadlift Day · Monday",exercises:[
+X("Deadlift (Trap Bar or Barbell)","Trap Bar or Barbell","Hip Hinge / Squat — Primary Glute",5,["glute_max","quads","erectors"],["hamstrings","adductors","traps","lats"],["rhomboids","forearms","core"],3,"6-8","120s","2-0-1-0",
+"Builds total-body strength: glutes, thighs, the whole back from the traps down to the erectors, and grip. It's your back-strength anchor. Keep 2 reps in reserve because Sunday's RDL trained the same muscles.",
+"Hip and knee extension from the floor.",
+["Bar over mid-foot, hips lower than the shoulders","Big breath, brace the core, pull the slack out","Push the floor away and stand tall","Squeeze the glutes at the top, lower under control"],
+["Rounding the back","Jerking the bar off the floor","Hips shooting up first"],
+"Ramp up with light sets. Stop a set if your back rounds.","Landmine sumo deadlift or dumbbell deadlift."),
+X("Dumbbell Lateral Lunge","Dumbbells","Frontal-Plane Lunge — Primary Glute",4,["glute_max","adductors"],["quads","glute_med","hamstrings"],["glute_min","core"],3,"8-10/side","75s","3-0-1-0",
+"Steps sideways so the glute max and adductors (including the deep adductor magnus) load at a deep stretch, while the glute med/min stabilize. Thick, shaped inner and outer thighs.",
+"Frontal-plane hip and knee flexion/extension.",
+["Dumbbell held at the chest, wide stance","Step to one side and sit back into that hip","Keep the other leg straight, both feet flat","Push back to the start"],
+["Heel lifting off","Leaning the chest forward too far","Knee caving in"],
+"Reduce depth if the groin or knee complains.","Cossack squat or goblet side lunge."),
+X("Dumbbell Bench Press","Dumbbells + Flat Bench","Horizontal Push",4,["chest"],["front_delts","triceps"],["rotator_cuff","core","lats"],3,"8-10","90s","2-0-1-0",
+"Builds the chest and triceps to match your lower body. Dumbbells let each side work on its own and give a deeper stretch than a bar.",
+"Horizontal adduction with elbow extension.",
+["Shoulder blades pinned back and down","Feet planted, small arch","Lower to the sides of the chest","Press up and slightly together"],
+["Flared elbows","Bouncing at the bottom","Butt lifting off the bench"],
+"Use a spotter or safe weights for heavy sets.","Barbell or Smith bench press."),
+X("Single-Arm Cable Row","Life Fitness Cable Column","Horizontal Pull (unilateral)",4,["lats","rhomboids"],["rear_delts","biceps","brachialis"],["core","traps"],3,"10-12/side","60-75s","2-1-2-0",
+"Rows one side at a time with a deep stretch at the front and a hard squeeze at the back. It works the lats and the rhomboids under the traps.",
+"Shoulder extension with scapular retraction.",
+["Handle at mid-chest height, staggered stance","Start with a full stretch, shoulder blade forward","Pull the elbow back and squeeze the blade","Control the return"],
+["Twisting the torso","Shrugging","Using the arm only"],
+"Keep the ribs down and the torso still.","Seated cable row or Meadows row."),
+X("Cable Lateral Raise","Cable Column","Shoulder Abduction",3,["side_delts"],["traps"],["rotator_cuff","core"],2,"12-15/side","45s","2-0-2-0",
+"A second set of side-delt work for wide, rounded shoulders. The cable keeps constant tension, including at the bottom, where dumbbells go slack.",
+"Shoulder abduction against a constant line of pull.",
+["Handle in the far hand, cable low","Raise out to the side to shoulder height","Lead with the elbow","Lower slowly"],
+["Swinging the body","Shrugging","Going too heavy"],
+"Light weight, controlled.","Dumbbell lateral raise."),
+X("Banded Frog Pump","Resistance Band + Mat","Hip Extension — Primary Glute (Finisher)",5,["glute_max"],["glute_min","adductors"],["core"],3,"20-25","45s","1-2-1-0",
+"Your glute finisher. Soles together and knees out puts the glute max and the deep hip rotators in a different position than a normal bridge. The band keeps constant tension for a deep pump after the heavy lifts.",
+"Hip extension with the hips externally rotated.",
+["Lie on your back, soles together, knees out, band above the knees","Drive the hips up by squeezing the glutes","Hold the top for a second","Lower without touching the floor"],
+["Using the low back instead of the glutes","Letting the knees collapse","Rushing"],
+"Easy on the joints. Use a thicker band as you get stronger.","Banded glute bridge."),
+X("Cable Crunch","Cable Column with Rope","Spinal Flexion — Abs",3,["core"],["deep_core"],["glute_max","erectors"],3,"12-15","45-60s","2-1-2-0",
+"Loaded ab flexion with progressive resistance. It builds the rectus abdominis and the deep belly wall, which is what shows up as definition as body fat drops.",
+"Spinal flexion with the hips fixed.",
+["Kneel facing the stack, rope by your ears","Round the spine and pull the ribs toward the pelvis","Hips stay still","Return with control"],
+["Sitting back on the heels","Pulling with the arms","Using too much weight"],
+"Keep the movement in the spine, not the hips.","Decline sit-up or reverse crunch."),
+X("Cable Curl","Cable Column with Straight or EZ Bar","Elbow Flexion",3,["biceps"],["brachialis","forearms"],["core"],2,"12-15","45s","2-0-2-0",
+"Constant cable tension for the biceps. Pair it with the triceps move below, back to back, to save time.",
+"Elbow flexion.",
+["Elbows at your sides","Curl without swinging","Squeeze at the top","Lower slowly"],
+["Swinging","Elbows moving forward","Rushing"],
+"Keep the elbows pinned.","EZ-bar curl or dumbbell curl."),
+X("Overhead Cable Triceps Extension","Cable Column with Rope","Elbow Extension (Long Head)",3,["triceps"],[],["core","rotator_cuff"],2,"12-15","45s","2-1-2-0",
+"The overhead position stretches the long head of the triceps, the biggest part of the back of the arm. It's the best move for arm size.",
+"Elbow extension with the shoulder flexed overhead.",
+["Face away from the stack, rope behind the head","Elbows pointing forward, upper arms still","Extend the arms fully overhead","Return slowly to a deep stretch"],
+["Elbows flaring out","Arching the low back","Using the shoulders"],
+"Keep the ribs down and the weight moderate.","Dumbbell overhead extension.")
+]}
 ];
 var MUSCLE_LABELS={
   chest:"Chest",front_delts:"Front Delts",rear_delts:"Rear Delts",traps:"Traps",
   lats:"Lats",biceps:"Biceps",triceps:"Triceps",forearms:"Forearms",
   core:"Core",erectors:"Erectors",glute_max:"Glute Max",glute_med:"Glute Med/Min",
-  quads:"Quads",hamstrings:"Hamstrings",adductors:"Adductors",calves:"Calves",tibialis:"Tibialis"
+  quads:"Quads",hamstrings:"Hamstrings",adductors:"Adductors",calves:"Calves",tibialis:"Tibialis",
+  side_delts:"Side Delts",rhomboids:"Rhomboids",rotator_cuff:"Rotator Cuff",brachialis:"Brachialis",
+  glute_min:"Glute Min / Hip Rotators (deep)",vastus_int:"Deep Quad (Vastus Int.)",soleus:"Soleus (deep calf)",deep_core:"Deep Core (TVA)"
 };
 var EX_BY_NAME={};
 DAYS.forEach(function(d){ d.exercises.forEach(function(e){ EX_BY_NAME[e.name]=e; }); });
@@ -1455,7 +635,8 @@ DAYS.forEach(function(d){ d.exercises.forEach(function(e){ EX_BY_NAME[e.name]=e;
 var RECOVERY_HOURS={
   glute_max:72,quads:72,hamstrings:72,lats:72,chest:72,erectors:72,
   glute_med:48,front_delts:48,rear_delts:48,traps:48,biceps:48,triceps:48,
-  calves:48,adductors:48,forearms:36,core:36,tibialis:36
+  calves:48,adductors:48,forearms:36,core:36,tibialis:36,
+  side_delts:48,rhomboids:48,rotator_cuff:36,brachialis:48,glute_min:48,vastus_int:72,soleus:48,deep_core:36
 };
 function muscleFatigue(){
   var now=Date.now();
@@ -1806,8 +987,10 @@ function loadDay(idx){
   }
   if (storedSig!==sig) store.set(SGK(day.id),sig);
 }
+var touchedKey="";
 function saveDayState(){
   var day=DAYS[state.dayIdx];
+  touchedKey=state.logDate+"-"+day.id;
   store.set(PK(day.id),JSON.stringify(state.progress));
   store.set(WK(day.id),JSON.stringify(state.weights));
   store.set(BK(day.id),JSON.stringify(state.bonus));
@@ -2032,7 +1215,7 @@ function renderWorkout(){
   });
   eqHTML+='</div></details>';
   wrap.appendChild(el(eqHTML));
-  wrap.appendChild(el('<div class="footer-note">PHASE 3 · FRI / SAT / SUN / MON · ROTATE VARIATIONS EVERY 4-5 WEEKS</div>'));
+  wrap.appendChild(el('<div class="footer-note">PHASE 4 · FRI / SAT / SUN / MON · ROTATE VARIATIONS EVERY 4-5 WEEKS</div>'));
   // Session timer live tick
   trackInterval(setInterval(updateSessionTimerUI,30000));
   return wrap;
@@ -2678,6 +1861,8 @@ renderApp();
 // Bluetooth/Music controls, locking the phone, etc.) so an in-progress
 // entry that was only wired to fire on input "blur" never gets stranded.
 function forceSaveNow(){
+  // Only auto-save when you actually changed something on THIS day/date, so just opening the app never creates a copy entry.
+  if (touchedKey!==state.logDate+"-"+DAYS[state.dayIdx].id) return;
   try{ saveDayState(); saveHistoryEntry(); }catch(e){}
 }
 document.addEventListener("visibilitychange",function(){
