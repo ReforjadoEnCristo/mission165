@@ -2565,7 +2565,7 @@ function drawWeightChart(canvas,entries){
   if (!ctx) return;
   ctx.scale(dpr,dpr);
   ctx.clearRect(0,0,W,H);
-  ctx.font="10px Inter, sans-serif";
+  ctx.font="11px Inter, sans-serif";
   if (!entries.length){
     ctx.fillStyle="#8b8b95";
     ctx.fillText("Log your weight to see the trend toward 165.",16,H/2);
@@ -2580,18 +2580,19 @@ function drawWeightChart(canvas,entries){
   if (t1===t0) t1=t0+86400000;
   function X(d){ return pad.l+(new Date(d+"T00:00:00").getTime()-t0)/(t1-t0)*(W-pad.l-pad.r); }
   function Y(w){ return pad.t+(hi-w)/(hi-lo)*(H-pad.t-pad.b); }
-  // gridlines + labels
+  // gridlines + labels (skip gray text on 165, and any tick within 14px of it)
   ctx.strokeStyle="#2a2a32"; ctx.fillStyle="#8b8b95";
+  var y165=Y(165);
   [lo+3,165,hi-3].forEach(function(w){
     var y=Y(w);
     ctx.beginPath(); ctx.moveTo(pad.l,y); ctx.lineTo(W-pad.r,y); ctx.stroke();
-    ctx.fillText(String(Math.round(w)),4,y+3);
+    if (w!==165 && Math.abs(y-y165)>=14) ctx.fillText(String(Math.round(w)),4,y+3);
   });
-  // target line
+  // target line + left-side green "165" (same gutter as the other axis labels)
   ctx.strokeStyle="#22c55e"; ctx.setLineDash([5,4]);
-  ctx.beginPath(); ctx.moveTo(pad.l,Y(165)); ctx.lineTo(W-pad.r,Y(165)); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(pad.l,y165); ctx.lineTo(W-pad.r,y165); ctx.stroke();
   ctx.setLineDash([]);
-  ctx.fillStyle="#22c55e"; ctx.fillText("165",W-pad.r-22,Y(165)-4);
+  ctx.fillStyle="#22c55e"; ctx.fillText("165",4,y165+3);
   // weight line
   ctx.strokeStyle="#8b5cf6"; ctx.lineWidth=2;
   ctx.beginPath();
@@ -2605,10 +2606,22 @@ function drawWeightChart(canvas,entries){
     ctx.fillStyle="#a855f7";
     ctx.beginPath(); ctx.arc(X(e.date),Y(e.weight),3,0,7); ctx.fill();
   });
-  // latest label
+  // latest label: dark pill above the last point (below it only if that would clip past the top pad)
   var last=entries[entries.length-1];
+  var label=last.weight+" lb";
+  var tm=ctx.measureText(label);
+  var tw=tm.width;
+  var lx=Math.min(X(last.date),W-pad.r-tw);
+  var ly=Y(last.weight)-12;
+  if (ly<pad.t) ly=Y(last.weight)+16;
+  var bp=3, asc=tm.actualBoundingBoxAscent||9, desc=tm.actualBoundingBoxDescent||3;
+  ctx.fillStyle="#15151b";
+  ctx.beginPath();
+  if (ctx.roundRect) ctx.roundRect(lx-bp,ly-asc-bp,tw+bp*2,asc+desc+bp*2,4);
+  else ctx.rect(lx-bp,ly-asc-bp,tw+bp*2,asc+desc+bp*2);
+  ctx.fill();
   ctx.fillStyle="#e9e9ee";
-  ctx.fillText(last.weight+" lb",Math.min(X(last.date)+6,W-40),Y(last.weight)-6);
+  ctx.fillText(label,lx,ly);
 }
 /* ============================= RECOVER VIEW ============================= */
 function renderRecoverView(){
