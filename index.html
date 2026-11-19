@@ -2020,41 +2020,41 @@ var GLASS_BY_NAME={
 function glassTip(name){ var k=GLASS_BY_NAME[name]; return k?GLASS_TIPS[k]:""; }
 /* v4: mascot 3D anatomy images (red = primary, orange = secondary) */
 var EX_MEDIA={
-  legpress:{img:"assets/ex_leg_press.jpg",cap:"Feet high &amp; wide · <b>red</b> = glutes (primary) · <i>orange</i> = quads/adductors (secondary)",
-    chart:"assets/leg_press_foot_chart.jpg",
+  legpress:{img:"ex_leg_press.jpg",cap:"Feet high &amp; wide · <b>red</b> = glutes (primary) · <i>orange</i> = quads/adductors (secondary)",
+    chart:"leg_press_foot_chart.jpg",
     videos:[["https://www.youtube.com/watch?v=TqBVTDK8BKg","▶ Charles Glass: The Leg Press Trick That Changes Everything"],
             ["https://www.youtube.com/watch?v=IFrSfQgmSTI","▶ Charles Glass Trains Fit Model Through BRUTAL Leg Day"]]},
-  hipthrust:{img:"assets/ex_hip_thrust.jpg",cap:"<b>red</b> = glute max (primary) · <i>orange</i> = hamstrings/quads (secondary)"},
-  rdl:{img:"assets/ex_rdl.jpg",cap:"<b>red</b> = hamstrings &amp; glutes (primary) · <i>orange</i> = lower back, adductors, grip (secondary)"}
+  hipthrust:{img:"ex_hip_thrust.jpg",cap:"<b>red</b> = glute max (primary) · <i>orange</i> = hamstrings/quads (secondary)"},
+  rdl:{img:"ex_rdl.jpg",cap:"<b>red</b> = hamstrings &amp; glutes (primary) · <i>orange</i> = lower back, adductors, grip (secondary)"}
 };
 /* v4b: 15 more mascot anatomy images, by exact exercise name */
 var R='<b>red</b> = ', O=' · <i>orange</i> = ';
 var EX_IMG={
-  "Barbell Back Squat":{img:"assets/ex_squat.jpg",cap:R+"glutes &amp; quads (primary)"+O+"adductors, hamstrings, lower back (secondary)"},
-  "Cable Glute Kickback":{img:"assets/ex_kickback.jpg",cap:R+"glute max (primary)"+O+"hamstrings (secondary)"},
-  "Seated Hip Abduction":{img:"assets/ex_abduction.jpg",cap:R+"glute med/min, outer hip (primary)"+O+"upper glute, TFL (secondary)"},
-  "Dumbbell Lateral Lunge":{img:"assets/ex_lateral_lunge.jpg",cap:R+"glutes &amp; adductors (primary)"+O+"quads, hamstrings (secondary)"},
-  "Deadlift (Trap Bar or Barbell)":{img:"assets/ex_trapbar_deadlift.jpg",cap:R+"glutes, quads &amp; hamstrings (primary)"+O+"lower back, traps, grip (secondary)"},
-  "Single-Leg Standing Leg Curl":{img:"assets/ex_leg_curl.jpg",cap:R+"hamstrings (primary)"+O+"calf (secondary)"},
-  "Leg Extension":{img:"assets/ex_leg_extension.jpg",cap:R+"quads (primary)"+O+"hip flexors (secondary)"},
-  "Seated Calf Raise":{img:"assets/ex_seated_calf.jpg",cap:R+"soleus / lower calf (primary)"+O+"upper calf (secondary)"},
-  "Band-Assisted Chin-Up / Pull-Up":{img:"assets/ex_pullup.jpg",cap:R+"lats (primary)"+O+"biceps, rhomboids, rear delts (secondary)"},
-  "Barbell Bent-Over Row":{img:"assets/ex_bent_row.jpg",cap:R+"lats, rhomboids, mid traps (primary)"+O+"rear delts, biceps, lower back (secondary)"},
-  "Single-Arm Cable Row":{img:"assets/ex_cable_row.jpg",cap:R+"lats &amp; rhomboids (primary)"+O+"rear delt, biceps (secondary)"},
-  "Dumbbell Incline Press":{img:"assets/ex_incline_press.jpg",cap:R+"upper chest (primary)"+O+"front delts, triceps (secondary)"},
-  "Pec Deck Fly (or Cable Fly)":{img:"assets/ex_cable_fly.jpg",cap:R+"chest (primary)"+O+"front delts (secondary)"},
-  "Cable Fly (or Pec Deck)":{img:"assets/ex_cable_fly.jpg",cap:R+"chest (primary)"+O+"front delts (secondary)"},
-  "Dumbbell Lateral Raise":{img:"assets/ex_lateral_raise.jpg",cap:R+"side delts (primary)"+O+"upper traps, front delts (secondary)"},
-  "Face Pull":{img:"assets/ex_face_pull.jpg",cap:R+"rear delts (primary)"+O+"rhomboids, mid traps, rotator cuff (secondary)"},
-  "Dumbbell Bench Press":{img:"assets/ex_db_bench.jpg",cap:R+"chest (primary)"+O+"front delts, triceps (secondary)"},
-  "Leg Press Calf Raise":{img:"assets/ex_lp_calf.jpg",cap:R+"calves (primary)"+O+"soleus / lower leg; hamstrings steady the knee (secondary)"},
-  "Rope Triceps Pushdown":{img:"assets/ex_rope_pushdown.jpg",cap:R+"triceps (primary)"+O+"forearms (secondary)"},
-  "Dumbbell Hammer Curl":{img:"assets/ex_hammer_curl.jpg",cap:R+"brachialis &amp; biceps (primary)"+O+"brachioradialis, front delt stabilizing (secondary)"},
-  "Cable Curl":{img:"assets/ex_cable_curl.jpg",cap:R+"biceps (primary)"+O+"forearms, brachialis (secondary)"},
-  "Overhead Cable Triceps Extension":{img:"assets/ex_overhead_ext.jpg",cap:R+"triceps, long head (primary)"+O+"core bracing (secondary)"},
-  "Bench Reverse Crunch":{img:"assets/ex_reverse_crunch.jpg",cap:R+"lower abs (primary)"+O+"obliques (secondary)"},
-  "Side Plank":{img:"assets/ex_side_plank.jpg",cap:R+"obliques (primary)"+O+"glute med, abs (secondary)"},
-  "Cable Crunch":{img:"assets/ex_cable_crunch.jpg",cap:R+"abs (primary)"+O+"obliques, lats (secondary)"}
+  "Barbell Back Squat":{img:"ex_squat.jpg",cap:R+"glutes &amp; quads (primary)"+O+"adductors, hamstrings, lower back (secondary)"},
+  "Cable Glute Kickback":{img:"ex_kickback.jpg",cap:R+"glute max (primary)"+O+"hamstrings (secondary)"},
+  "Seated Hip Abduction":{img:"ex_abduction.jpg",cap:R+"glute med/min, outer hip (primary)"+O+"upper glute, TFL (secondary)"},
+  "Dumbbell Lateral Lunge":{img:"ex_lateral_lunge.jpg",cap:R+"glutes &amp; adductors (primary)"+O+"quads, hamstrings (secondary)"},
+  "Deadlift (Trap Bar or Barbell)":{img:"ex_trapbar_deadlift.jpg",cap:R+"glutes, quads &amp; hamstrings (primary)"+O+"lower back, traps, grip (secondary)"},
+  "Single-Leg Standing Leg Curl":{img:"ex_leg_curl.jpg",cap:R+"hamstrings (primary)"+O+"calf (secondary)"},
+  "Leg Extension":{img:"ex_leg_extension.jpg",cap:R+"quads (primary)"+O+"hip flexors (secondary)"},
+  "Seated Calf Raise":{img:"ex_seated_calf.jpg",cap:R+"soleus / lower calf (primary)"+O+"upper calf (secondary)"},
+  "Band-Assisted Chin-Up / Pull-Up":{img:"ex_pullup.jpg",cap:R+"lats (primary)"+O+"biceps, rhomboids, rear delts (secondary)"},
+  "Barbell Bent-Over Row":{img:"ex_bent_row.jpg",cap:R+"lats, rhomboids, mid traps (primary)"+O+"rear delts, biceps, lower back (secondary)"},
+  "Single-Arm Cable Row":{img:"ex_cable_row.jpg",cap:R+"lats &amp; rhomboids (primary)"+O+"rear delt, biceps (secondary)"},
+  "Dumbbell Incline Press":{img:"ex_incline_press.jpg",cap:R+"upper chest (primary)"+O+"front delts, triceps (secondary)"},
+  "Pec Deck Fly (or Cable Fly)":{img:"ex_cable_fly.jpg",cap:R+"chest (primary)"+O+"front delts (secondary)"},
+  "Cable Fly (or Pec Deck)":{img:"ex_cable_fly.jpg",cap:R+"chest (primary)"+O+"front delts (secondary)"},
+  "Dumbbell Lateral Raise":{img:"ex_lateral_raise.jpg",cap:R+"side delts (primary)"+O+"upper traps, front delts (secondary)"},
+  "Face Pull":{img:"ex_face_pull.jpg",cap:R+"rear delts (primary)"+O+"rhomboids, mid traps, rotator cuff (secondary)"},
+  "Dumbbell Bench Press":{img:"ex_db_bench.jpg",cap:R+"chest (primary)"+O+"front delts, triceps (secondary)"},
+  "Leg Press Calf Raise":{img:"ex_lp_calf.jpg",cap:R+"calves (primary)"+O+"soleus / lower leg; hamstrings steady the knee (secondary)"},
+  "Rope Triceps Pushdown":{img:"ex_rope_pushdown.jpg",cap:R+"triceps (primary)"+O+"forearms (secondary)"},
+  "Dumbbell Hammer Curl":{img:"ex_hammer_curl.jpg",cap:R+"brachialis &amp; biceps (primary)"+O+"brachioradialis, front delt stabilizing (secondary)"},
+  "Cable Curl":{img:"ex_cable_curl.jpg",cap:R+"biceps (primary)"+O+"forearms, brachialis (secondary)"},
+  "Overhead Cable Triceps Extension":{img:"ex_overhead_ext.jpg",cap:R+"triceps, long head (primary)"+O+"core bracing (secondary)"},
+  "Bench Reverse Crunch":{img:"ex_reverse_crunch.jpg",cap:R+"lower abs (primary)"+O+"obliques (secondary)"},
+  "Side Plank":{img:"ex_side_plank.jpg",cap:R+"obliques (primary)"+O+"glute med, abs (secondary)"},
+  "Cable Crunch":{img:"ex_cable_crunch.jpg",cap:R+"abs (primary)"+O+"obliques, lats (secondary)"}
 };
 function exMediaHTML(name){
   var m=EX_MEDIA[GLASS_BY_NAME[name]]||EX_IMG[name]; if (!m) return "";
@@ -2500,7 +2500,7 @@ function renderBodyView(){
     '<img src="'+VISION_SRC+'" alt="Target physique" style="width:100%;border-radius:10px;display:block">'+
     '<div style="font-size:10px;color:#8b8b95;text-align:center;margin-top:6px;letter-spacing:1px;text-transform:uppercase">This is you. This is Mission 165.</div></div>'));
   wrap.appendChild(el('<div class="fuel-card goal-look"><div class="k">Goal look</div>'+
-    '<img src="assets/goal_look.jpg" alt="Goal look, front and rear" style="width:100%;border-radius:10px;display:block;background:#fff">'+
+    '<img src="goal_look.jpg" alt="Goal look, front and rear" style="width:100%;border-radius:10px;display:block;background:#fff">'+
     '<div style="font-size:10px;color:#8b8b95;text-align:center;margin-top:6px;letter-spacing:1px;text-transform:uppercase">Lean · defined · round glutes · strong legs</div></div>'));
   var metrics=jparse(store.get(METRICS_KEY),[]);
   if (!Array.isArray(metrics)) metrics=[];
@@ -3842,7 +3842,7 @@ var PEP_AREAS=[
   {id:"muscle",label:"Muscle & energy",desc:"Muscle mass, mitochondria and cellular energy.",peps:["testcyp","motsc","nad"],sh:["m",[[80,236,9],[120,236,9],[56,118,6],[144,118,6]]]}
 ];
 function pts(a,mirror){ return a.map(function(p){ return (mirror?200-p[0]:p[0])+","+p[1]; }).join(" "); }
-/* v4e: shaded realistic plates (original generated art, assets/anat_front.jpg / anat_back.jpg, 720x1280)
+/* v4e: shaded realistic plates (original generated art, anat_front.jpg / anat_back.jpg, 720x1280)
    with hand-aligned SVG hit regions on top. Polygons are the image-left side; mirrored at x=360. */
 var ANAT_W=720, ANAT_H=1280;
 var ANAT_POLY={
@@ -3934,7 +3934,7 @@ function groupExercises(g){
 function pts720(a,mirror){ return a.map(function(p){ return (mirror?ANAT_W-p[0]:p[0])+","+p[1]; }).join(" "); }
 function anatomySVG(side,mode,sel,roles){
   var s='<svg class="anat-svg" viewBox="0 0 '+ANAT_W+' '+ANAT_H+'" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="'+(side==="front"?"Front":"Back")+' muscle chart">';
-  s+='<image href="assets/anat_'+side+'.jpg" x="0" y="0" width="'+ANAT_W+'" height="'+ANAT_H+'" preserveAspectRatio="xMidYMid meet"/>';
+  s+='<image href="anat_'+side+'.jpg" x="0" y="0" width="'+ANAT_W+'" height="'+ANAT_H+'" preserveAspectRatio="xMidYMid meet"/>';
   MUSCLE_GROUPS.forEach(function(g){
     (g[side]||[]).forEach(function(poly){
       var role=mode!=="muscle"?"":(roles?roles[g.id]||"":(sel===g.id?"primary":""));
@@ -4063,7 +4063,7 @@ function renderAboutView(){
      '💉 Clinic-schedule logging and reminders, plus an educational peptide guide (no dosing)',
      '🧍 Tap-to-learn anatomy chart: muscles, the exercises that train them, and where peptides act',
      '📈 Weight, body and recovery tracking with sync across your devices'].map(function(t){return '<div class="pep-note">'+esc(t)+'</div>';}).join("")+'</div>'+
-    '<div class="fuel-card"><img src="assets/goal_look.jpg" alt="Goal look" style="width:100%;border-radius:10px" onerror="this.style.display=\'none\'"><div class="pep-note t-dim">The Mission 165 mascot: the goal look.</div></div>'+
+    '<div class="fuel-card"><img src="goal_look.jpg" alt="Goal look" style="width:100%;border-radius:10px" onerror="this.style.display=\'none\'"><div class="pep-note t-dim">The Mission 165 mascot: the goal look.</div></div>'+
     '<div class="pep-foot">⚠️ '+esc(GUIDE_DISCLAIMER)+' Workout and nutrition content is general fitness information.</div>'+
     '<div class="pep-note t-dim" style="text-align:center;margin:10px 0">'+esc(APP_VERSION)+(p.name?' · set up for '+esc(p.name):'')+'</div></div>');
   return w;
