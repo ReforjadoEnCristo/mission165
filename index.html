@@ -1857,6 +1857,8 @@ function renderWorkout(){
     });
     eqHTML+='</div>';
   });
+  eqHTML+='<div style="font-size:12px;color:#e9e9ee;padding:2px 0">• Body Masters BE 218 Multi Press (Smith machine) - counterbalanced bar ~22 lb, so don\'t log the bar as 45 lb; no published max load</div>';
+  eqHTML+='<div style="font-size:12px;color:#e9e9ee;padding:2px 0">• Rogue power rack (Monster-style squat cage: pull-up bar, monkey bars, safety bars, plate storage; exact model unconfirmed)</div>';
   eqHTML+='</div></details>';
   wrap.appendChild(el(eqHTML));
   wrap.appendChild(el('<div class="footer-note">PHASE 4 · FRI / SAT / SUN / MON · ROTATE VARIATIONS EVERY 4-5 WEEKS · LIGHT WEEK EVERY 6TH WEEK</div>'));
@@ -2919,6 +2921,7 @@ var GOAL_RULES=[
 ];
 var EQUIPMENT=[
   {id:"smith",label:"Smith machine"},
+  {id:"bm_be218",label:"Body Masters BE 218 Multi Press (Smith machine) - counterbalanced bar ~22 lb, so don't log the bar as 45 lb; no published max load",wide:true},
   {id:"landmine",label:"Landmine"},
   {id:"cable",label:"Cable columns (Life Fitness)"},
   {id:"lf_legpress",label:"Linear leg press (Life Fitness)"},
@@ -2929,6 +2932,7 @@ var EQUIPMENT=[
   {id:"hammer",label:"Hammer Strength machines"},
   {id:"iso_legext",label:"Iso leg extension"},
   {id:"barbell",label:"Barbell + squat rack"},
+  {id:"rack",label:"Rogue power rack (Monster-style squat cage: pull-up bar, monkey bars, safety bars, plate storage; exact model unconfirmed)",wide:true},
   {id:"trapbar",label:"Trap bar"},
   {id:"dumbbells",label:"Dumbbells"},
   {id:"bench",label:"Flat / incline bench"},
@@ -2940,8 +2944,14 @@ var EQUIP_KEY="m165-equipment";
 var BUILD_KEY="m165-build-plan";
 function getEquipment(){
   var v=jparse(store.get(EQUIP_KEY),null);
-  if (!v||typeof v!=="object"){ v={}; EQUIPMENT.forEach(function(e){ v[e.id]=true; }); }
+  if (!v||typeof v!=="object") v={};
+  EQUIPMENT.forEach(function(e){ if (typeof v[e.id]!=="boolean") v[e.id]=true; });
   return v;
+}
+function hasEquip(eq,id){
+  if (id==="smith") return !!(eq.smith||eq.bm_be218);
+  if (id==="barbell") return !!(eq.barbell||eq.rack);
+  return !!eq[id];
 }
 function equipLabel(id){ var e=EQUIPMENT.find(function(x){return x.id===id;}); return e?e.label:id; }
 // L(name, needs[], slot, big, P, S, T, why)
@@ -3057,7 +3067,7 @@ var TEMPLATES={
   upper:{title:"Upper (proportion)",slots:["row","push","vpull","fly","delts","rear","biceps","triceps","core"]}
 };
 LIBRARY.forEach(function(e){ if (!EX_BY_NAME[e.name]) EX_BY_NAME[e.name]=e; });
-function exAvailable(ex,eq){ return ex.needs.every(function(id){ return !!eq[id]; }); }
+function exAvailable(ex,eq){ return ex.needs.every(function(id){ return hasEquip(eq,id); }); }
 function seededRand(seed){ var x=(seed>>>0)||1; return function(){ x^=x<<13; x>>>=0; x^=x>>17; x^=x<<5; x>>>=0; return (x%100000)/100000; }; }
 function prescription(ex,focus){
   if (ex.big) return {sets:(focus==="full"?3:4),reps:"8-10",rest:"2-3 min",tempo:"3-1-1-0",rir:"1-2 RIR"};
@@ -3173,7 +3183,7 @@ function renderBuildView(){
     '<div style="font-size:10.5px;color:var(--muted);margin-top:8px">Uncheck anything that\'s broken or taken. The generator only picks from what\'s checked.</div></details></div>');
   var grid=ec.querySelector(".eq-grid");
   EQUIPMENT.forEach(function(e){
-    var it=el('<label class="eq-item"><input type="checkbox" data-eq="'+e.id+'"'+(eq[e.id]?" checked":"")+'><span>'+esc(e.label)+'</span></label>');
+    var it=el('<label class="eq-item"'+(e.wide?' style="grid-column:1 / -1"':'')+'><input type="checkbox" data-eq="'+e.id+'"'+(eq[e.id]?" checked":"")+'><span>'+esc(e.label)+'</span></label>');
     it.querySelector("input").addEventListener("change",function(ev){
       eq[e.id]=ev.target.checked; store.set(EQUIP_KEY,JSON.stringify(eq));
       plan.eqOpen=true; store.set(BUILD_KEY,JSON.stringify(plan)); renderApp();
