@@ -943,8 +943,8 @@ var SCRIPTURES=[
 function dayOfYear(d){ var s0=new Date(d.getFullYear(),0,1); return Math.round((new Date(d.getFullYear(),d.getMonth(),d.getDate())-s0)/86400000)+1; }
 function verseForDate(d){ return SCRIPTURES[(dayOfYear(d)-1)%SCRIPTURES.length]; }
 /* ============================= WORKOUT DATA — PHASE 4 (Fri/Sat/Sun/Mon, updated Oct 31, 2026) ============================= */
-function X(n,eq,pat,pr,P,S,T,sets,reps,rest,tempo,why,joint,setup,mist,inj,alt){
-  return {name:n,equip:eq,pattern:pat,priority:pr,primary:P,secondary:S,stabilizers:T,sets:sets,reps:reps,rest:rest,tempo:tempo,why:why,joint:joint,setup:setup,mistakes:mist,injury:inj,alt:alt};
+function X(n,eq,pat,pr,P,S,T,sets,reps,rest,tempo,why,joint,setup,mist,inj,alt,stance){
+  return {name:n,equip:eq,pattern:pat,priority:pr,primary:P,secondary:S,stabilizers:T,sets:sets,reps:reps,rest:rest,tempo:tempo,why:why,joint:joint,setup:setup,mistakes:mist,injury:inj,alt:alt,stance:stance||""};
 }
 var DAYS=[
 {id:1,title:"Lower A — Glute & Quad Strength",sub:"Hip Thrust / Squat · Friday",exercises:[
@@ -953,25 +953,29 @@ X("Banded Barbell Hip Thrust","Barbell + Bench + Mini Band","Hip Extension — P
 "Hip extension with a posterior pelvic tilt at lockout; band adds hip abduction/external rotation.",
 ["Upper back on the bench edge, bar padded in the hip crease, band just above the knees","Feet flat, shins vertical at the top","Push the knees out against the band the whole rep","Hold the top for 2 seconds and squeeze hard (paused hip thrust)"],
 ["Knees caving in as the weight gets heavy","Arching the low back instead of tucking the pelvis","Bouncing off the floor"],
-"Do 2 lighter warm-up sets first. Use a bar pad and keep the ribs down.","Same lift without the band, or Smith machine hip thrust."),
-X("Barbell Back Squat","Barbell + Squat Rack","Squat — Primary Glute / Quad",5,["glute_max","quads"],["adductors","vastus_int","hamstrings"],["erectors","core","deep_core"],3,"8-10","120s","3-1-1-0",
+"Do 2 lighter warm-up sets first. Use a bar pad and keep the ribs down.","Same lift without the band, or Smith machine hip thrust.",
+"Damian also does this on the Hammer Strength glute drive. Feet hip width, toes slightly out, shins vertical at the top. Feet farther out = more hamstrings; closer in = more quads. Knees out against the band."),
+X("Smith Squat (feet forward)","Smith Machine","Squat — Primary Glute",5,["glute_max"],["quads","adductors","vastus_int","hamstrings"],["erectors","core","deep_core"],3,"8-10","120s","3-1-1-0",
 "The big strength builder for thighs and glutes. Going deep loads the glutes at full stretch, the vastus intermedius (the deep quad under the rectus femoris) works hard, and holding the bar builds the upper back and spinal erectors. Now 8-10 reps: pick a weight you could squat about 12 times.",
 "Hip and knee flexion/extension under a loaded spine.",
 ["Bar on the upper back, feet shoulder-width, toes slightly out","Big breath, brace the core, chest up","Sit down between the hips to at least parallel","Drive up through the whole foot"],
 ["Knees caving in","Chest dropping so the hips shoot up first","Cutting depth to add weight"],
-"Warm up with 2-3 ramp-up sets and use the safety arms.","Hammer Strength ground-base squat machine or Smith machine squat."),
+"Warm up with 2-3 ramp-up sets and use the safety arms.","Hammer Strength ground-base squat machine or Smith machine squat.",
+"Damian does this on the Smith machine for glutes. Feet forward of the bar, wider than shoulders, toes out, sit back and deep. Quad option: hip width, toes forward, feet under the bar. Hamstring option: shoulder width, toes slightly out."),
 X("Deep Leg Press","Life Fitness Linear Leg Press","Squat — Primary Glute / Quad",5,["quads","glute_max"],["vastus_int","adductors","hamstrings"],["core"],2,"8-10","90-120s","3-1-1-0",
 "Keep pushing this one. You went from 210 to 400 in three weeks. Feet a little high and wide with a deep range loads the glutes at the stretch and the deep quad, with the back fully supported. Pair each set with the calf raise below.",
 "Hip and knee flexion/extension with the back supported.",
 ["Feet shoulder-width or a bit wider, mid-to-high on the plate","Lower until the hips are just about to tuck under","Keep the hips glued to the pad","Drive through the whole foot, stop just short of lockout"],
 ["Hips peeling off the pad at the bottom","Locking the knees hard","Cutting depth to move more weight"],
-"Keep the range where the pelvis stays flat on the pad.","Iso-lateral leg press or Hammer Strength squat machine."),
+"Keep the range where the pelvis stays flat on the pad.","Iso-lateral leg press or Hammer Strength squat machine.",
+"Glutes: feet high and wide on the platform, toes out. Quads: feet low, hip width, toes forward. Hamstrings: feet high, shoulder width."),
 X("Leg Press Calf Raise","Life Fitness Linear Leg Press","Ankle Plantarflexion (straight knee)",3,["calves"],["soleus"],["tibialis","core"],3,"12-15","45s","2-1-2-1",
 "Do this between your leg press sets so you save time. The straight-knee position hits the gastrocnemius (the big outer calf muscle) and the soleus under it. Use a weight you can control, not the full leg press load.",
 "Ankle plantarflexion with the knees extended.",
 ["Balls of the feet on the lower edge of the plate","Knees soft but straight","Full stretch at the bottom, rise high and pause","Lower slowly"],
 ["Bouncing out of the bottom","Short range at the top","Bending the knees"],
-"Low risk. Keep the knees soft, never locked hard.","Standing calf raise with plates."),
+"Low risk. Keep the knees soft, never locked hard.","Standing calf raise with plates.",
+"Balls of the feet on the platform edge, hip width, toes forward."),
 X("Bench Reverse Crunch","Flat Bench","Spinal Flexion — Lower Abs",3,["core"],["deep_core"],["lats"],3,"12-15","45s","2-1-2-0",
 "Curls the pelvis toward the ribs to work the lower abs and the deep transverse abdominis that pulls your belly flat.",
 "Posterior pelvic tilt with hip flexion.",
@@ -1159,7 +1163,7 @@ function muscleFatigue(){
     var hrs=(now-t)/3600000;
     if (hrs<0||hrs>96) return;
     h.exercises.forEach(function(e){
-      var def=EX_BY_NAME[e.name];
+      var def=EX_BY_NAME[e.name]||aliasedExercise(e.name);
       if (!def) return;
       [[def.primary,1],[def.secondary,0.5],[def.stabilizers,0.25]].forEach(function(pair){
         (pair[0]||[]).forEach(function(m){
@@ -1659,8 +1663,13 @@ function showSaveToast(msg){
   if (toastTimer) clearTimeout(toastTimer);
   toastTimer=setTimeout(function(){ t.classList.remove("show"); },2200);
 }
-var NAME_ALIASES={"Smith Romanian Deadlift":["Smith RDL","Barbell Romanian Deadlift"]};
+var NAME_ALIASES={"Smith Romanian Deadlift":["Smith RDL","Barbell Romanian Deadlift"],"Smith Squat (feet forward)":["Barbell Back Squat"]};
 function nameMatches(logged,name){ return logged===name||(NAME_ALIASES[name]||[]).indexOf(logged)>=0; }
+function aliasedExercise(logged){
+  var keys=Object.keys(NAME_ALIASES);
+  for (var i=0;i<keys.length;i++) if ((NAME_ALIASES[keys[i]]||[]).indexOf(logged)>=0 && EX_BY_NAME[keys[i]]) return EX_BY_NAME[keys[i]];
+  return null;
+}
 function lastWeightFor(name){
   var sorted=state.history.slice().sort(function(a,b){return a.date<b.date?1:-1;});
   for (var i=0;i<sorted.length;i++){
@@ -1812,6 +1821,10 @@ function renderWorkout(){
     '</div>'+
   '</div>'));
   wrap.appendChild(renderDeloadBanner());
+  if (day.id===1) wrap.appendChild(el('<div class="fuel-card"><div class="k">Stance guide</div>'+
+    '<div class="pep-note"><b>Glute focus:</b> wider than shoulders, toes turned out ~15-30°, sit back and deep.</div>'+
+    '<div class="pep-note"><b>Quad (front of leg) focus:</b> narrower, about hip width, toes mostly forward.</div>'+
+    '<div class="pep-note"><b>Hamstring (back of leg) focus:</b> in between, about shoulder width, toes slightly out.</div></div>'));
   day.exercises.forEach(function(ex,i){
     wrap.appendChild(renderCard(ex,i));
   });
@@ -1844,6 +1857,8 @@ function renderWorkout(){
     });
     eqHTML+='</div>';
   });
+  eqHTML+='<div style="font-size:12px;color:#e9e9ee;padding:2px 0">• Body Masters BE 218 Multi Press (Smith machine) - counterbalanced bar ~22 lb, so don\'t log the bar as 45 lb; no published max load</div>';
+  eqHTML+='<div style="font-size:12px;color:#e9e9ee;padding:2px 0">• Rogue power rack (Monster-style squat cage: pull-up bar, monkey bars, safety bars, plate storage; exact model unconfirmed)</div>';
   eqHTML+='</div></details>';
   wrap.appendChild(el(eqHTML));
   wrap.appendChild(el('<div class="footer-note">PHASE 4 · FRI / SAT / SUN / MON · ROTATE VARIATIONS EVERY 4-5 WEEKS · LIGHT WEEK EVERY 6TH WEEK</div>'));
@@ -1941,6 +1956,7 @@ function buildDetail(detail,ex,i,card){
   h+=sectionHTML("Why this exercise",ex.why,false);
   if (glassTip(ex.name)) h+='<div class="glass-tip"><div class="k">💡 Glass tip</div><div class="t">'+esc(glassTip(ex.name))+'</div></div>';
   h+=sectionHTML("Joint action",ex.joint,false);
+  if (ex.stance) h+=sectionHTML("Stance",ex.stance,false);
   h+=listHTML("Setup cues",ex.setup,false);
   h+=listHTML("Common mistakes",ex.mistakes,true);
   h+='<div class="section"><div class="k">Bonus / Extra Sets (optional)</div>'+
@@ -2037,6 +2053,7 @@ var EX_MEDIA={
 var R='<b>red</b> = ', O=' · <i>orange</i> = ';
 var EX_IMG={
   "Barbell Back Squat":{img:"ex_squat.jpg",cap:R+"glutes &amp; quads (primary)"+O+"adductors, hamstrings, lower back (secondary)"},
+  "Smith Squat (feet forward)":{img:"ex_squat.jpg",cap:R+"glutes (primary)"+O+"quads, adductors, hamstrings, lower back (secondary)"},
   "Cable Glute Kickback":{img:"ex_kickback.jpg",cap:R+"glute max (primary)"+O+"hamstrings (secondary)"},
   "Seated Hip Abduction":{img:"ex_abduction.jpg",cap:R+"glute med/min, outer hip (primary)"+O+"upper glute, TFL (secondary)"},
   "Dumbbell Lateral Lunge":{img:"ex_lateral_lunge.jpg",cap:R+"glutes &amp; adductors (primary)"+O+"quads, hamstrings (secondary)"},
@@ -2904,6 +2921,7 @@ var GOAL_RULES=[
 ];
 var EQUIPMENT=[
   {id:"smith",label:"Smith machine"},
+  {id:"bm_be218",label:"Body Masters BE 218 Multi Press (Smith machine) - counterbalanced bar ~22 lb, so don't log the bar as 45 lb; no published max load",wide:true},
   {id:"landmine",label:"Landmine"},
   {id:"cable",label:"Cable columns (Life Fitness)"},
   {id:"lf_legpress",label:"Linear leg press (Life Fitness)"},
@@ -2914,6 +2932,7 @@ var EQUIPMENT=[
   {id:"hammer",label:"Hammer Strength machines"},
   {id:"iso_legext",label:"Iso leg extension"},
   {id:"barbell",label:"Barbell + squat rack"},
+  {id:"rack",label:"Rogue power rack (Monster-style squat cage: pull-up bar, monkey bars, safety bars, plate storage; exact model unconfirmed)",wide:true},
   {id:"trapbar",label:"Trap bar"},
   {id:"dumbbells",label:"Dumbbells"},
   {id:"bench",label:"Flat / incline bench"},
@@ -2925,12 +2944,18 @@ var EQUIP_KEY="m165-equipment";
 var BUILD_KEY="m165-build-plan";
 function getEquipment(){
   var v=jparse(store.get(EQUIP_KEY),null);
-  if (!v||typeof v!=="object"){ v={}; EQUIPMENT.forEach(function(e){ v[e.id]=true; }); }
+  if (!v||typeof v!=="object") v={};
+  EQUIPMENT.forEach(function(e){ if (typeof v[e.id]!=="boolean") v[e.id]=true; });
   return v;
+}
+function hasEquip(eq,id){
+  if (id==="smith") return !!(eq.smith||eq.bm_be218);
+  if (id==="barbell") return !!(eq.barbell||eq.rack);
+  return !!eq[id];
 }
 function equipLabel(id){ var e=EQUIPMENT.find(function(x){return x.id===id;}); return e?e.label:id; }
 // L(name, needs[], slot, big, P, S, T, why)
-function L(n,needs,slot,big,P,S,T,why){ return {name:n,needs:needs,slot:slot,big:big,primary:P,secondary:S,stabilizers:T,why:why}; }
+function L(n,needs,slot,big,P,S,T,why){ return {name:n,needs:needs,slot:slot,big:big,primary:P,secondary:S,stabilizers:T,why:why,stance:""}; }
 var LIBRARY=[
   // ---- glute main (hip thrust family)
   L("Smith Machine Hip Thrust",["smith","bench"],"glute_main",true,["glute_max"],["hamstrings","glute_med"],["core","adductors"],"Best glute builder for round, full glutes. The Smith bar stays steady, so you can push hard safely."),
@@ -3015,6 +3040,8 @@ var LIBRARY=[
   L("Suitcase Carry",["dumbbells"],"core",false,["core","deep_core"],["forearms"],["glute_med"],"Grip and side core. Walk tall."),
   L("Plank",["mat"],"core",false,["core","deep_core"],[],["glute_max"],"Whole-core brace. Squeeze the glutes, ribs down.")
 ];
+var STANCE_GUIDE="Glute focus: wider than shoulders, toes turned out ~15-30°, sit back and deep. Quad (front of leg) focus: narrower, about hip width, toes mostly forward. Hamstring (back of leg) focus: in between, about shoulder width, toes slightly out.";
+LIBRARY.forEach(function(ex){ if (ex.slot==="squat"||ex.slot==="single") ex.stance=STANCE_GUIDE; });
 var SLOT_INFO={
   glute_main:{label:"Glute builder",why:"Glute priority: your #1 goal. Counts toward the 16–20 weekly glute sets."},
   squat:{label:"Squat pattern",why:"Thick legs and glutes. One of your big lifts."},
@@ -3040,7 +3067,7 @@ var TEMPLATES={
   upper:{title:"Upper (proportion)",slots:["row","push","vpull","fly","delts","rear","biceps","triceps","core"]}
 };
 LIBRARY.forEach(function(e){ if (!EX_BY_NAME[e.name]) EX_BY_NAME[e.name]=e; });
-function exAvailable(ex,eq){ return ex.needs.every(function(id){ return !!eq[id]; }); }
+function exAvailable(ex,eq){ return ex.needs.every(function(id){ return hasEquip(eq,id); }); }
 function seededRand(seed){ var x=(seed>>>0)||1; return function(){ x^=x<<13; x>>>=0; x^=x>>17; x^=x<<5; x>>>=0; return (x%100000)/100000; }; }
 function prescription(ex,focus){
   if (ex.big) return {sets:(focus==="full"?3:4),reps:"8-10",rest:"2-3 min",tempo:"3-1-1-0",rir:"1-2 RIR"};
@@ -3121,6 +3148,7 @@ function renderBuildView(){
         '<div class="eq">'+esc(SLOT_INFO[pk.slot].label)+' · '+ex.needs.map(equipLabel).map(esc).join(" + ")+'</div>'+
         '<div class="rx"><span>'+rx.sets+' sets'+(rx.light?" (light)":"")+'</span><span>'+rx.reps+' reps</span><span>'+rx.rir+'</span><span>Rest '+rx.rest+'</span><span>Tempo '+rx.tempo+'</span></div>'+
         '<div class="why"><b>Why:</b> '+esc(SLOT_INFO[pk.slot].why)+' '+esc(ex.why)+'</div>'+
+        (ex.stance?'<div class="why" style="margin-top:4px"><b>Stance:</b> '+esc(ex.stance)+'</div>':'')+
         (glassTip(ex.name)?'<div class="why" style="margin-top:4px"><b>💡 Glass tip:</b> '+esc(glassTip(ex.name))+'</div>':'')+
         '<div class="prog">'+progTxt+'</div>'+
         '<div class="log"><input class="lw" type="text" inputmode="decimal" placeholder="weight (lb)"><input class="lr" type="text" inputmode="numeric" placeholder="reps on last set"></div>'+
@@ -3155,7 +3183,7 @@ function renderBuildView(){
     '<div style="font-size:10.5px;color:var(--muted);margin-top:8px">Uncheck anything that\'s broken or taken. The generator only picks from what\'s checked.</div></details></div>');
   var grid=ec.querySelector(".eq-grid");
   EQUIPMENT.forEach(function(e){
-    var it=el('<label class="eq-item"><input type="checkbox" data-eq="'+e.id+'"'+(eq[e.id]?" checked":"")+'><span>'+esc(e.label)+'</span></label>');
+    var it=el('<label class="eq-item"'+(e.wide?' style="grid-column:1 / -1"':'')+'><input type="checkbox" data-eq="'+e.id+'"'+(eq[e.id]?" checked":"")+'><span>'+esc(e.label)+'</span></label>');
     it.querySelector("input").addEventListener("change",function(ev){
       eq[e.id]=ev.target.checked; store.set(EQUIP_KEY,JSON.stringify(eq));
       plan.eqOpen=true; store.set(BUILD_KEY,JSON.stringify(plan)); renderApp();
@@ -3934,6 +3962,7 @@ var SUB_GROUPS=[
 var SUB_EX={
   "Banded Barbell Hip Thrust":{glute_max:"primary",glute_up:"primary",glute_low:"secondary",glute_med:"secondary"},
   "Barbell Back Squat":{glute_max:"primary",glute_low:"primary"},
+  "Smith Squat (feet forward)":{glute_max:"primary",glute_low:"primary"},
   "Deep Leg Press":{glute_low:"primary",glute_max:"primary"},
   "Smith Romanian Deadlift":{glute_low:"primary",glute_max:"secondary"},
   "Deadlift (Trap Bar or Barbell)":{glute_max:"primary",glute_low:"secondary"},
