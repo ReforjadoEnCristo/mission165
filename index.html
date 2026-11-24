@@ -1105,13 +1105,7 @@ X("Dumbbell Hammer Curl","Dumbbells","Elbow Flexion (Neutral Grip)",3,["brachial
 "Elbow flexion with a neutral forearm.",
 ["Palms facing each other, elbows at your sides","Curl up without swinging","Squeeze at the top","Lower under control"],
 ["Swinging the torso","Elbows drifting forward","Rushing the lowering"],
-"Keep the upper arms still.","Cross-body hammer curl or EZ-bar curl."),
-X("Seated Hip Abduction","Life Fitness Hip Abduction Machine","Hip Abduction — Glute Med/Min (Deep)",4,["glute_med","glute_min"],["glute_max"],["core"],3,"15-20","60s","2-1-2-1",
-"Saturday glute finisher, so your glutes get some work all 4 days. Builds the upper-outer glute and the deep glute min and hip rotators underneath it. Leaning your torso forward shifts more work onto the deeper fibers and the glute max.",
-"Hip abduction against resistance, seated.",
-["Sit tall, pads outside the knees","Lean forward slightly for the last set","Push out slowly and squeeze for a second","Control the return, do not let the stack slam"],
-["Bouncing the weight","Using momentum from the torso","Stopping short of full range"],
-"Low impact. Keep the weight moderate so the squeeze stays strong.","Standing cable hip abduction with ankle cuff.")
+"Keep the upper arms still.","Cross-body hammer curl or EZ-bar curl.")
 ]},
 {id:3,title:"Lower B — Hinge & Hamstrings",sub:"RDL / Curl · Sunday",exercises:[
 X("Smith Romanian Deadlift","Smith Machine (or Barbell)","Hip Hinge — Primary Glute / Hamstring",5,["hamstrings","glute_max"],["adductors","erectors"],["lats","core","forearms","traps"],3,"6-8","120s","3-2-1-0",
@@ -1139,7 +1133,7 @@ X("Leg Extension","Iso Leg Extension Machine","Knee Extension",3,["quads","vastu
 ["Swinging the weight up","Hips lifting off the seat","Dropping the weight on the way down"],
 "Moderate weight, slow lowering. Avoid slamming the stack.","Spanish squat with a band."),
 X("Seated Hip Abduction","Life Fitness Hip Abduction Machine","Hip Abduction — Glute Med/Min (Deep)",4,["glute_med","glute_min"],["glute_max"],["core"],2,"15-20","60s","2-1-2-1",
-"Sunday Lower B, 2 x 15-20, right before the side plank. Builds the upper-outer glute and the deep glute min and hip rotators underneath it. Leaning your torso forward shifts more work onto the deeper fibers and the glute max. Saturday Upper A still has this exercise too.",
+"Sunday Lower B only, 2 x 15-20, right before the side plank. Builds the upper-outer glute and the deep glute min and hip rotators underneath it. Leaning your torso forward shifts more work onto the deeper fibers and the glute max.",
 "Hip abduction against resistance, seated.",
 ["Sit tall, pads outside the knees","Lean forward slightly for the last set","Push out slowly and squeeze for a second","Control the return, do not let the stack slam"],
 ["Bouncing the weight","Using momentum from the torso","Stopping short of full range"],
@@ -4978,7 +4972,8 @@ function m165SelfCheck(){
   assert("abduction before side plank", ai>=0 && si===ai+1);
   assert("lower B is 2 sets", lower[ai].sets===2 && lower[ai].reps==="15-20");
   var upper=DAYS[1].exercises.filter(function(e){return e.name==="Seated Hip Abduction";});
-  assert("saturday kept", upper.length===1 && upper[0].sets===3);
+  var onlyLower=DAYS.filter(function(d){ return d.exercises.some(function(e){ return e.name==="Seated Hip Abduction"; }); });
+  assert("saturday removed", upper.length===0 && onlyLower.length===1 && onlyLower[0].id===3);
   assert("coach lifts", ["Face Pull","Banded Barbell Hip Thrust","Deep Leg Press","Smith Romanian Deadlift","Dumbbell Hammer Curl","Cable Curl"].every(function(n){return !!COACH[n];}));
   window.__m165SelfCheck=results;
   window.__m165SelfCheckOk=results.every(function(r){return r.ok;});
