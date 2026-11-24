@@ -186,6 +186,8 @@
   .logfor-btn.today.active{border-color:var(--violet);background:rgba(139,92,246,.13);color:var(--text);}
   .logfor-btn.yest.active{border-color:var(--amber);background:rgba(244,183,64,.13);color:var(--text);}
   .logfor-date{font-size:10px;padding:3px 6px;border-radius:6px;background:transparent;border:1px solid var(--border);color:var(--muted);color-scheme:dark;}
+  .sync-pill{margin-left:auto;min-height:32px;padding:0 12px;border-radius:999px;border:1px solid rgba(139,92,246,.55);background:rgba(139,92,246,.16);color:#ddd6fe;font-size:12px;font-weight:800;cursor:pointer;}
+  .sync-pill.syncing{opacity:.7;}
 
   .content{padding:16px 18px 0;}
 
@@ -427,6 +429,118 @@
   .anat-svg .mg[data-g^="glute"].hl-primary,.anat-svg .mg[data-g^="glute"].hl-secondary{mix-blend-mode:normal;fill-opacity:.72;}
   .anat-svg .mg{stroke-linejoin:round;}
   .anat-svg .mg[data-g^="glute"].hl-primary,.anat-svg .mg[data-g^="glute"].hl-secondary{stroke-width:4;stroke-opacity:.9;}
+
+  .confirm-tag{border-radius:999px;padding:1px 8px;font-size:9.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;background:rgba(244,183,64,.15);color:var(--amber);border:1px solid rgba(244,183,64,.45);}
+
+  .sg-box{background:var(--panel2);border:1px solid var(--border);border-radius:12px;padding:10px;margin:12px 0;}
+  .sg-voice{font-size:11.5px;color:#fde68a;line-height:1.4;margin:4px 0 8px;}
+  .sg-exnote{font-size:11.5px;color:#d4d4dc;line-height:1.45;margin:0 0 8px;}
+  .sg{width:100%;border-collapse:collapse;}
+  .sg th{font-size:10px;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);font-weight:800;text-align:left;padding:0 3px 6px;}
+  .sg td{padding:3px;vertical-align:top;}
+  .sg .n{font-weight:800;text-align:center;width:42px;padding-top:10px;font-size:14px;}
+  .sg-in{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:16px;font-weight:700;padding:8px 4px;text-align:center;outline:none;}
+  .sg-in.blank{border-color:var(--amber);background:rgba(244,183,64,.12);}
+  .sg-in.blank::placeholder{color:var(--amber);opacity:1;}
+  .sg-flag{display:block;font-size:9px;font-weight:800;color:var(--amber);text-align:center;letter-spacing:.2px;margin-top:2px;}
+  .planned-tag{display:block;font-size:8px;font-weight:800;color:var(--amber);letter-spacing:.3px;text-transform:uppercase;}
+  .sg .ok{width:46px;text-align:center;padding-top:8px;}
+  .sg .ok input{width:22px;height:22px;accent-color:#22c55e;}
+  .sg tr.is-ok .sg-in{border-color:rgba(34,197,94,.75);}
+  .sg tr.is-ok .sg-in.blank{border-color:var(--amber);}
+  .sg-note{font-size:11px;color:var(--muted);line-height:1.35;padding:0 4px 8px;}
+  .sg-pm{display:flex;gap:8px;align-items:center;margin-top:4px;}
+  .sg-pm button{width:40px;height:40px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:22px;font-weight:700;line-height:1;cursor:pointer;}
+  .sg-pm button:disabled{opacity:.35;}
+  .sg-hint{font-size:11px;color:var(--muted);}
+  .rot-row td{padding:0 3px 6px;}
+  .rot-tag{display:inline-block;max-width:100%;font-size:11px;font-weight:800;line-height:1.25;color:#ccfbf1;background:rgba(45,212,191,.14);border:1px solid rgba(45,212,191,.5);border-radius:999px;padding:3px 8px;cursor:pointer;font-family:inherit;text-align:left;}
+  .rot-tag.on{color:#fecaca;background:rgba(248,113,113,.16);border-color:#f87171;}
+  .rot-note{font-size:11.5px;color:#d6d6de;line-height:1.4;margin:0 0 8px;}
+  .head-tabs{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 8px;}
+  .head-tab{min-height:36px;padding:0 12px;border-radius:999px;border:1px solid #3a3a44;background:#101014;color:#e4e4e7;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit;}
+  .head-tab.on{color:#fecaca;background:rgba(248,113,113,.16);border-color:#f87171;}
+  .ex-shot{transition:opacity .28s ease;}
+  .ex-shot.is-swap{opacity:.2;}
+  @media (prefers-reduced-motion: reduce){
+    .ex-shot{transition:none;}
+  }
+  .pos-map{margin:0 0 14px;}
+  .pos-title{font-family:'Oswald',sans-serif;font-size:16px;letter-spacing:.4px;text-transform:uppercase;color:#fff;margin-bottom:4px;}
+  .pos-cue{font-size:12px;color:#d6d6de;line-height:1.45;margin-bottom:8px;}
+  .pos-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .pos-opt{background:#101014;border:1px solid #3a3a44;border-radius:12px;padding:8px;text-align:left;color:var(--text);cursor:pointer;min-height:44px;}
+  .pos-opt.on{border-color:#f4f4f5;box-shadow:0 0 0 1px #f4f4f5;}
+  .pos-opt svg{width:100%;height:auto;display:block;background:#0c0c10;border-radius:8px;}
+  .pos-h{display:flex;gap:6px;align-items:center;margin-top:6px;}
+  .pos-num{width:20px;height:20px;border-radius:5px;background:#f4f4f5;color:#111;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:0 0 20px;}
+  .pos-name{font-size:12px;font-weight:800;line-height:1.2;}
+  .pos-pri{color:#f05252;font-size:10.5px;font-weight:800;line-height:1.3;margin-top:4px;}
+  .pos-sec{color:#fb923c;font-size:10.5px;font-weight:700;line-height:1.3;}
+  .pos-detail{font-size:12.5px;color:var(--text);line-height:1.45;margin-top:8px;}
+  .pos-stage svg{width:100%;height:auto;display:block;background:#0c0c10;border-radius:12px;border:1px solid #3a3a44;}
+  .pos-picks{display:flex;flex-direction:column;gap:6px;margin-top:8px;}
+  .pos-picks .pos-opt{display:block;width:100%;}
+
+  .coach-open{border-color:var(--green)!important;background:rgba(34,197,94,.12)!important;}
+  .coach-title{font-family:'Oswald',sans-serif;font-size:28px;text-align:center;letter-spacing:.4px;line-height:1.05;margin:4px 0 8px;}
+  .coach-legend{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-size:12px;color:var(--muted);margin:8px 0;}
+  .coach-legend b{font-weight:800;}
+  .coach-legend .g{color:#4ade80;}
+  .coach-legend .r{color:#fb7185;}
+  .coach-fig{display:flex;justify-content:center;background:#0d0d12;border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:8px;}
+  .coach-fig .anat-svg{max-height:460px;width:auto;max-width:100%;}
+  .coach-fig .coach-side{width:100%;height:auto;display:block;}
+  .coach-hint{font-size:12px;color:#fde68a;text-align:center;line-height:1.4;margin:0 0 8px;}
+  .coach-pair{display:flex;flex-direction:column;gap:8px;margin:8px 0 12px;}
+  .coach-do,.coach-dont{border-radius:12px;padding:10px 12px;}
+  .coach-do{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.55);}
+  .coach-dont{background:rgba(244,63,94,.1);border:1px solid rgba(244,63,94,.55);}
+  .coach-do .k{color:#86efac;font-size:12px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;}
+  .coach-dont .k{color:#fda4af;font-size:12px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;}
+  .coach-do ul,.coach-dont ul{margin:6px 0 0;padding:0;list-style:none;}
+  .coach-do li,.coach-dont li{font-size:13px;line-height:1.35;margin:0 0 6px;}
+  .mark-yes{color:#22c55e;font-weight:900;margin-right:4px;}
+  .mark-no{color:#f43f5e;font-weight:900;margin-right:4px;}
+  .anat-svg.coach .mg.coach-target{fill:#22c55e;fill-opacity:.8;stroke:#bbf7d0;stroke-width:4;stroke-opacity:1;mix-blend-mode:normal;filter:drop-shadow(0 0 8px #22c55e);}
+  .anat-svg.coach .mg.coach-comp{fill:#f43f5e;fill-opacity:.78;stroke:#fecdd3;stroke-width:4;stroke-opacity:1;mix-blend-mode:normal;filter:drop-shadow(0 0 8px #f43f5e);}
+  .coach-chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;margin-bottom:4px;}
+  .coach-chips .t-chip{flex:0 0 auto;}
+
+  .pend-card{border-left:3px solid var(--amber);}
+  .pend-note{font-size:12px;color:#d6d6de;line-height:1.45;margin:0 0 8px;}
+  .pend-ex{border:1px solid var(--border);border-radius:10px;padding:8px 10px;margin:6px 0;background:var(--panel2);}
+  .pend-ex summary{cursor:pointer;font-size:13px;font-weight:800;}
+  .pend-mini{width:100%;border-collapse:collapse;font-size:12px;margin-top:6px;}
+  .pend-mini td{padding:3px 4px;border-top:1px solid var(--border);}
+  .pend-miss{color:var(--amber);font-weight:800;}
+  .pend-id{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:8px;font-size:13px;margin-top:6px;}
+  .pend-paste{width:100%;min-height:72px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:8px;font-size:12px;margin-top:6px;}
+
+  .map-view .pmap-wrap{background:#0d0d12;border:1px solid var(--border);border-radius:16px;overflow:hidden;margin:8px 0;}
+  .map-view .pmap-svg{width:100%;max-height:380px;height:auto;display:block;margin:0 auto;}
+  .pmap-svg .org{cursor:pointer;stroke-linejoin:round;}
+  .pmap-svg .org.idle{fill:#2dd4bf;fill-opacity:.16;stroke:#5eead4;stroke-opacity:.45;stroke-width:2;}
+  .pmap-svg .org.logged{fill:#a855f7;fill-opacity:.55;stroke:#e9d5ff;stroke-width:3;filter:drop-shadow(0 0 10px #a855f7);}
+  .pmap-svg .org.due{fill:#2dd4bf;fill-opacity:.62;stroke:#99f6e4;stroke-width:3;filter:drop-shadow(0 0 14px #2dd4bf);animation:pepPulse 1.7s ease-in-out infinite;}
+  .pmap-svg .org.on{stroke:#fff;stroke-width:4;}
+  @keyframes pepPulse{0%,100%{fill-opacity:.38;}50%{fill-opacity:.78;}}
+  .map-leg{display:flex;flex-wrap:wrap;gap:8px 12px;font-size:11px;color:var(--muted);margin:6px 0 8px;}
+  .map-leg b{color:var(--text);font-weight:800;}
+  .ev{display:inline-flex;gap:3px;vertical-align:middle;margin-right:4px;}
+  .ev i{width:8px;height:8px;border-radius:50%;background:#3f3f46;display:inline-block;}
+  .ev.e3 i.on{background:#c084fc;}
+  .ev.e2 i.on{background:#2dd4bf;}
+  .ev.e1 i.on{background:#f4b740;}
+  .map-chips{display:flex;flex-wrap:wrap;gap:6px;padding-bottom:6px;}
+  .map-chips .t-chip{flex:0 0 auto;display:flex;align-items:center;gap:6px;}
+  .pip{width:8px;height:8px;border-radius:50%;background:#3f3f46;flex:0 0 8px;}
+  .pip.due{background:#2dd4bf;box-shadow:0 0 6px #2dd4bf;}
+  .pip.logged{background:#a855f7;box-shadow:0 0 6px #a855f7;}
+  .map-card .k{color:#5eead4;}
+  .map-days{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0;}
+  .map-days button{min-width:36px;min-height:36px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--muted);font-weight:800;font-size:12px;}
+  .map-days button.on{border-color:#2dd4bf;color:#ccfbf1;background:rgba(45,212,191,.15);}
 </style>
 </head>
 <body>
@@ -1027,13 +1141,7 @@ X("Dumbbell Hammer Curl","Dumbbells","Elbow Flexion (Neutral Grip)",3,["brachial
 "Elbow flexion with a neutral forearm.",
 ["Palms facing each other, elbows at your sides","Curl up without swinging","Squeeze at the top","Lower under control"],
 ["Swinging the torso","Elbows drifting forward","Rushing the lowering"],
-"Keep the upper arms still.","Cross-body hammer curl or EZ-bar curl."),
-X("Seated Hip Abduction","Life Fitness Hip Abduction Machine","Hip Abduction — Glute Med/Min (Deep)",4,["glute_med","glute_min"],["glute_max"],["core"],3,"15-20","60s","2-1-2-1",
-"Saturday glute finisher, so your glutes get some work all 4 days. Builds the upper-outer glute and the deep glute min and hip rotators underneath it. Leaning your torso forward shifts more work onto the deeper fibers and the glute max.",
-"Hip abduction against resistance, seated.",
-["Sit tall, pads outside the knees","Lean forward slightly for the last set","Push out slowly and squeeze for a second","Control the return, do not let the stack slam"],
-["Bouncing the weight","Using momentum from the torso","Stopping short of full range"],
-"Low impact. Keep the weight moderate so the squeeze stays strong.","Standing cable hip abduction with ankle cuff.")
+"Keep the upper arms still.","Cross-body hammer curl or EZ-bar curl.")
 ]},
 {id:3,title:"Lower B — Hinge & Hamstrings",sub:"RDL / Curl · Sunday",exercises:[
 X("Smith Romanian Deadlift","Smith Machine (or Barbell)","Hip Hinge — Primary Glute / Hamstring",5,["hamstrings","glute_max"],["adductors","erectors"],["lats","core","forearms","traps"],3,"6-8","120s","3-2-1-0",
@@ -1060,8 +1168,8 @@ X("Leg Extension","Iso Leg Extension Machine","Knee Extension",3,["quads","vastu
 ["Back against the pad, knees aligned with the pivot","Extend until the legs are straight, pause and squeeze","Lower for 2-3 seconds","Keep the hips down"],
 ["Swinging the weight up","Hips lifting off the seat","Dropping the weight on the way down"],
 "Moderate weight, slow lowering. Avoid slamming the stack.","Spanish squat with a band."),
-X("Seated Hip Abduction","Life Fitness Hip Abduction Machine","Hip Abduction — Glute Med/Min (Deep)",4,["glute_med","glute_min"],["glute_max"],["core"],3,"15-20","60s","2-1-2-1",
-"Lower B glute finisher, placed before the side plank. Builds the upper-outer glute and the deep glute min and hip rotators underneath it. Leaning your torso forward shifts more work onto the deeper fibers and the glute max.",
+X("Seated Hip Abduction","Life Fitness Hip Abduction Machine","Hip Abduction — Glute Med/Min (Deep)",4,["glute_med","glute_min"],["glute_max"],["core"],2,"15-20","60s","2-1-2-1",
+"Sunday Lower B only, 2 x 15-20, right before the side plank. Builds the upper-outer glute and the deep glute min and hip rotators underneath it. Leaning your torso forward shifts more work onto the deeper fibers and the glute max.",
 "Hip abduction against resistance, seated.",
 ["Sit tall, pads outside the knees","Lean forward slightly for the last set","Push out slowly and squeeze for a second","Control the return, do not let the stack slam"],
 ["Bouncing the weight","Using momentum from the torso","Stopping short of full range"],
@@ -1292,9 +1400,10 @@ function storageSelfTest(){
 // verification link that never arrived. Switched to jsonbin.io, using
 // Damian's own free account, verified working directly
 // against the real API before shipping.)
+var DEFAULT_SYNC_ID="6ae6c009ac6210605a62d670";
 var SYNC_ID_KEY="m165-sync-id";
 var SYNC_TS_KEY="m165-sync-updatedAt";
-var SYNC_EXCLUDE=[SYNC_ID_KEY,SYNC_TS_KEY,"m165-storagetest","m165-safety-history","m165-export-snooze"];
+var SYNC_EXCLUDE=[SYNC_ID_KEY,SYNC_TS_KEY,"m165-storagetest","m165-safety-history","m165-export-snooze","m165-dup-log"];
 var SYNC_API="https://api.jsonbin.io/v3";
 // v4: limited jsonbin ACCESS key (Bins: Read + Update only). This is a static site, so the key
 // has to sit in this client file; it cannot create, delete or list bins. The old Master Key was removed.
@@ -1302,7 +1411,16 @@ var SYNC_ACCESS_KEY="$2a$10$V4HO/1f.NhGNJ5qcZrGgQeDzaRDVtrxaXX0r7Y5UXu3XL64clJLQ
 var SYNC_OWNER_EMAIL="dsenanm72@gmail.com";
 var syncState={status:"off",lastSync:0,lastError:""}; // off|idle|syncing|error
 var syncPushTimer=null;
+var syncLastPullAt=0;
+var syncPulling=false;
+var syncPulledOnce=false;
+var SYNC_PULL_MIN_MS=10000;
 function syncPaired(){ return !!localStorage.getItem(SYNC_ID_KEY); }
+function ensureDefaultSync(){
+  try{
+    if (!localStorage.getItem(SYNC_ID_KEY)) localStorage.setItem(SYNC_ID_KEY, DEFAULT_SYNC_ID);
+  }catch(e){}
+}
 function setSyncStatus(status,err){
   syncState.status=status;
   if (status==="idle") syncState.lastSync=Date.now();
@@ -1314,7 +1432,7 @@ function buildSnapshot(){
   for (var i=0;i<localStorage.length;i++){
     var k=localStorage.key(i);
     if (!k||k.indexOf("m165-")!==0) continue;
-    if (SYNC_EXCLUDE.indexOf(k)>=0) continue;
+    if (syncSkippedKey(k)) continue;
     data[k]=localStorage.getItem(k);
   }
   return data;
@@ -1324,18 +1442,28 @@ function buildSnapshot(){
 // device, or the other device saving with less data, wiped this phone's
 // workout history. It now MERGES: nothing local is ever deleted, workout
 // history is unioned by session id, and body metrics are unioned by date.
-function mergeHistoryArrays(localArr,incomingArr,preferIncoming){
+function mergeHistorySession(local, incoming, ctx){
+  var out=Object.assign({}, local||{});
+  incoming=incoming||{};
+  if (!out.date && incoming.date) out.date=incoming.date;
+  if (!out.dayId && incoming.dayId) out.dayId=incoming.dayId;
+  if (!out.dayTitle && incoming.dayTitle) out.dayTitle=incoming.dayTitle;
+  if (out.durationMin==null && incoming.durationMin!=null) out.durationMin=incoming.durationMin;
+  out.exercises=mergeExerciseLists(out.exercises, incoming.exercises, Object.assign({}, ctx||{}, {date:out.date||incoming.date, dayId:out.dayId||incoming.dayId, mode:"merge"}));
+  out.doneCount=(out.exercises||[]).length;
+  if (incoming.total && (!out.total || Number(incoming.total)>Number(out.total))) out.total=incoming.total;
+  if (!out.total) out.total=out.doneCount;
+  return out;
+}
+function mergeHistoryArrays(localArr, incomingArr, ctx){
   var byId={}, order=[];
-  (Array.isArray(localArr)?localArr:[]).forEach(function(h){ if (h&&h.id){ byId[h.id]=h; order.push(h.id); } });
-  (Array.isArray(incomingArr)?incomingArr:[]).forEach(function(h){
+  function take(h){
     if (!h||!h.id) return;
-    if (!byId[h.id]){ byId[h.id]=h; order.push(h.id); }
-    else if (preferIncoming){
-      // same session on both: keep whichever has more logged exercises
-      var a=byId[h.id], b=h;
-      if ((b.exercises||[]).length>=(a.exercises||[]).length) byId[h.id]=b;
-    }
-  });
+    if (!byId[h.id]){ byId[h.id]=h; order.push(h.id); return; }
+    byId[h.id]=mergeHistorySession(byId[h.id], h, ctx);
+  }
+  (Array.isArray(localArr)?localArr:[]).forEach(take);
+  (Array.isArray(incomingArr)?incomingArr:[]).forEach(take);
   return order.map(function(id){ return byId[id]; });
 }
 function mergeMetricsArrays(localArr,incomingArr,preferIncoming){
@@ -1358,16 +1486,35 @@ function mergeSnapshot(data,mode){
   var preferIncoming=(mode==="sync");
   takeSafetyCopy();
   var added={sessions:0,metrics:0,keys:0};
+  var dupCtx={skipped:[], mode:"merge"};
   Object.keys(data).forEach(function(k){
     if (!k||k.indexOf("m165-")!==0) return;
-    if (SYNC_EXCLUDE.indexOf(k)>=0||k===SEED_FLAG_KEY) return;
+    if (syncSkippedKey(k)||k===SEED_FLAG_KEY||k===LOWER_A_SEED_FLAG) return;
     var inc=data[k]; if (typeof inc!=="string") inc=JSON.stringify(inc);
     var cur=localStorage.getItem(k);
+    if (k===PENDING_KEY){
+      var lp=normalizePendingPayload(jparse(cur,[]));
+      var ip=normalizePendingPayload(jparse(inc,[]));
+      var mp=mergePendingLists(lp, ip);
+      writePendingRaw(mp);
+      applyPendingListToGrids(mp);
+      return;
+    }
+    if (k===PENDING_ACCEPTED_KEY){
+      localStorage.setItem(k, JSON.stringify(mergeIdLists(jparse(cur,[]), jparse(inc,[]))));
+      return;
+    }
     if (k===HISTORY_KEY){
       var la=jparse(cur,[]), ia=jparse(inc,[]);
-      var merged=mergeHistoryArrays(la,ia,preferIncoming);
+      var merged=mergeHistoryArrays(la,ia,dupCtx);
       added.sessions+=Math.max(0,merged.length-(Array.isArray(la)?la.length:0));
       localStorage.setItem(k,JSON.stringify(merged));
+    } else if (k.indexOf(SETGRID_PREFIX)===0){
+      var lg=jparse(cur,{}), ig=jparse(inc,{});
+      var gk=/^m165-setgrid-draft-(\d{4}-\d{2}-\d{2})-(\d+)$/.exec(k);
+      var mg=mergeSetGridObjects(lg, ig, {date:gk?gk[1]:"", dayId:gk?Number(gk[2]):null, skipped:dupCtx.skipped, mode:"merge"});
+      if (JSON.stringify(mg)!==JSON.stringify(lg||{})) added.keys++;
+      localStorage.setItem(k,JSON.stringify(mg));
     } else if (k===METRICS_KEY){
       var lm=jparse(cur,[]), im=jparse(inc,[]);
       var mm=mergeMetricsArrays(lm,im,preferIncoming);
@@ -1382,6 +1529,7 @@ function mergeSnapshot(data,mode){
       localStorage.setItem(k,inc);
     }
   });
+  if (dupCtx.skipped.length) showDupNotice();
   return added;
 }
 function v4MergeKey(k){ return /^m165-(food-|pep-\d|dihexa-\d|mealprep-saved$|mealprep-list-|mealplan-supps$)/.test(k); }
@@ -1402,6 +1550,7 @@ function v4MergeValue(k,a,b,preferIncoming){
 function applySnapshot(data){ return mergeSnapshot(data,"sync"); }
 function markDirtyAndScheduleSync(){
   if (typeof syncPaired!=="function"||!syncPaired()) return;
+  if (!syncPulledOnce) return;
   if (syncPushTimer) clearTimeout(syncPushTimer);
   syncPushTimer=setTimeout(pushSnapshot,2200);
 }
@@ -1439,16 +1588,103 @@ function pullSnapshot(cb){
       applySnapshot(remote.data);
       localStorage.setItem(SYNC_TS_KEY,String(remote.updatedAt));
       loadHistory(); loadDay(state.dayIdx); renderApp();
-      // v2: if this device had sessions/metrics the other one didn't, send the merged copy back
-      var rh=jparse((remote.data||{})[HISTORY_KEY],[]), rm=jparse((remote.data||{})[METRICS_KEY],[]);
-      var lh=jparse(localStorage.getItem(HISTORY_KEY),[]), lm=jparse(localStorage.getItem(METRICS_KEY),[]);
-      if ((lh.length||0)>(rh.length||0)||(lm.length||0)>(rm.length||0)) markDirtyAndScheduleSync();
+      syncPulledOnce=true;
+      if (syncRicherThanRemote(remote.data||{})) markDirtyAndScheduleSync();
+    } else {
+      syncPulledOnce=true;
     }
     setSyncStatus("idle");
     if (cb) cb();
   }).catch(function(e){
-    if (e.status===404){ setSyncStatus("idle"); if (cb) cb(); return; } // nothing pushed yet — not an error
+    if (e.status===404){ syncPulledOnce=true; setSyncStatus("idle"); if (cb) cb(); return; }
     setSyncStatus("error",e.message); if (cb) cb();
+  });
+}
+function remoteJson(data, key){
+  if (!data || data[key]==null) return null;
+  var v=data[key];
+  if (typeof v==="string") return jparse(v, null);
+  return v;
+}
+function historyRicher(localArr, remoteArr){
+  localArr=Array.isArray(localArr)?localArr:[];
+  remoteArr=Array.isArray(remoteArr)?remoteArr:[];
+  if (localArr.length>remoteArr.length) return true;
+  var remoteBy={};
+  remoteArr.forEach(function(h){ if (h&&h.id) remoteBy[h.id]=h; });
+  var richer=false;
+  localArr.forEach(function(h){
+    if (!h||!h.id) return;
+    var other=remoteBy[h.id];
+    if (!other){ richer=true; return; }
+    var names={};
+    (other.exercises||[]).forEach(function(e){ if (e&&e.name) names[e.name]=e; });
+    (h.exercises||[]).forEach(function(e){
+      if (!e||!e.name) return;
+      var re=names[e.name];
+      if (!re){ richer=true; return; }
+      var remoteSets={};
+      (re.sets||[]).forEach(function(s){ if (s) remoteSets[s.n]=s; });
+      (e.sets||[]).forEach(function(s){
+        if (!s) return;
+        var rs=remoteSets[s.n];
+        if (!rs){ richer=true; return; }
+        if (isBlankVal(rs.weight) && !isBlankVal(s.weight)) richer=true;
+        if (isBlankVal(rs.reps) && !isBlankVal(s.reps)) richer=true;
+      });
+    });
+  });
+  return richer;
+}
+function gridRicher(localGrid, remoteGrid){
+  localGrid=(localGrid&&typeof localGrid==="object")?localGrid:{};
+  remoteGrid=(remoteGrid&&typeof remoteGrid==="object")?remoteGrid:{};
+  var richer=false;
+  Object.keys(localGrid).forEach(function(name){
+    if (!name || name.charAt(0)==="_") return;
+    var lr=Array.isArray(localGrid[name])?localGrid[name]:[];
+    var rr=Array.isArray(remoteGrid[name])?remoteGrid[name]:[];
+    var remoteBy={};
+    rr.forEach(function(r){ if (r) remoteBy[r.n]=r; });
+    lr.forEach(function(r){
+      if (!r) return;
+      var o=remoteBy[r.n];
+      if (!o){ richer=true; return; }
+      if (isBlankVal(o.weight) && !isBlankVal(r.weight)) richer=true;
+      if (isBlankVal(o.reps) && !isBlankVal(r.reps)) richer=true;
+      if (r.confirmed && !o.confirmed) richer=true;
+    });
+  });
+  return richer;
+}
+function syncRicherThanRemote(remoteData){
+  var lh=jparse(localStorage.getItem(HISTORY_KEY),[]);
+  var rh=remoteJson(remoteData, HISTORY_KEY)||[];
+  if (historyRicher(lh, rh)) return true;
+  var keys={};
+  for (var i=0;i<localStorage.length;i++){
+    var k=localStorage.key(i);
+    if (k && k.indexOf(SETGRID_PREFIX)===0) keys[k]=1;
+  }
+  var richer=false;
+  Object.keys(keys).forEach(function(k){
+    if (gridRicher(jparse(localStorage.getItem(k),{}), remoteJson(remoteData, k)||{})) richer=true;
+  });
+  return richer;
+}
+function syncPull(force, cb){
+  ensureDefaultSync();
+  if (!syncPaired()){ if (cb) cb(); return; }
+  var now=Date.now();
+  if (!force && (syncPulling || (syncLastPullAt && (now-syncLastPullAt)<SYNC_PULL_MIN_MS))){
+    if (cb) cb();
+    return;
+  }
+  syncLastPullAt=now;
+  syncPulling=true;
+  pullSnapshot(function(){
+    syncPulling=false;
+    if (cb) cb();
   });
 }
 function startNewSync(cb){
@@ -1503,10 +1739,12 @@ function unpairSync(){
   setSyncStatus("off");
 }
 function initCloudSync(){
-  if (syncPaired()) pullSnapshot();
+  ensureDefaultSync();
+  if (syncPaired()) syncPull(true);
   document.addEventListener("visibilitychange",function(){
-    if (document.visibilityState==="visible") pullSnapshot();
+    if (document.visibilityState==="visible") syncPull(false);
   });
+  window.addEventListener("focus",function(){ syncPull(false); });
 }
 function PK(d){return "m165-progress-day-"+d;}
 function WK(d){return "m165-weights-day-"+d;}
@@ -1614,26 +1852,64 @@ function saveHistoryEntry(){
   var done=[];
   day.exercises.forEach(function(ex,i){
     var ts=state.topSets[i];
+    var sets=confirmedSetsFor(ex.name);
     var hasData = !!state.progress[i] ||
       !!(state.weights[i]&&String(state.weights[i]).trim()) ||
       !!(state.bonus[i]&&String(state.bonus[i]).trim()) ||
-      !!(ts&&ts.weight&&ts.reps);
+      !!(ts&&ts.weight&&ts.reps) ||
+      sets.length>0;
     if (!hasData) return;
+    var weight=state.weights[i]||"";
+    if (!String(weight).trim() && sets.length){
+      weight=sets.map(function(s){
+        return (isBlankVal(s.weight)?"—":s.weight)+"x"+(isBlankVal(s.reps)?"—":s.reps);
+      }).join(", ");
+    }
     done.push({
       name:ex.name,
-      weight:state.weights[i]||"",
+      weight:weight,
       bonus:state.bonus[i]||"",
-      topSet:(ts&&ts.weight&&ts.reps)?{weight:Number(ts.weight),reps:Number(ts.reps)}:null
+      topSet:(ts&&ts.weight&&ts.reps)?{weight:Number(ts.weight),reps:Number(ts.reps)}:null,
+      sets:sets
     });
   });
   var id=state.logDate+"-"+day.id;
+  var existing=null;
+  state.history.forEach(function(h){ if (h&&h.id===id) existing=h; });
+  if (existing){
+    var prevBy={};
+    (existing.exercises||[]).forEach(function(e){ prevBy[e.name]=e; });
+    done.forEach(function(e){
+      var prev=prevBy[e.name];
+      if (prev && (!e.sets||!e.sets.length) && prev.sets && prev.sets.length) e.sets=prev.sets;
+    });
+    var inDone={};
+    done.forEach(function(e){ inDone[e.name]=1; });
+    (existing.exercises||[]).forEach(function(e){
+      if (!inDone[e.name] && e.sets && e.sets.length) done.push(e);
+    });
+    var unchanged=done.length===(existing.exercises||[]).length;
+    done.forEach(function(e){
+      var prev=prevBy[e.name];
+      if (!prev || !sameLoggedSets(prev.sets, e.sets)) unchanged=false;
+    });
+    if (unchanged && done.length){
+      done.forEach(function(e){
+        (e.sets||[]).forEach(function(s){
+          logSkippedDup({date:state.logDate, dayId:day.id, exercise:e.name, n:s.n, weight:s.weight, reps:s.reps, reason:"same set"});
+        });
+      });
+      showDupNotice();
+      return;
+    }
+  }
   var durationMin=null;
   if (state.logDate===todayStr()&&done.length>0){
     var st=Number(store.get(SS(id))||0);
     if (!st){ st=Date.now(); store.set(SS(id),String(st)); }
     durationMin=Math.max(1,Math.round((Date.now()-st)/60000));
-  }
-  state.history=state.history.filter(function(h){return h.id!==id;});
+  } else if (existing && existing.durationMin) durationMin=existing.durationMin;
+  state.history=state.history.filter(function(h){return !h || h.id!==id;});
   if (done.length>0){
     state.history.push({
       id:id, date:state.logDate, dayId:day.id, dayTitle:day.title,
@@ -1642,7 +1918,11 @@ function saveHistoryEntry(){
     });
   }
   var ok=store.set(HISTORY_KEY,JSON.stringify(state.history));
-  if (ok) showSaveToast();
+  if (ok){
+    refreshPendingAcceptance();
+    var left=uncheckedAttentionCount();
+    showSaveToast(left?("Saved checked sets. "+left+" still unchecked."):undefined);
+  }
 }
 function verifyStoredCount(){
   var a=jparse(store.get(HISTORY_KEY),[]);
@@ -1694,6 +1974,7 @@ function renderApp(){
   else if (state.view==="fuel") app.appendChild(renderFuelView());
   else if (state.view==="meal") app.appendChild(renderMealView());
   else if (state.view==="peptide") app.appendChild(renderPeptideView());
+  else if (state.view==="map") app.appendChild(renderPepMapView());
   else if (state.view==="body") app.appendChild(renderBodyView());
   else if (state.view==="recover") app.appendChild(renderRecoverView());
   else app.appendChild(renderHistoryView());
@@ -1772,6 +2053,7 @@ function renderNav(){
   yBtn.addEventListener("click",function(){ state.logDate=yesterdayStr(); renderApp(); });
   dInput.addEventListener("change",function(){ if (dInput.value){ state.logDate=dInput.value; renderApp(); } });
   lf.appendChild(tBtn); lf.appendChild(yBtn); lf.appendChild(dInput);
+  lf.appendChild(makeSyncPill());
   nav.appendChild(lf);
   return nav;
 }
@@ -1812,6 +2094,7 @@ function renderWorkout(){
     '</div>'+
   '</div>'));
   wrap.appendChild(renderDeloadBanner());
+  wrap.appendChild(renderPendingCard());
   day.exercises.forEach(function(ex,i){
     wrap.appendChild(renderCard(ex,i));
   });
@@ -1863,6 +2146,7 @@ function renderCard(ex,i){
         '<span class="ex-name">'+esc(ex.name)+'</span>'+
         '<span class="stars">'+stars+'</span>'+
         (gluteFocus?'<span class="glute-tag '+gluteFocus+'">Glute '+gluteFocus+'</span>':"")+
+        (gridAttention(ex)?'<span class="confirm-tag">'+gridAttention(ex)+' to confirm</span>':"")+
       '</div>'+
       '<div class="card-sub-row">'+
         '<span class="brand" style="background:'+brand.color+'22;color:'+brand.color+';border:1px solid '+brand.color+'66">'+esc(brand.label)+'</span>'+
@@ -1901,10 +2185,14 @@ function buildDetail(detail,ex,i,card){
     h+='<div class="stat"><div class="k">'+p[0]+'</div><div class="v">'+esc(p[1])+'</div></div>';
   });
   h+='</div>';
+  h+=exShotHTML(ex.name);
+  h+=setGridHTML(ex);
   var lw=lastWeightFor(ex.name);
   if (lw) h+='<div class="last-logged">Last logged: <strong>'+esc(lw.weight)+'</strong> on '+esc(formatDate(lw.date))+'</div>';
   if (isDeloadWeek()) h+='<div class="last-logged" style="color:#bae6fd">Light week: use about 60% of your normal weight'+(lw&&parseFloat(lw.weight)?' (about <strong>'+(Math.round(parseFloat(lw.weight)*0.6/5)*5)+' lb</strong>)':'')+' and '+deloadSets(ex.sets)+' sets.</div>';
-  h+='<button class="form-btn">▶ Watch Form Demo</button><button class="form-btn anat-btn">🧍 Show muscles on body map</button>';
+  h+='<button class="form-btn">▶ Watch Form Demo</button>';
+  if (COACH[ex.name]) h+='<button type="button" class="form-btn coach-open">Form coach</button>';
+  h+='<button class="form-btn anat-btn">🧍 Show muscles on body map</button>';
   // Rest timer
   h+='<div class="timer-box">'+
     '<div class="timer-top"><div class="box-k">Rest Timer</div><div class="timer-time">--:--</div></div>'+
@@ -1924,6 +2212,7 @@ function buildDetail(detail,ex,i,card){
     '<div class="prog-msg"></div>'+
   '</div>';
   h+=exMediaHTML(ex.name);
+  h+=positionMapHTML(ex.name);
   // Muscle maps
   h+='<div class="maps-row">'+
     '<div class="map-box"><div class="k">Front</div><div class="svgwrap">'+muscleMapSVG(active,"front")+'</div></div>'+
@@ -2005,6 +2294,17 @@ function buildDetail(detail,ex,i,card){
     },2000);
   });
   attachTimer(detail.querySelector(".timer-box"),ex.rest,ex.name);
+  var coachBtn=detail.querySelector(".coach-open");
+  if (coachBtn) coachBtn.addEventListener("click", function(e){
+    e.stopPropagation();
+    state.anatMode="coach";
+    state.coachEx=ex.name;
+    state.coachView=(COACH[ex.name]&&COACH[ex.name].defaultView)||"side";
+    goView("anatomy");
+  });
+  wireSetGrid(detail, ex);
+  wirePositionMap(detail);
+  wireHeadSwap(detail, ex.name);
 }
 /* v3c: coaching cues from Charles Glass ("Godfather of Bodybuilding"), from public videos/articles. */
 var GLASS_TIPS={
@@ -2062,9 +2362,90 @@ var EX_IMG={
   "Side Plank":{img:"ex_side_plank.jpg",cap:R+"obliques (primary)"+O+"glute med, abs (secondary)"},
   "Cable Crunch":{img:"ex_cable_crunch.jpg",cap:R+"abs (primary)"+O+"obliques, lats (secondary)"}
 };
+function exerciseMedia(name){
+  return EX_MEDIA[GLASS_BY_NAME[name]]||EX_IMG[name]||null;
+}
+function attachHeads(name, heads){
+  var m=exerciseMedia(name);
+  if (m) m.headImages=heads;
+}
+attachHeads("Dumbbell Incline Press",{
+  upper:{label:"Upper",img:"ex_incline_upper.jpg",cap:"<b>Upper chest</b> lit · "+R+"clavicular head"+O+"front delts (secondary)"},
+  mid:{label:"Mid",img:"ex_incline_mid.jpg",cap:"<b>Mid chest</b> lit · "+R+"sternal head"+O+"front delts (secondary)"},
+  lower:{label:"Lower",img:"ex_incline_lower.jpg",cap:"<b>Lower chest</b> lit · "+R+"costal head"+O+"front delts (secondary)"}
+});
+attachHeads("Leg Press Calf Raise",{
+  straight:{label:"Toes straight",img:"ex_calf_straight.jpg",cap:"<b>Toes straight</b> · "+R+"gastrocnemius"+O+"hamstrings steady the knee"},
+  out:{label:"Toes out",img:"ex_calf_out.jpg",cap:"<b>Toes out</b> · "+R+"outer calf"+O+"hamstrings"},
+  "in":{label:"Toes in",img:"ex_calf_in.jpg",cap:"<b>Toes in</b> · "+R+"inner calf"+O+"hamstrings"}
+});
+attachHeads("Cable Curl",{
+  outer:{label:"Outer",img:"ex_curl_outer.jpg",cap:"<b>Close / outer</b> lit · "+R+"long head"+O+"forearm"},
+  inner:{label:"Inner",img:"ex_curl_inner.jpg",cap:"<b>Wide / inner</b> lit · "+R+"short head"+O+"forearm"},
+  neutral:{label:"Neutral",img:"ex_curl_neutral.jpg",cap:"<b>Neutral</b> lit · "+R+"brachialis"+O+"brachioradialis"}
+});
+attachHeads("Rope Triceps Pushdown",{
+  long:{label:"Long",img:"ex_tri_long.jpg",cap:"<b>Long head</b> lit · "+R+"triceps long head"+O+"forearms"},
+  lateral:{label:"Lateral",img:"ex_tri_lateral.jpg",cap:"<b>Lateral head</b> lit · "+R+"outer triceps"+O+"forearms"},
+  medial:{label:"Medial",img:"ex_tri_medial.jpg",cap:"<b>Medial head</b> lit · "+R+"medial head, above the elbow"+O+"forearms"}
+});
+function exShotHTML(name){
+  var m=exerciseMedia(name); if (!m||!m.img) return "";
+  var h='<div class="ex-media ex-shot-wrap">';
+  var heads=m.headImages;
+  if (heads){
+    h+='<div class="head-tabs" role="tablist">';
+    Object.keys(heads).forEach(function(k){
+      h+='<button type="button" class="head-tab" role="tab" data-head="'+esc(k)+'" aria-pressed="false">'+esc(heads[k].label||k)+'</button>';
+    });
+    h+='</div>';
+  }
+  h+='<img class="ex-shot" src="'+m.img+'" alt="'+esc(name)+' muscles worked">';
+  h+='<div class="cap head-cap">'+m.cap+'</div></div>';
+  return h;
+}
+function wireHeadSwap(detail, name){
+  var m=exerciseMedia(name);
+  var box=detail.querySelector(".ex-shot-wrap");
+  if (!box||!m||!m.headImages) return;
+  var img=box.querySelector(".ex-shot");
+  var cap=box.querySelector(".head-cap");
+  function mark(key){
+    detail.querySelectorAll(".head-tab,.rot-tag").forEach(function(el){
+      var on=!!key && el.getAttribute("data-head")===key;
+      el.classList.toggle("on", on);
+      if (el.classList.contains("head-tab")) el.setAttribute("aria-pressed", on?"true":"false");
+    });
+  }
+  function show(key){
+    var spec=m.headImages[key];
+    if (!spec||!img) return;
+    var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    function commit(){
+      img.src=spec.img;
+      img.alt=(spec.label||name)+" muscles worked";
+      if (cap) cap.innerHTML=spec.cap;
+      img.classList.remove("is-swap");
+    }
+    if (reduce) commit();
+    else { img.classList.add("is-swap"); window.setTimeout(commit, 180); }
+    mark(key);
+  }
+  box.querySelectorAll(".head-tab").forEach(function(btn){
+    btn.addEventListener("click",function(e){ e.stopPropagation(); show(btn.getAttribute("data-head")); });
+  });
+  detail.querySelectorAll(".rot-tag").forEach(function(btn){
+    btn.addEventListener("click",function(e){
+      e.stopPropagation();
+      var key=btn.getAttribute("data-head");
+      if (m.headImages[key]) show(key);
+    });
+  });
+}
 function exMediaHTML(name){
-  var m=EX_MEDIA[GLASS_BY_NAME[name]]||EX_IMG[name]; if (!m||!m.img) return "";
-  var h='<div class="ex-media"><img loading="lazy" src="'+m.img+'" alt="'+esc(name)+' muscles worked" onerror="this.parentNode.style.display=\'none\'"><div class="cap">'+m.cap+'</div>';
+  var m=exerciseMedia(name); if (!m) return "";
+  if (!m.chart && !(m.videos&&m.videos.length)) return "";
+  var h='<div class="ex-media">';
   if (m.chart) h+='<div class="box-k" style="margin-bottom:6px">Foot position → muscles worked</div><img loading="lazy" src="'+m.chart+'" alt="Leg press foot position chart"><div class="cap">Your goal: stance 1 (high &amp; wide) as the main glute set.</div>';
   if (m.videos) h+='<div class="vid-links">'+m.videos.map(function(v){return '<a href="'+v[0]+'" target="_blank" rel="noopener">'+esc(v[1])+'</a>';}).join("")+'</div>';
   return h+'</div>';
@@ -2272,6 +2653,7 @@ function backupText(){
       if (e.topSet) l+=" | top set "+e.topSet.weight+" x "+e.topSet.reps;
       if (e.bonus) l+=" | bonus: "+e.bonus;
       lines.push(l);
+      (e.sets||[]).forEach(function(s){ lines.push("    "+formatSetLine(s)); });
     });
     lines.push("");
   });
@@ -2302,6 +2684,17 @@ function backupText(){
     lines.push("");
   }
   return lines.join("\n");
+}
+function makeSyncPill(){
+  var label=syncState.status==="syncing"?"Syncing":(syncState.status==="error"?"Retry sync":"Sync");
+  var b=el('<button type="button" class="sync-pill'+(syncState.status==="syncing"?" syncing":"")+'" aria-label="Sync">'+esc(label)+'</button>');
+  b.addEventListener("click",function(e){
+    e.stopPropagation();
+    b.textContent="Syncing";
+    b.classList.add("syncing");
+    syncPull(true, function(){ renderApp(); });
+  });
+  return b;
 }
 function renderSyncCard(){
   var card=el('<div class="sync-card"></div>');
@@ -2339,7 +2732,7 @@ function renderSyncCard(){
     card.appendChild(el('<div class="sync-code">Code: <strong>'+esc(id)+'</strong></div>'));
     var row2=el('<div class="sync-btns"></div>');
     var syncNow=el('<button class="sync-btn">Sync Now</button>');
-    syncNow.addEventListener("click",function(){ pullSnapshot(function(){ pushSnapshot(); }); });
+    syncNow.addEventListener("click",function(){ syncPull(true, function(){ pushSnapshot(); }); });
     var unpair=el('<button class="sync-btn ghost">Unpair This Device</button>');
     unpair.addEventListener("click",function(){
       if (!confirm("Stop syncing this device? Your local data stays here, but it won't send or receive updates from your other device anymore.")) return;
@@ -2352,8 +2745,13 @@ function renderSyncCard(){
 }
 function renderHistoryView(){
   var wrap=el('<div class="content"></div>');
+  var pillRow=el('<div class="logfor-row" style="padding:0 0 12px"></div>');
+  pillRow.appendChild(el('<span class="logfor-label">Cloud</span>'));
+  pillRow.appendChild(makeSyncPill());
+  wrap.appendChild(pillRow);
   wrap.appendChild(renderDataCard());
   wrap.appendChild(renderSyncCard());
+  wrap.appendChild(renderPendingCard());
   trackInterval(setInterval(function(){ if (state.view==="history") renderApp(); },30000));
   var bk=el('<button class="backup-btn">📋 Copy Backup (paste to Claude to sync the log)</button>');
   bk.addEventListener("click",function(){
@@ -2397,10 +2795,18 @@ function renderHistoryView(){
     '</div>');
     var det=e.querySelector(".hist-detail");
     hEntry.exercises.forEach(function(x){
+      var setHtml="";
+      if (x.sets&&x.sets.length){
+        setHtml=x.sets.map(function(s){
+          var wBlank=isBlankVal(s.weight), rBlank=isBlankVal(s.reps);
+          return '<div class="b">set '+s.n+': '+(wBlank?'<span class="pend-miss">weight not recorded</span>':esc(setVal(s.weight)))+' x '+(rBlank?'<span class="pend-miss">reps not recorded</span>':esc(setVal(s.reps)))+(s.note?' · '+esc(s.note):'')+'</div>';
+        }).join("");
+      }
       var d=el('<div class="hist-ex"><div class="row"><span>✓ '+esc(x.name)+'</span>'+
         (x.weight?'<span class="w">'+esc(x.weight)+'</span>':"")+'</div>'+
         (x.topSet?'<div class="b">top set '+x.topSet.weight+' x '+x.topSet.reps+'</div>':"")+
         (x.bonus?'<div class="b">+ bonus: '+esc(x.bonus)+'</div>':"")+
+        setHtml+
       '</div>');
       det.appendChild(d);
     });
@@ -3428,6 +3834,9 @@ function renderPeptideView(){
   yB.addEventListener("click",function(){ state.pepDate=yesterdayStr(); renderApp(); });
   dI.addEventListener("change",function(){ if(dI.value){ state.pepDate=dI.value; renderApp(); } });
   dr.appendChild(tB); dr.appendChild(yB); dr.appendChild(dI); wrap.appendChild(dr);
+  var mapJump=el('<button type="button" class="v4-btn ghost" style="width:100%;margin-bottom:10px">Open peptide map</button>');
+  mapJump.addEventListener("click",function(){ goView("map"); });
+  wrap.appendChild(mapJump);
   var nDone=doses.filter(function(d){return logged[d.key];}).length;
   var wn=pepWeekNum(date);
   var tc=el('<div class="fuel-card pep-today"><div class="k">'+dn+' · '+esc(formatDate(date))+' — '+nDone+'/'+doses.length+' logged</div>'+
@@ -3704,10 +4113,1480 @@ function renderMealPlanCard(date){
   return c;
 }
 
+/* ============================= DRAFT: voice pending log, set grid, position maps, form coach =============================
+   Not for the live app until Damian approves. Pending voice sets never replace m165-history.
+   A missing weight or rep stays null. Nothing in this block invents a number. */
+var PENDING_KEY="m165-pending";
+var PENDING_BIN_KEY="m165-pending-bin";
+var PENDING_ACCEPTED_KEY="m165-pending-accepted";
+var SETGRID_PREFIX="m165-setgrid-draft-";
+var LOWER_A_SEED_FLAG="m165-seed-lowera-20261120";
+var pendingState={status:"idle",lastError:""};
+
+function isBlankVal(v){ return v==null || (typeof v==="string" && v.trim()===""); }
+function setVal(v){ return v==null ? "" : String(v); }
+function cleanLoggedNumber(v){
+  if (v==null) return null;
+  if (typeof v==="number") return isFinite(v) ? v : null;
+  var s=String(v).trim();
+  if (!s) return null;
+  if (s==="?" || s==="—" || s==="-" || /^n\/?a$/i.test(s) || /not (given|recorded|logged|said)/i.test(s)) return null;
+  if (/^\d+(\.\d+)?$/.test(s)) return Number(s);
+  return null;
+}
+function parseTypedLoad(raw){
+  var s=String(raw==null?"":raw).trim();
+  if (!s) return null;
+  var m=s.match(/^(\d+(?:\.\d+)?)\s*(lb|lbs)?$/i);
+  if (m) return Number(m[1]);
+  return s;
+}
+function syncSkippedKey(k){
+  if (!k) return true;
+  if (SYNC_EXCLUDE.indexOf(k)>=0) return true;
+  return false;
+}
+function storeLocal(k,v){
+  try{ localStorage.setItem(k,v); return true; }
+  catch(e){ showStorageError("Save failed: "+e.message); return false; }
+}
+function loadPending(){
+  var a=jparse(store.get(PENDING_KEY),[]);
+  return Array.isArray(a)?a:[];
+}
+function savePending(list){ store.set(PENDING_KEY, JSON.stringify(list)); }
+function writePendingRaw(list){
+  try{ localStorage.setItem(PENDING_KEY, JSON.stringify(list)); }catch(e){}
+}
+function loadAccepted(){
+  var a=jparse(store.get(PENDING_ACCEPTED_KEY),[]);
+  return Array.isArray(a)?a.map(String):[];
+}
+function saveAccepted(list){ store.set(PENDING_ACCEPTED_KEY, JSON.stringify(list)); }
+function mergeIdLists(a,b){
+  var out=[], seen={};
+  [a,b].forEach(function(list){
+    (Array.isArray(list)?list:[]).forEach(function(id){
+      id=String(id||"");
+      if (!id || seen[id]) return;
+      seen[id]=1; out.push(id);
+    });
+  });
+  return out;
+}
+var DUP_WINDOW_MS=120000;
+var DUP_LOG_KEY="m165-dup-log";
+function sameLoggedSets(a, b){
+  a=a||[]; b=b||[];
+  if (a.length!==b.length) return false;
+  var by={};
+  a.forEach(function(s){ if (s) by[s.n]=s; });
+  for (var i=0;i<b.length;i++){
+    var s=b[i], o=by[s.n];
+    if (!o || !loadsEqual(o.weight, s.weight) || !loadsEqual(o.reps, s.reps)) return false;
+  }
+  return true;
+}
+function loadsEqual(a, b){
+  if (isBlankVal(a) && isBlankVal(b)) return true;
+  return String(a)===String(b);
+}
+function hasSetNumber(s){
+  if (!s || s.n==null || s.n==="") return false;
+  var n=Number(s.n);
+  return isFinite(n) && n>=1;
+}
+function logSkippedDup(meta){
+  var list=[];
+  try{ list=JSON.parse(localStorage.getItem(DUP_LOG_KEY)||"[]"); }catch(e){ list=[]; }
+  if (!Array.isArray(list)) list=[];
+  list.push({
+    at:Date.now(),
+    date:meta.date||null,
+    dayId:meta.dayId==null?null:meta.dayId,
+    exercise:meta.exercise||"",
+    n:meta.n==null?null:meta.n,
+    weight:meta.weight==null?null:meta.weight,
+    reps:meta.reps==null?null:meta.reps,
+    reason:meta.reason||"duplicate"
+  });
+  if (list.length>40) list=list.slice(list.length-40);
+  try{ localStorage.setItem(DUP_LOG_KEY, JSON.stringify(list)); }catch(e){}
+  window.__m165DupLog=list;
+}
+function showDupNotice(){
+  showSaveToast("Already logged — skipped duplicate");
+}
+function mergeSetRows(localRows, incomingRows, ctx){
+  ctx=ctx||{};
+  var mode=ctx.mode||"merge";
+  var now=Number(ctx.now||Date.now());
+  var byN={}, order=[], conflicts=[], skipped=[];
+  (localRows||[]).forEach(function(r){
+    if (!r) return;
+    var n=Number(r.n);
+    if (!isFinite(n)) return;
+    if (!byN[n]) order.push(n);
+    byN[n]=Object.assign({}, r);
+  });
+  function noteSkip(s, n, reason){
+    var meta={date:ctx.date||null, dayId:ctx.dayId==null?null:ctx.dayId, exercise:ctx.exercise||"", n:n, weight:s.weight==null?null:s.weight, reps:s.reps==null?null:s.reps, reason:reason};
+    skipped.push(meta);
+    if (ctx.skipped) ctx.skipped.push(meta);
+    logSkippedDup(meta);
+  }
+  (incomingRows||[]).forEach(function(s){
+    if (!s) return;
+    var weight=isBlankVal(s.weight)?null:s.weight;
+    var reps=isBlankVal(s.reps)?null:s.reps;
+    var when=Number(s.loggedAt||now);
+    if (!hasSetNumber(s)){
+      var twin=null;
+      if (!isBlankVal(weight) || !isBlankVal(reps)){
+        order.forEach(function(n){
+          var r=byN[n];
+          if (!r || !loadsEqual(r.weight, weight) || !loadsEqual(r.reps, reps)) return;
+          var at=Number(r.loggedAt||when);
+          if (Math.abs(when-at)<=DUP_WINDOW_MS) twin=r;
+        });
+      }
+      if (twin){ noteSkip(s, null, "same load within 2 minutes"); return; }
+      var max=0;
+      order.forEach(function(n){ if (n>max) max=n; });
+      var nn=max+1;
+      order.push(nn);
+      byN[nn]={n:nn, weight:weight, reps:reps, note:s.note||"", confirmed:!!s.confirmed, planned:!!s.planned, source:s.source||"voice", loggedAt:when};
+      return;
+    }
+    var n=Number(s.n);
+    if (!byN[n]){
+      order.push(n);
+      byN[n]={n:n, weight:weight, reps:reps, note:s.note||"", confirmed:!!s.confirmed, planned:!!s.planned, source:s.source||"voice", loggedAt:when};
+      return;
+    }
+    var row=byN[n];
+    var changesW=!isBlankVal(weight) && !loadsEqual(row.weight, weight);
+    var changesR=!isBlankVal(reps) && !loadsEqual(row.reps, reps);
+    if (!changesW && !changesR && !isBlankVal(weight) && !isBlankVal(reps) && loadsEqual(row.weight, weight) && loadsEqual(row.reps, reps)){
+      noteSkip(s, n, "same set");
+      if (s.confirmed) row.confirmed=true;
+      return;
+    }
+    var deliberate=mode==="edit" || !!s.edit || !!ctx.edit;
+    ["weight","reps"].forEach(function(f){
+      var inc=s[f];
+      if (isBlankVal(inc)) return;
+      if (isBlankVal(row[f])){
+        if (row.confirmed && !deliberate) return;
+        row[f]=inc;
+        return;
+      }
+      if (String(row[f])!==String(inc)){
+        if (deliberate){ row[f]=inc; row.loggedAt=when; return; }
+        conflicts.push({n:n, field:f, kept:row[f], skipped:inc});
+      }
+    });
+    if (s.note && !row.note) row.note=s.note;
+    if (s.confirmed) row.confirmed=true;
+    if (s.planned && isBlankVal(row.weight) && isBlankVal(row.reps)) row.planned=true;
+  });
+  order.sort(function(a,b){ return a-b; });
+  return {rows:order.map(function(n){ return byN[n]; }), conflicts:conflicts, skipped:skipped};
+}
+function mergeSetGridObjects(localGrid, incomingGrid, ctx){
+  localGrid=(localGrid && typeof localGrid==="object" && !Array.isArray(localGrid))?localGrid:{};
+  incomingGrid=(incomingGrid && typeof incomingGrid==="object" && !Array.isArray(incomingGrid))?incomingGrid:{};
+  var names={}, out={};
+  Object.keys(localGrid).forEach(function(k){ names[k]=1; });
+  Object.keys(incomingGrid).forEach(function(k){ names[k]=1; });
+  Object.keys(names).forEach(function(k){
+    if (k==="_notes"){
+      var ln=(localGrid._notes && typeof localGrid._notes==="object")?localGrid._notes:{};
+      var inn=(incomingGrid._notes && typeof incomingGrid._notes==="object")?incomingGrid._notes:{};
+      var notes=Object.assign({}, inn);
+      Object.keys(ln).forEach(function(nk){ if (ln[nk]) notes[nk]=ln[nk]; });
+      out._notes=notes;
+      return;
+    }
+    if (k==="_sessionNote"){
+      out._sessionNote=localGrid._sessionNote || incomingGrid._sessionNote || "";
+      return;
+    }
+    if (k.charAt(0)==="_"){
+      out[k]=localGrid[k]!=null?localGrid[k]:incomingGrid[k];
+      return;
+    }
+    var folded=mergeSetRows(Array.isArray(localGrid[k])?localGrid[k]:[], Array.isArray(incomingGrid[k])?incomingGrid[k]:[], Object.assign({}, ctx||{}, {exercise:k}));
+    out[k]=folded.rows;
+  });
+  return out;
+}
+function mergeExerciseLists(localEx, incomingEx, ctx){
+  var byName={}, order=[];
+  (localEx||[]).forEach(function(ex){
+    if (!ex||!ex.name) return;
+    if (!byName[ex.name]) order.push(ex.name);
+    byName[ex.name]=Object.assign({}, ex, {sets:(ex.sets||[]).map(function(s){ return Object.assign({}, s); })});
+  });
+  (incomingEx||[]).forEach(function(ex){
+    if (!ex||!ex.name) return;
+    if (!byName[ex.name]){
+      order.push(ex.name);
+      byName[ex.name]=Object.assign({}, ex, {sets:(ex.sets||[]).map(function(s){ return Object.assign({confirmed:false}, s); })});
+      return;
+    }
+    var cur=byName[ex.name];
+    var merged=mergeSetRows(cur.sets, ex.sets, Object.assign({}, ctx||{}, {exercise:ex.name}));
+    cur.sets=merged.rows;
+    if (ex.note && !cur.note) cur.note=ex.note;
+    byName[ex.name]=cur;
+  });
+  return order.map(function(n){ return byName[n]; });
+}
+function mergePendingEntry(local, incoming){
+  var out=Object.assign({}, local);
+  out.exercises=mergeExerciseLists(local.exercises, incoming.exercises);
+  if (incoming.note && !out.note) out.note=incoming.note;
+  if (!out.dayId && incoming.dayId) out.dayId=incoming.dayId;
+  if (!out.dayTitle && incoming.dayTitle) out.dayTitle=incoming.dayTitle;
+  return out;
+}
+function mergePendingLists(local, incoming){
+  var byId={}, order=[];
+  (Array.isArray(local)?local:[]).forEach(function(e){
+    if (!e||!e.id) return;
+    byId[e.id]=e; order.push(e.id);
+  });
+  (Array.isArray(incoming)?incoming:[]).forEach(function(e){
+    if (!e||!e.id) return;
+    if (!byId[e.id]){ byId[e.id]=e; order.push(e.id); return; }
+    byId[e.id]=mergePendingEntry(byId[e.id], e);
+  });
+  return order.map(function(id){ return byId[id]; });
+}
+var EX_NAME_ALIASES={
+  "hip thrust":"Banded Barbell Hip Thrust",
+  "banded hip thrust":"Banded Barbell Hip Thrust",
+  "glute driver":"Banded Barbell Hip Thrust",
+  "hammer strength hip thrust":"Banded Barbell Hip Thrust",
+  "squat":"Barbell Back Squat",
+  "smith squat":"Barbell Back Squat",
+  "back squat":"Barbell Back Squat",
+  "leg press":"Deep Leg Press",
+  "deep leg press":"Deep Leg Press",
+  "calf raise":"Leg Press Calf Raise",
+  "leg press calf raise":"Leg Press Calf Raise",
+  "reverse crunch":"Bench Reverse Crunch",
+  "bench reverse crunch":"Bench Reverse Crunch",
+  "rdl":"Smith Romanian Deadlift",
+  "romanian deadlift":"Smith Romanian Deadlift",
+  "smith rdl":"Smith Romanian Deadlift",
+  "face pull":"Face Pull",
+  "hammer curl":"Dumbbell Hammer Curl",
+  "cable curl":"Cable Curl"
+};
+function canonicalExerciseName(name){
+  var raw=String(name||"").trim();
+  if (!raw) return "";
+  if (EX_BY_NAME[raw]) return raw;
+  var key=raw.toLowerCase();
+  if (EX_NAME_ALIASES[key]) return EX_NAME_ALIASES[key];
+  return raw;
+}
+function normalizeExercise(ex){
+  if (!ex || typeof ex!=="object") return null;
+  var name=canonicalExerciseName(ex.exercise||ex.name||"");
+  if (!name) return null;
+  var sets=[];
+  var src=Array.isArray(ex.sets)?ex.sets:[];
+  src.forEach(function(s,i){
+    if (!s || typeof s!=="object") return;
+    var n=Number(s.n||s.set||(i+1));
+    if (!isFinite(n) || n<1) n=i+1;
+    sets.push({
+      n:n,
+      weight:cleanLoggedNumber(s.weight),
+      reps:cleanLoggedNumber(s.reps),
+      note:s.note?String(s.note):"",
+      planned:!!s.planned
+    });
+  });
+  if (!sets.length) sets.push({n:1, weight:null, reps:null, note:"", planned:true});
+  return {name:name, note:ex.note?String(ex.note):"", sets:sets};
+}
+function normalizeOnePending(raw){
+  if (!raw || typeof raw!=="object" || Array.isArray(raw)) return null;
+  var date=String(raw.date||"").slice(0,10);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return null;
+  var exercises=[];
+  if (Array.isArray(raw.exercises)) raw.exercises.forEach(function(ex){ var n=normalizeExercise(ex); if (n) exercises.push(n); });
+  else if (raw.exercise || raw.name){ var one=normalizeExercise(raw); if (one) exercises.push(one); }
+  if (!exercises.length) return null;
+  var dayId=Number(raw.dayId||raw.day||0);
+  if (!isFinite(dayId) || dayId<=0) dayId=null;
+  var id=raw.id?String(raw.id):(date+"-d"+(dayId||"x")+"-"+exercises.map(function(e){return e.name;}).join("|"));
+  return {
+    id:id, date:date, dayId:dayId,
+    dayTitle:raw.dayTitle||raw.title||"",
+    note:raw.note||raw.sessionNote||"",
+    source:raw.source||"voice",
+    exercises:exercises
+  };
+}
+function normalizePendingPayload(record){
+  if (!record) return [];
+  if (typeof record==="string") record=jparse(record, null);
+  if (!record) return [];
+  if (Array.isArray(record)) return record.map(normalizeOnePending).filter(Boolean);
+  if (Array.isArray(record.entries)) return record.entries.map(normalizeOnePending).filter(Boolean);
+  if (Array.isArray(record.pending)) return record.pending.map(normalizeOnePending).filter(Boolean);
+  if (record.data){
+    var d=record.data;
+    if (typeof d==="string") d=jparse(d, null);
+    if (d && d[PENDING_KEY]!=null){
+      var p=d[PENDING_KEY];
+      if (typeof p==="string") p=jparse(p, []);
+      return normalizePendingPayload(Array.isArray(p)?p:{entries:p});
+    }
+  }
+  if (record.exercise || record.exercises || record.name){
+    var one=normalizeOnePending(record);
+    return one?[one]:[];
+  }
+  return [];
+}
+function daysForExercise(name){
+  var out=[];
+  DAYS.forEach(function(d,i){
+    d.exercises.forEach(function(e){ if (e.name===name) out.push({idx:i, id:d.id, title:d.title}); });
+  });
+  return out;
+}
+function resolveDayId(entry){
+  if (entry && entry.dayId) return entry.dayId;
+  if (!entry) return null;
+  var ids={};
+  (entry.exercises||[]).forEach(function(ex){
+    daysForExercise(ex.name).forEach(function(d){ ids[d.id]=1; });
+  });
+  var keys=Object.keys(ids);
+  if (keys.length===1) return Number(keys[0]);
+  return null;
+}
+function dayIndexFromId(id){
+  for (var i=0;i<DAYS.length;i++) if (DAYS[i].id===id) return i;
+  return 0;
+}
+function setGridKey(date, dayId){ return SETGRID_PREFIX+date+"-"+dayId; }
+function loadSetGrid(date, dayId){
+  var g=jparse(store.get(setGridKey(date, dayId)), {});
+  if (!g || typeof g!=="object" || Array.isArray(g)) return {};
+  return g;
+}
+function saveSetGrid(date, dayId, grid){ store.set(setGridKey(date, dayId), JSON.stringify(grid)); }
+function applyPendingListToGrids(entries){
+  var report={applied:0, conflicts:0};
+  (entries||[]).forEach(function(entry){
+    var dayId=resolveDayId(entry);
+    if (!dayId || !entry.date) return;
+    var grid=loadSetGrid(entry.date, dayId);
+    if (!grid._notes || typeof grid._notes!=="object") grid._notes={};
+    (entry.exercises||[]).forEach(function(ex){
+      var incoming=(ex.sets||[]).map(function(s){ return Object.assign({}, s, {source:entry.source||"voice"}); });
+      var merged=mergeSetRows(Array.isArray(grid[ex.name])?grid[ex.name]:[], incoming, {mode:"merge", date:entry.date, dayId:dayId, exercise:ex.name});
+      grid[ex.name]=merged.rows;
+      report.conflicts+=merged.conflicts.length;
+      report.skipped=(report.skipped||0)+(merged.skipped?merged.skipped.length:0);
+      if (ex.note && !grid._notes[ex.name]) grid._notes[ex.name]=ex.note;
+    });
+    if (entry.note && !grid._sessionNote) grid._sessionNote=entry.note;
+    saveSetGrid(entry.date, dayId, grid);
+    report.applied++;
+  });
+  if (report.skipped) showDupNotice();
+  return report;
+}
+function ingestPendingEntries(entries){
+  var accepted=loadAccepted();
+  var fresh=[];
+  (entries||[]).forEach(function(e){
+    if (!e || accepted.indexOf(String(e.id))>=0) return;
+    fresh.push(e);
+  });
+  var merged=mergePendingLists(loadPending(), fresh);
+  savePending(merged);
+  var report=applyPendingListToGrids(merged);
+  report.queued=merged.length;
+  return report;
+}
+function pullPendingBin(cb){
+  var id=localStorage.getItem(PENDING_BIN_KEY);
+  if (!id){ pendingState.status="idle"; pendingState.lastError="No pending bin saved on this phone yet."; if (cb) cb(new Error(pendingState.lastError)); return; }
+  pendingState.status="syncing"; pendingState.lastError="";
+  syncFetch(SYNC_API+"/b/"+encodeURIComponent(id)+"/latest",{headers:{"X-Access-Key":SYNC_ACCESS_KEY}}).then(function(r){ return r.json(); }).then(function(res){
+    var entries=normalizePendingPayload(res&&res.record);
+    var report=ingestPendingEntries(entries);
+    pendingState.status="idle";
+    if (cb) cb(null, report);
+  }).catch(function(e){
+    pendingState.status="error";
+    pendingState.lastError=e&&e.message?e.message:"Could not read the pending bin";
+    if (cb) cb(e);
+  });
+}
+function initPendingSync(){
+  if (localStorage.getItem(PENDING_BIN_KEY)) pullPendingBin(function(){ if (state.view==="workout"||state.view==="history") renderApp(); });
+}
+function defaultSetRows(ex){
+  var n=isDeloadWeek()?deloadSets(ex.sets):(Number(ex.sets)||1);
+  var rows=[];
+  for (var i=1;i<=n;i++) rows.push({n:i, weight:null, reps:null, confirmed:false, note:"", source:"manual", planned:false});
+  return rows;
+}
+function getRows(ex){
+  var grid=loadSetGrid(state.logDate, DAYS[state.dayIdx].id);
+  if (Array.isArray(grid[ex.name]) && grid[ex.name].length) return grid[ex.name];
+  return defaultSetRows(ex);
+}
+function noteFor(ex){
+  var grid=loadSetGrid(state.logDate, DAYS[state.dayIdx].id);
+  return (grid._notes && grid._notes[ex.name]) || "";
+}
+function writeRows(ex, rows){
+  var dayId=DAYS[state.dayIdx].id;
+  var folded=mergeSetRows([], rows, {mode:"edit", date:state.logDate, dayId:dayId, exercise:ex.name});
+  if (folded.skipped.length) showDupNotice();
+  var grid=loadSetGrid(state.logDate, dayId);
+  grid[ex.name]=folded.rows;
+  saveSetGrid(state.logDate, dayId, grid);
+}
+function copyRows(ex){
+  return getRows(ex).map(function(r){ return Object.assign({}, r); });
+}
+function exerciseIndex(ex){
+  var day=DAYS[state.dayIdx];
+  for (var i=0;i<day.exercises.length;i++) if (day.exercises[i].name===ex.name) return i;
+  return 0;
+}
+function gridAttention(ex){
+  var grid=loadSetGrid(state.logDate, DAYS[state.dayIdx].id);
+  var rows=grid[ex.name];
+  if (!Array.isArray(rows)) return 0;
+  var n=0;
+  rows.forEach(function(r){
+    if (!r || r.confirmed) return;
+    if (r.source==="voice" || r.source==="seed" || r.planned || !isBlankVal(r.weight) || !isBlankVal(r.reps)) n++;
+  });
+  return n;
+}
+function confirmedSetsFor(exName){
+  var grid=loadSetGrid(state.logDate, DAYS[state.dayIdx].id);
+  var rows=grid[exName];
+  if (!Array.isArray(rows)) return [];
+  return rows.filter(function(r){ return r && r.confirmed; }).map(function(r){
+    return {n:r.n, weight:isBlankVal(r.weight)?null:r.weight, reps:isBlankVal(r.reps)?null:r.reps, note:r.note||"", confirmed:true};
+  });
+}
+function uncheckedAttentionCount(){
+  var day=DAYS[state.dayIdx], n=0;
+  day.exercises.forEach(function(ex){ n+=gridAttention(ex); });
+  return n;
+}
+function formatSetLine(s){
+  var w=isBlankVal(s.weight)?"weight not recorded":s.weight;
+  var r=isBlankVal(s.reps)?"reps not recorded":s.reps;
+  return "set "+s.n+": "+w+" x "+r+(s.note?" ("+s.note+")":"");
+}
+function rowNeedsFlag(row){
+  return !!(row && (row.source==="voice" || row.source==="seed" || row.planned || !isBlankVal(row.weight) || !isBlankVal(row.reps)));
+}
+function setCellHTML(val, cls, flagMissing){
+  var blank=isBlankVal(val);
+  var show=blank && flagMissing;
+  return '<input class="sg-in '+cls+(show?" blank":"")+'" type="text" inputmode="'+(cls==="sg-r"?"numeric":"decimal")+'" autocomplete="off" placeholder="?" value="'+esc(setVal(val))+'">'+(show?'<span class="sg-flag">not recorded</span>':"");
+}
+var SET_ROT={
+  "Leg Press Calf Raise":[{cue:"Toes straight",head:"straight"},{cue:"Toes out",head:"out"},{cue:"Toes in",head:"in"}],
+  "Seated Calf Raise":[{cue:"Toes straight",head:"straight"},{cue:"Toes out",head:"out"},{cue:"Toes in",head:"in"}],
+  "Dumbbell Hammer Curl":[{cue:"Close grip / outer",head:"outer"},{cue:"Wide grip / inner",head:"inner"},{cue:"Neutral / brachialis",head:"neutral"}],
+  "Cable Curl":[{cue:"Close grip / outer",head:"outer"},{cue:"Wide grip / inner",head:"inner"},{cue:"Neutral / brachialis",head:"neutral"}],
+  "Rope Triceps Pushdown":[{cue:"Overhead / long head",head:"long"},{cue:"Flared rope / lateral",head:"lateral"},{cue:"Straight arm / medial",head:"medial"}],
+  "Overhead Cable Triceps Extension":[{cue:"Overhead / long head",head:"long"},{cue:"Flared rope / lateral",head:"lateral"},{cue:"Straight arm / medial",head:"medial"}],
+  "Dumbbell Lateral Raise":[{cue:"Front raise",head:"front"},{cue:"Elbows lead / side",head:"side"},{cue:"Pull wide / rear",head:"rear"}],
+  "Face Pull":[{cue:"Front raise",head:"front"},{cue:"Elbows lead / side",head:"side"},{cue:"Pull wide / rear",head:"rear"}],
+  "Dumbbell Incline Press":[{cue:"Incline, elbows 45 / upper",head:"upper"},{cue:"Flat press / mid",head:"mid"},{cue:"Decline or high-to-low / lower",head:"lower"}],
+  "Pec Deck Fly (or Cable Fly)":[{cue:"Incline fly / upper",head:"upper"},{cue:"Flat fly / mid",head:"mid"},{cue:"High-to-low / lower",head:"lower"}],
+  "Dumbbell Bench Press":[{cue:"Incline, elbows 45 / upper",head:"upper"},{cue:"Flat press / mid",head:"mid"},{cue:"Decline / lower",head:"lower"}],
+  "Leg Extension":[{cue:"Narrow, toes straight / outer",head:"outer"},{cue:"Heels up, knee over toe / VMO",head:"vmo"},{cue:"Long hip stretch / rectus",head:"rectus"}],
+  "Barbell Back Squat":[{cue:"Narrow, toes straight / outer",head:"outer"},{cue:"Heels up / VMO",head:"vmo"},{cue:"Deep hip stretch / rectus",head:"rectus"}],
+  "Smith Romanian Deadlift":[{cue:"Hinge, toes neutral",head:"hinge"},{cue:"Knee flexion, toes in",head:"in"},{cue:"Knee flexion, toes out",head:"out"}],
+  "Single-Leg Standing Leg Curl":[{cue:"Toes neutral",head:"hinge"},{cue:"Toes in",head:"in"},{cue:"Toes out",head:"out"}],
+  "45° Back Extension (glute-focused)":[{cue:"Hinge, toes neutral",head:"hinge"},{cue:"Toes in",head:"in"},{cue:"Toes out",head:"out"}],
+  "Banded Barbell Hip Thrust":[{cue:"Upper glute / abduction",head:"upper"},{cue:"Mid glute max",head:"mid"},{cue:"Lower glute tie-in",head:"low"}],
+  "Deep Leg Press":[{cue:"Upper / side-press bias",head:"upper"},{cue:"Mid glute, feet high",head:"mid"},{cue:"Lower tie-in, deep",head:"low"}],
+  "Seated Hip Abduction":[{cue:"Upper glute",head:"upper"},{cue:"Mid glute",head:"mid"},{cue:"Lower tie-in",head:"low"}],
+  "Band-Assisted Chin-Up / Pull-Up":[{cue:"Elbows tight / lats",head:"lats"},{cue:"Elbows flared / upper back",head:"upper"},{cue:"Drive elbow to hip",head:"hip"}],
+  "Wide-Grip Lat Pulldown":[{cue:"Elbows tight / lats",head:"lats"},{cue:"Elbows flared / upper back",head:"upper"},{cue:"Drive elbow to hip",head:"hip"}],
+  "Barbell Bent-Over Row":[{cue:"Elbows tight / lats",head:"lats"},{cue:"Elbows flared / upper back",head:"upper"},{cue:"Drive elbow to hip",head:"hip"}],
+  "Single-Arm Cable Row":[{cue:"Elbows tight / lats",head:"lats"},{cue:"Elbows flared / upper back",head:"upper"},{cue:"Drive elbow to hip",head:"hip"}],
+  "Side Plank":[{cue:"Side plank / obliques",head:"oblique"},{cue:"Brace / upper abs",head:"upper"},{cue:"Brace / lower abs",head:"lower"}],
+  "Bench Reverse Crunch":[{cue:"Anti-rotate / obliques",head:"oblique"},{cue:"Brace / upper abs",head:"upper"},{cue:"Curl / lower abs",head:"lower"}],
+  "Cable Crunch":[{cue:"Anti-rotate / obliques",head:"oblique"},{cue:"Brace / upper abs",head:"upper"},{cue:"Curl / lower abs",head:"lower"}]
+};
+function rotItem(name, setN){
+  var list=SET_ROT[name];
+  if (!list||!list.length) return null;
+  var i=((Number(setN)||1)-1)%list.length;
+  if (i<0) i=0;
+  var item=list[i];
+  if (typeof item==="string") return {cue:item, head:""};
+  return {cue:item.cue||"", head:item.head||""};
+}
+function rotationCue(name, setN){
+  var item=rotItem(name, setN);
+  return item?item.cue:"";
+}
+function setGridHTML(ex){
+  var rows=getRows(ex);
+  var notes=noteFor(ex);
+  var voice=rows.some(function(r){ return r && (r.source==="voice" || r.source==="seed"); });
+  var hasRot=!!SET_ROT[ex.name];
+  var h='<div class="sg-box" data-ex="'+esc(ex.name)+'">';
+  h+='<div class="box-k">Set by set</div>';
+  if (voice) h+='<div class="sg-voice">From the voice log. An empty weight or rep was not recorded, so it stays blank. Check OK on a row before it is saved.</div>';
+  if (hasRot) h+='<div class="rot-note">Rotate the setup across the sets so every head gets a turn. Three working sets cover them. You do not do three sets of each head.</div>';
+  if (notes) h+='<div class="sg-exnote">'+esc(notes)+'</div>';
+  h+='<table class="sg"><thead><tr><th>Set</th><th>Weight</th><th>Reps</th><th>OK</th></tr></thead><tbody>';
+  rows.forEach(function(row){
+    h+='<tr data-n="'+row.n+'"'+(row.confirmed?' class="is-ok"':'')+'>';
+    var flagMissing=rowNeedsFlag(row);
+    h+='<td class="n">'+row.n+(row.planned?'<span class="planned-tag">plan</span>':"")+'</td>';
+    h+='<td>'+setCellHTML(row.weight,"sg-w",flagMissing)+'</td>';
+    h+='<td>'+setCellHTML(row.reps,"sg-r",flagMissing)+'</td>';
+    h+='<td class="ok"><input class="sg-c" type="checkbox" aria-label="Confirm set '+row.n+'"'+(row.confirmed?" checked":"")+'></td>';
+    h+='</tr>';
+    var rot=rotItem(ex.name, row.n);
+    if (rot&&rot.cue) h+='<tr class="rot-row"><td colspan="4"><button type="button" class="rot-tag" data-head="'+esc(rot.head)+'">'+esc(rot.cue)+'</button></td></tr>';
+    if (row.note) h+='<tr class="sg-note-row"><td></td><td colspan="3" class="sg-note">'+esc(row.note)+'</td></tr>';
+  });
+  h+='</tbody></table>';
+  h+='<div class="sg-pm"><button type="button" class="sg-minus" aria-label="Remove a set"'+(rows.length<=1?" disabled":"")+'>−</button><button type="button" class="sg-plus" aria-label="Add a set">+</button><span class="sg-hint">Add or remove a set</span></div>';
+  h+='</div>';
+  return h;
+}
+function wireSetGrid(detail, ex){
+  var box=detail.querySelector(".sg-box");
+  if (!box) return;
+    function paintBlank(input, row){
+      var show=isBlankVal(input.value) && rowNeedsFlag(row);
+      input.classList.toggle("blank", show);
+      var flag=input.parentNode.querySelector(".sg-flag");
+      if (show && !flag){
+        flag=document.createElement("span");
+        flag.className="sg-flag";
+        flag.textContent="not recorded";
+        input.parentNode.appendChild(flag);
+      } else if (!show && flag) flag.remove();
+    }
+  box.querySelectorAll("tr[data-n]").forEach(function(tr){
+    var n=Number(tr.getAttribute("data-n"));
+    var w=tr.querySelector(".sg-w"), r=tr.querySelector(".sg-r"), c=tr.querySelector(".sg-c");
+    function update(field, input){
+      var next=copyRows(ex);
+      var row=null;
+      next.forEach(function(item){ if (item.n===n) row=item; });
+      if (!row) return;
+      row[field]=parseTypedLoad(input.value);
+      row.loggedAt=Date.now();
+      row.edit=true;
+      if (row.source!=="voice" && row.source!=="seed") row.source="manual";
+      writeRows(ex, next);
+      paintBlank(w, row);
+      paintBlank(r, row);
+    }
+    w.addEventListener("input", function(){ update("weight", w); });
+    r.addEventListener("input", function(){ update("reps", r); });
+    c.addEventListener("change", function(){
+      var next=copyRows(ex);
+      var row=null;
+      next.forEach(function(item){ if (item.n===n) row=item; });
+      if (!row) return;
+      row.confirmed=!!c.checked;
+      writeRows(ex, next);
+      tr.classList.toggle("is-ok", row.confirmed);
+    });
+  });
+  var plus=box.querySelector(".sg-plus"), minus=box.querySelector(".sg-minus");
+  if (plus) plus.addEventListener("click", function(e){
+    e.stopPropagation();
+    var next=copyRows(ex), max=0;
+    next.forEach(function(row){ if (row.n>max) max=row.n; });
+    next.push({n:max+1, weight:null, reps:null, confirmed:false, note:"", source:"manual", planned:false, loggedAt:Date.now()});
+    writeRows(ex, next);
+    state.open[exerciseIndex(ex)]=true;
+    renderApp();
+  });
+  if (minus) minus.addEventListener("click", function(e){
+    e.stopPropagation();
+    var next=copyRows(ex);
+    if (next.length<=1) return;
+    next.pop();
+    writeRows(ex, next);
+    state.open[exerciseIndex(ex)]=true;
+    renderApp();
+  });
+}
+function entryFullyConfirmed(entry){
+  var dayId=resolveDayId(entry);
+  if (!dayId) return false;
+  var grid=loadSetGrid(entry.date, dayId);
+  var ok=true;
+  (entry.exercises||[]).forEach(function(ex){
+    var rows=grid[ex.name];
+    if (!Array.isArray(rows)){ ok=false; return; }
+    (ex.sets||[]).forEach(function(s){
+      var row=null;
+      rows.forEach(function(r){ if (r.n===s.n) row=r; });
+      if (!row || !row.confirmed) ok=false;
+    });
+  });
+  return ok;
+}
+function refreshPendingAcceptance(){
+  var list=loadPending(), accepted=loadAccepted(), changed=false;
+  var keep=[];
+  list.forEach(function(entry){
+    if (entryFullyConfirmed(entry)){ accepted.push(String(entry.id)); changed=true; }
+    else keep.push(entry);
+  });
+  if (changed){ savePending(keep); saveAccepted(mergeIdLists(accepted, [])); }
+}
+function buildLowerAEntry(){
+  return {
+    id:"2026-11-20-lower-a",
+    date:"2026-11-20",
+    dayId:1,
+    dayTitle:"Lower A — Glute & Quad Strength",
+    source:"voice",
+    note:"Santa Fe Spa. Smith is the Body Masters BE 218 (bar counterbalanced about 22 lb). The hip thrust was on the Hammer Strength machine with a band just above the knees, because no barbell was available. The glute-driver sets are that machine. OPEN ITEM: you started to mention something else to check and did not finish.",
+    exercises:[
+      {name:"Banded Barbell Hip Thrust", note:"Hammer Strength glute driver / hip thrust with a band just above the knees. No barbell. 175 x 10: reps 8-10 needed deep breathing, rep 9 was slower, rep 10 needed a pause. 270 x 8 is the top set (3 x 45 lb plates per side). The machine starting weight is not included. Confirm this is the same machine as the glute driver.",
+        sets:[
+          {n:1, weight:92, reps:10, note:""},
+          {n:2, weight:112, reps:10, note:""},
+          {n:3, weight:122, reps:10, note:""},
+          {n:4, weight:175, reps:10, note:"Reps 8-10 needed deep breathing. Rep 9 slower. Rep 10 needed a pause."},
+          {n:5, weight:270, reps:8, note:"Top set. 3 x 45 lb plates per side. Machine starting weight not included."}
+        ]},
+      {name:"Barbell Back Squat", note:"Smith machine, feet forward, toes out, glute focus. The squat was done. The plan was 3 x 8-10, but no weights and no reps were recorded. These 3 rows are only the plan. Every number is blank on purpose.",
+        sets:[
+          {n:1, weight:null, reps:null, note:"", planned:true},
+          {n:2, weight:null, reps:null, note:"", planned:true},
+          {n:3, weight:null, reps:null, note:"", planned:true}
+        ]},
+      {name:"Deep Leg Press", note:"Life Fitness Signature Series linear leg press. Totals include the 103 lb sled. Set 3 was controlled, full depth, and comfortable. Reps for sets 1 and 2 were not recorded.",
+        sets:[
+          {n:1, weight:193, reps:null, note:"1 x 45 lb plate per side (90) + 103 lb sled. Pushing forward."},
+          {n:2, weight:283, reps:null, note:"2 x 45 lb plates per side (180) + 103 lb sled."},
+          {n:3, weight:463, reps:10, note:"4 x 45 lb plates per side (360) + 103 lb sled. Controlled, full depth."}
+        ]},
+      {name:"Leg Press Calf Raise", note:"Life Fitness leg press. Balls of the feet at the bottom of the plate. Logged as 180 lb total (80 lb per side). That total was not adjusted. Reps were not recorded.",
+        sets:[
+          {n:1, weight:180, reps:null, note:"Toes in. 180 lb total (80 lb per side)."},
+          {n:2, weight:180, reps:null, note:"Toes out. 180 lb total (80 lb per side)."},
+          {n:3, weight:180, reps:null, note:"Toes straight. 180 lb total (80 lb per side)."}
+        ]},
+      {name:"Bench Reverse Crunch", note:"Bodyweight. No external weight was recorded, so the weight stays blank.",
+        sets:[
+          {n:1, weight:null, reps:12, note:""},
+          {n:2, weight:null, reps:15, note:""},
+          {n:3, weight:null, reps:15, note:""}
+        ]}
+    ]
+  };
+}
+function seedLowerA20261120(){
+  if (store.get(LOWER_A_SEED_FLAG)) return;
+  var entry=buildLowerAEntry();
+  var pending=loadPending();
+  if (!pending.some(function(e){ return e && e.id===entry.id; })){
+    pending.push(entry);
+    savePending(pending);
+  }
+  applyPendingListToGrids([entry]);
+  store.set(LOWER_A_SEED_FLAG, "1");
+}
+
+function footGlyph(cx, cy, rot){
+  return '<g transform="translate('+cx+' '+cy+') rotate('+rot+')">'+
+    '<ellipse cx="0" cy="8" rx="11" ry="18" fill="#f4f4f5"/>'+
+    '<circle cx="-7.2" cy="-16" r="3.3" fill="#f4f4f5"/>'+
+    '<circle cx="-2.4" cy="-18.6" r="3.1" fill="#f4f4f5"/>'+
+    '<circle cx="2.8" cy="-18.4" r="2.9" fill="#f4f4f5"/>'+
+    '<circle cx="7.2" cy="-16.2" r="2.4" fill="#f4f4f5"/>'+
+  '</g>';
+}
+function plateSVG(left, right){
+  return '<svg viewBox="0 0 160 124" aria-hidden="true">'+
+    '<rect x="8" y="8" width="144" height="108" rx="10" fill="#5b6068" stroke="#2a2c31" stroke-width="3"/>'+
+    '<g fill="#2c2f34"><rect x="74" y="18" width="6" height="14" rx="1"/><rect x="84" y="18" width="6" height="14" rx="1"/>'+
+    '<rect x="74" y="38" width="6" height="14" rx="1"/><rect x="84" y="38" width="6" height="14" rx="1"/>'+
+    '<rect x="74" y="58" width="6" height="14" rx="1"/><rect x="84" y="58" width="6" height="14" rx="1"/></g>'+
+    footGlyph(left.x, left.y, left.rot)+footGlyph(right.x, right.y, right.rot)+
+  '</svg>';
+}
+function sidePressSVG(which){
+  var med=which==="med";
+  return '<svg viewBox="0 0 320 180" aria-hidden="true">'+
+    '<rect width="320" height="180" rx="12" fill="#101014"/>'+
+    '<rect x="16" y="46" width="34" height="104" rx="6" fill="#5c6168"/>'+
+    '<text x="8" y="28" fill="#a1a1aa" font-size="12" font-family="Inter,sans-serif">back pad</text>'+
+    '<circle cx="78" cy="62" r="14" fill="#e7e7ea"/>'+
+    '<rect x="58" y="74" width="78" height="24" rx="12" fill="#d6d6dc"/>'+
+    '<ellipse cx="142" cy="90" rx="20" ry="16" fill="'+(med?"#ef4444":"#d6d6dc")+'"/>'+
+    (med?"":'<ellipse cx="136" cy="80" rx="14" ry="9" fill="#fb923c"/>')+
+    '<path d="M158 86 L214 64" fill="none" stroke="#d6d6dc" stroke-width="16" stroke-linecap="round"/>'+
+    '<path d="M214 64 L252 108" fill="none" stroke="#d6d6dc" stroke-width="14" stroke-linecap="round"/>'+
+    '<rect x="246" y="40" width="58" height="112" rx="6" fill="#6b7078" stroke="#2a2c31" stroke-width="2"/>'+
+    '<text x="256" y="32" fill="#a1a1aa" font-size="12" font-family="Inter,sans-serif">plate</text>'+
+    '<ellipse cx="252" cy="112" rx="7" ry="14" fill="#fafafa"/>'+
+    '<text x="12" y="168" fill="'+(med?"#f05252":"#fb923c")+'" font-size="13" font-weight="700" font-family="Inter,sans-serif">'+(med?"Lie on your side. Glute med drives the press.":"Same setup. Squeeze the upper glute at the end.")+'</text>'+
+  '</svg>';
+}
+function upperSVG(extra){
+  return '<svg viewBox="0 0 120 132" aria-hidden="true"><circle cx="60" cy="18" r="11" fill="#e4e4e7"/>'+
+    '<path d="M42 34 Q60 28 78 34 L84 86 Q60 96 36 86 Z" fill="#d4d4d8"/>'+
+    (extra||"")+'</svg>';
+}
+var POS_STAGE={};
+var POS_MAPS={};
+var POS_BY_EX={};
+function posOption(id, n, name, primary, secondary, detail){
+  return {id:id, n:n, name:name, primary:primary, secondary:secondary, detail:detail};
+}
+function initPosMaps(){
+  var calfStraight=plateSVG({x:52,y:86,rot:0},{x:108,y:86,rot:0});
+  var calfOut=plateSVG({x:50,y:86,rot:-22},{x:110,y:86,rot:22});
+  var calfIn=plateSVG({x:54,y:86,rot:20},{x:106,y:86,rot:-20});
+  var smithGlute=plateSVG({x:48,y:52,rot:-18},{x:112,y:52,rot:18});
+  var smithQuad=plateSVG({x:64,y:90,rot:-8},{x:96,y:90,rot:8});
+  var smithHam=plateSVG({x:40,y:70,rot:-24},{x:120,y:70,rot:24});
+  POS_MAPS.calf={
+    title:"Calf raise foot angle",
+    cue:"Balls of the feet low on the plate for a full stretch. Heels in (Glass). Rotate straight, out, and in across 3-4 sets so the whole calf works.",
+    layout:"grid",
+    options:[
+      posOption("straight","1","Toes straight","Gastrocnemius, even","Soleus","Toes point straight up the plate. Even gastrocnemius. Keep the heels in and the stretch full at the bottom."),
+      posOption("out","2","Toes out","Inner calf (medial)","Soleus","Toes rotate out. Shifts more work to the inner calf. Balls of the feet stay low."),
+      posOption("in","3","Toes in","Outer calf (lateral)","Soleus","Toes rotate in. Shifts more work to the outer calf. Do not bounce out of the stretch.")
+    ]
+  };
+  POS_STAGE.calf={straight:calfStraight, out:calfOut, "in":calfIn};
+  POS_MAPS.calf.options[0].svg=calfStraight;
+  POS_MAPS.calf.options[1].svg=calfOut;
+  POS_MAPS.calf.options[2].svg=calfIn;
+  POS_MAPS.sidepress={
+    title:"One-leg side press",
+    cue:"Charles Glass style, on this Life Fitness leg press. Lie on your side on the back pad. Working foot on the plate. Press through the heel.",
+    layout:"stack",
+    options:[
+      posOption("med","1","Side-lying press","Glute med / upper outer hip","Glute max","Lie sideways on the back pad. The working leg presses while the other leg stays along the pad. This is the glute-med bias."),
+      posOption("max","2","Heel-in squeeze","Upper glute","Glute med","Same side-lying setup. Keep the heel in and squeeze the upper glute at the end of the press. Hips stay on the pad.")
+    ]
+  };
+  POS_STAGE.sidepress={med:sidePressSVG("med"), max:sidePressSVG("max")};
+  POS_MAPS.smith={
+    title:"Smith squat stance",
+    cue:"Stance guide for the Smith (Body Masters multi-press). Nov 20 was feet forward, toes out, glute focus. The other two stances are the guide, not extra sets from that day.",
+    layout:"grid",
+    options:[
+      posOption("glute","1","Glute","Glutes","Adductors","Feet forward on the platform, toes out. Sit down between the hips. This is the glute stance."),
+      posOption("quad","2","Quad","Quads","Glutes","Feet lower and a bit narrower. More knee bend, more quad. Keep the heels down."),
+      posOption("ham","3","Hamstring","Hamstrings","Glutes","Wider stance, toes out, sit back. The hinge loads the hamstrings with the glutes.")
+    ]
+  };
+  POS_MAPS.smith.options[0].svg=smithGlute;
+  POS_MAPS.smith.options[1].svg=smithQuad;
+  POS_MAPS.smith.options[2].svg=smithHam;
+  function armHot(cx, cy, color){ return '<ellipse cx="'+cx+'" cy="'+cy+'" rx="8" ry="14" fill="'+color+'"/>'; }
+  POS_MAPS.biceps={
+    title:"Biceps grip and arm position",
+    cue:"Long head is the outer biceps. Short head is the inner biceps. Hammer / neutral hits brachialis and brachioradialis for thickness.",
+    layout:"grid",
+    options:[
+      posOption("close","1","Close grip","Long head (outer)","Short head","Hands closer than shoulder width. The outer biceps (long head) does more of the curl."),
+      posOption("wide","2","Wide grip","Short head (inner)","Long head","Hands wider than the shoulders. The inner biceps (short head) does more."),
+      posOption("behind","3","Arms behind","Long head stretch","Short head","Incline curl. The arm is behind the body, so the long head starts stretched."),
+      posOption("front","4","Arms in front","Short head","Brachialis","Preacher or spider. The arm is in front of the body, so the short head works hardest."),
+      posOption("hammer","5","Hammer / neutral","Brachialis","Brachioradialis","Palms face each other. Builds the muscle under the biceps and the top of the forearm.")
+    ]
+  };
+  var biSvg={
+    close:upperSVG('<path d="M40 48 L48 96" stroke="#d4d4d8" stroke-width="10" stroke-linecap="round"/><path d="M80 48 L72 96" stroke="#d4d4d8" stroke-width="10" stroke-linecap="round"/>'+armHot(36,62,"#f05252")+armHot(84,62,"#f05252")),
+    wide:upperSVG('<path d="M38 46 L22 96" stroke="#d4d4d8" stroke-width="10" stroke-linecap="round"/><path d="M82 46 L98 96" stroke="#d4d4d8" stroke-width="10" stroke-linecap="round"/>'+armHot(34,64,"#f05252")+armHot(86,64,"#f05252")),
+    behind:upperSVG('<path d="M48 50 L36 28 L28 48" fill="none" stroke="#d4d4d8" stroke-width="10" stroke-linecap="round"/>'+armHot(40,42,"#f05252")+'<text x="8" y="118" fill="#a1a1aa" font-size="10" font-family="Inter,sans-serif">arm behind</text>'),
+    front:upperSVG('<path d="M70 48 L96 78" fill="none" stroke="#d4d4d8" stroke-width="10" stroke-linecap="round"/>'+armHot(78,58,"#f05252")+'<text x="8" y="118" fill="#a1a1aa" font-size="10" font-family="Inter,sans-serif">arm in front</text>'),
+    hammer:upperSVG('<path d="M36 46 L28 100" stroke="#d4d4d8" stroke-width="10" stroke-linecap="round"/><rect x="20" y="98" width="16" height="10" rx="2" fill="#e4e4e7"/><path d="M84 46 L92 100" stroke="#d4d4d8" stroke-width="10" stroke-linecap="round"/><rect x="84" y="98" width="16" height="10" rx="2" fill="#e4e4e7"/>'+armHot(30,78,"#f05252")+'<ellipse cx="26" cy="96" rx="7" ry="8" fill="#fb923c"/>')
+  };
+  POS_MAPS.biceps.options.forEach(function(o){ o.svg=biSvg[o.id]; });
+  POS_MAPS.triceps={
+    title:"Triceps head",
+    cue:"Where the upper arm sits picks the head. Overhead is the long head. Pushdowns are the horseshoe. Reverse grip is the medial head.",
+    layout:"grid",
+    options:[
+      posOption("overhead","1","Overhead","Long head","Lateral + medial","Arms up. The long head is the biggest head, on the back of the arm, and it gets the stretch."),
+      posOption("push","2","Rope or bar pushdown","Lateral + medial","Long head","Upper arm pinned at your side. Rope or straight bar builds the horseshoe."),
+      posOption("reverse","3","Reverse / underhand","Medial head","Lateral","Underhand pushdown. The medial head, near the elbow, does the extra work.")
+    ]
+  };
+  var triSvg={
+    overhead:upperSVG('<path d="M46 40 L40 16" stroke="#d4d4d8" stroke-width="10" stroke-linecap="round"/><path d="M74 40 L80 16" stroke="#d4d4d8" stroke-width="10" stroke-linecap="round"/>'+armHot(42,30,"#f05252")),
+    push:upperSVG('<path d="M40 44 L34 108" stroke="#d4d4d8" stroke-width="10" stroke-linecap="round"/><path d="M80 44 L86 108" stroke="#d4d4d8" stroke-width="10" stroke-linecap="round"/>'+armHot(34,70,"#f05252")+'<ellipse cx="34" cy="96" rx="7" ry="8" fill="#fb923c"/>'),
+    reverse:upperSVG('<path d="M40 44 L36 108" stroke="#d4d4d8" stroke-width="10" stroke-linecap="round"/><path d="M34 104 L48 112" stroke="#e4e4e7" stroke-width="6" stroke-linecap="round"/>'+'<ellipse cx="40" cy="96" rx="8" ry="8" fill="#f05252"/>')
+  };
+  POS_MAPS.triceps.options.forEach(function(o){ o.svg=triSvg[o.id]; });
+  POS_MAPS.shoulders={
+    title:"Shoulder position",
+    cue:"Front, side, and rear delt. The hand and elbow path is what picks the head. Thumbs stay neutral on laterals — do not pour the weight.",
+    layout:"grid",
+    options:[
+      posOption("front","1","Front delt","Front delt","Side delt","Overhead press and front raise. The arm comes forward, in front of the shoulder."),
+      posOption("side","2","Side delt","Side delt","Rotator cuff","Lateral raise. Slight lean, lead with the elbows, thumbs neutral. A cable lateral from behind the body is the same head."),
+      posOption("rear","3","Rear delt","Rear delt","Rhomboids","Reverse pec deck, face pull, or bent-over raise. Palms down or neutral, and pull wide.")
+    ]
+  };
+  var shSvg={
+    front:upperSVG('<path d="M78 42 L104 70" stroke="#d4d4d8" stroke-width="10" stroke-linecap="round"/>'+armHot(82,46,"#f05252")),
+    side:upperSVG('<path d="M36 46 L8 58" stroke="#d4d4d8" stroke-width="10" stroke-linecap="round"/><path d="M84 46 L112 58" stroke="#d4d4d8" stroke-width="10" stroke-linecap="round"/>'+armHot(28,50,"#f05252")+armHot(92,50,"#f05252")),
+    rear:upperSVG('<path d="M36 48 L14 78" stroke="#d4d4d8" stroke-width="10" stroke-linecap="round"/><path d="M84 48 L106 78" stroke="#d4d4d8" stroke-width="10" stroke-linecap="round"/>'+armHot(30,52,"#f05252")+armHot(90,52,"#f05252"))
+  };
+  POS_MAPS.shoulders.options.forEach(function(o){ o.svg=shSvg[o.id]; });
+  function zone(id, shape, paints){
+    var tone=paints[id];
+    if (!tone) return "";
+    var fill=tone==="g"?"#22c55e":"#f43f5e";
+    return shape.split("FILL").join(fill);
+  }
+  function mannequin(side, paints){
+    paints=paints||{};
+    var s='<svg viewBox="0 0 120 168" aria-hidden="true"><rect width="120" height="168" rx="10" fill="#101014"/>';
+    s+='<circle cx="60" cy="20" r="11" fill="#d4d4d8"/>';
+    if (side==="front"){
+      s+='<path d="M38 38 Q60 32 82 38 L90 96 Q60 104 30 96 Z" fill="#c8c8ce"/>';
+      s+='<path d="M40 46 L26 92" stroke="#c8c8ce" stroke-width="11" stroke-linecap="round"/>';
+      s+='<path d="M80 46 L94 92" stroke="#c8c8ce" stroke-width="11" stroke-linecap="round"/>';
+      s+='<path d="M48 100 L44 150" stroke="#c8c8ce" stroke-width="14" stroke-linecap="round"/>';
+      s+='<path d="M72 100 L76 150" stroke="#c8c8ce" stroke-width="14" stroke-linecap="round"/>';
+      s+=zone("delt",'<ellipse cx="28" cy="50" rx="7" ry="9" fill="FILL"/><ellipse cx="92" cy="50" rx="7" ry="9" fill="FILL"/>',paints);
+      s+=zone("chestU",'<ellipse cx="60" cy="46" rx="16" ry="6" fill="FILL"/>',paints);
+      s+=zone("chestM",'<ellipse cx="60" cy="58" rx="18" ry="7" fill="FILL"/>',paints);
+      s+=zone("chestL",'<ellipse cx="60" cy="70" rx="16" ry="6" fill="FILL"/>',paints);
+      s+=zone("absU",'<ellipse cx="60" cy="82" rx="10" ry="6" fill="FILL"/>',paints);
+      s+=zone("absL",'<ellipse cx="60" cy="94" rx="8" ry="5" fill="FILL"/>',paints);
+      s+=zone("oblique",'<ellipse cx="42" cy="84" rx="6" ry="10" fill="FILL"/><ellipse cx="78" cy="84" rx="6" ry="10" fill="FILL"/>',paints);
+      s+=zone("latQuad",'<ellipse cx="40" cy="118" rx="6" ry="16" fill="FILL"/><ellipse cx="80" cy="118" rx="6" ry="16" fill="FILL"/>',paints);
+      s+=zone("vmo",'<ellipse cx="50" cy="136" rx="5" ry="7" fill="FILL"/><ellipse cx="70" cy="136" rx="5" ry="7" fill="FILL"/>',paints);
+      s+=zone("rectus",'<ellipse cx="48" cy="112" rx="5" ry="12" fill="FILL"/><ellipse cx="72" cy="112" rx="5" ry="12" fill="FILL"/>',paints);
+      s+=zone("adductor",'<ellipse cx="54" cy="124" rx="4" ry="12" fill="FILL"/><ellipse cx="66" cy="124" rx="4" ry="12" fill="FILL"/>',paints);
+      s+=zone("hip",'<ellipse cx="60" cy="102" rx="10" ry="5" fill="FILL"/>',paints);
+    } else {
+      s+='<path d="M38 36 Q60 30 82 36 L88 96 Q60 104 32 96 Z" fill="#c8c8ce"/>';
+      s+='<path d="M40 48 L28 96" stroke="#c8c8ce" stroke-width="11" stroke-linecap="round"/>';
+      s+='<path d="M80 48 L92 96" stroke="#c8c8ce" stroke-width="11" stroke-linecap="round"/>';
+      s+='<path d="M48 108 L46 152" stroke="#c8c8ce" stroke-width="13" stroke-linecap="round"/>';
+      s+='<path d="M72 108 L74 152" stroke="#c8c8ce" stroke-width="13" stroke-linecap="round"/>';
+      s+=zone("upperBack",'<ellipse cx="60" cy="50" rx="16" ry="8" fill="FILL"/>',paints);
+      s+=zone("lats",'<ellipse cx="40" cy="72" rx="10" ry="16" fill="FILL"/><ellipse cx="80" cy="72" rx="10" ry="16" fill="FILL"/>',paints);
+      s+=zone("arms",'<ellipse cx="26" cy="78" rx="6" ry="10" fill="FILL"/><ellipse cx="94" cy="78" rx="6" ry="10" fill="FILL"/>',paints);
+      s+=zone("lowBack",'<ellipse cx="60" cy="86" rx="8" ry="8" fill="FILL"/>',paints);
+      s+=zone("glutMed",'<ellipse cx="42" cy="104" rx="8" ry="6" fill="FILL"/><ellipse cx="78" cy="104" rx="8" ry="6" fill="FILL"/>',paints);
+      s+=zone("glutMax",'<ellipse cx="50" cy="116" rx="10" ry="8" fill="FILL"/><ellipse cx="70" cy="116" rx="10" ry="8" fill="FILL"/>',paints);
+      s+=zone("glutLow",'<ellipse cx="52" cy="128" rx="8" ry="5" fill="FILL"/><ellipse cx="68" cy="128" rx="8" ry="5" fill="FILL"/>',paints);
+      s+=zone("hamUp",'<ellipse cx="48" cy="138" rx="6" ry="8" fill="FILL"/><ellipse cx="72" cy="138" rx="6" ry="8" fill="FILL"/>',paints);
+      s+=zone("hamIn",'<ellipse cx="54" cy="146" rx="4" ry="8" fill="FILL"/><ellipse cx="66" cy="146" rx="4" ry="8" fill="FILL"/>',paints);
+      s+=zone("hamOut",'<ellipse cx="42" cy="146" rx="4" ry="8" fill="FILL"/><ellipse cx="78" cy="146" rx="4" ry="8" fill="FILL"/>',paints);
+      s+=zone("calf",'<ellipse cx="48" cy="156" rx="4" ry="5" fill="FILL"/><ellipse cx="72" cy="156" rx="4" ry="5" fill="FILL"/>',paints);
+    }
+    s+='<text x="8" y="164" fill="#86efac" font-size="8" font-family="Inter,sans-serif">green target</text>';
+    s+='<text x="64" y="164" fill="#fda4af" font-size="8" font-family="Inter,sans-serif">red takeover</text>';
+    return s+'</svg>';
+  }
+  function headMap(id, title, cue, options){
+    POS_MAPS[id]={title:title, cue:cue, layout:"grid", options:options};
+  }
+  headMap("chest","Chest head placement","Green is the chest head to feel. Red is the front delt taking over if the elbows flare. Rotate upper, mid, and lower across the working sets.",[
+    posOption("upper","1","Upper, clavicular","Upper chest","Front delt","About a 30 degree incline. Elbows near 45 degrees, not flared out wide."),
+    posOption("mid","2","Mid, sternal","Mid chest","Front delt","Flat press or fly. Elbows stay under the wrists and the squeeze is at the sternum."),
+    posOption("lower","3","Lower, costal","Lower chest","Front delt","Decline, or a high-to-low cable. The hands finish lower than the shoulders.")
+  ]);
+  POS_MAPS.chest.options[0].side="front"; POS_MAPS.chest.options[0].paints={chestU:"g",delt:"r"};
+  POS_MAPS.chest.options[1].side="front"; POS_MAPS.chest.options[1].paints={chestM:"g",delt:"r"};
+  POS_MAPS.chest.options[2].side="front"; POS_MAPS.chest.options[2].paints={chestL:"g",delt:"r"};
+  POS_MAPS.chest.options.forEach(function(o){ o.svg=mannequin(o.side, o.paints); });
+  headMap("quads","Quad head placement","Green is the quad head for that set. Red is the muscle that steals it if the feet or the knee path drift.",[
+    posOption("outer","1","Outer sweep","Vastus lateralis","Adductors","Narrower stance, toes straight. Feel the outer thigh."),
+    posOption("vmo","2","Teardrop / VMO","Vastus medialis","Hip flexors","Heels up a little. Let the knee travel over the toes through a full bend."),
+    posOption("rf","3","Rectus femoris","Rectus femoris","Hip flexors","Leg extension, or a squat deep enough that the hip stays stretched. Do not swing the leg.")
+  ]);
+  POS_MAPS.quads.options[0].side="front"; POS_MAPS.quads.options[0].paints={latQuad:"g",adductor:"r"};
+  POS_MAPS.quads.options[1].side="front"; POS_MAPS.quads.options[1].paints={vmo:"g",hip:"r"};
+  POS_MAPS.quads.options[2].side="front"; POS_MAPS.quads.options[2].paints={rectus:"g",hip:"r"};
+  POS_MAPS.quads.options.forEach(function(o){ o.svg=mannequin(o.side, o.paints); });
+  headMap("hams","Hamstring placement","Hip-hinge work hits the upper and mid hamstrings. Knee flexion hits them at a long stretch. Toes change the inner and outer bias.",[
+    posOption("hinge","1","Hip hinge","Upper / mid hamstrings","Low back","RDL or back extension. Toes neutral. Hips go back. The low back stays quiet."),
+    posOption("in","2","Knee flexion, toes in","Inner hamstrings","Calves","Seated or standing curl. Toes turn in. Control the stretch."),
+    posOption("out","3","Knee flexion, toes out","Outer hamstrings","Calves","Same curl. Toes turn out. Do not bounce.")
+  ]);
+  POS_MAPS.hams.options[0].side="back"; POS_MAPS.hams.options[0].paints={hamUp:"g",lowBack:"r"};
+  POS_MAPS.hams.options[1].side="back"; POS_MAPS.hams.options[1].paints={hamIn:"g",calf:"r"};
+  POS_MAPS.hams.options[2].side="back"; POS_MAPS.hams.options[2].paints={hamOut:"g",calf:"r"};
+  POS_MAPS.hams.options.forEach(function(o){ o.svg=mannequin(o.side, o.paints); });
+  headMap("glutes","Glute head placement","Upper glute is the shelf. Mid and lower glute max are the thrust, the deep press, and the hinge.",[
+    posOption("upper","1","Upper glute","Glute med / min","Low back","Seated hip abduction, or the Charles Glass one-leg side press. Knees travel out."),
+    posOption("mid","2","Mid glute max","Glute max","Low back","Hip thrust. Pause and squeeze at the top. Ribs stay down."),
+    posOption("low","3","Lower glute","Lower glute / tie-in","Hamstrings","Deep leg press or RDL. Full hip bend, then drive the hips through.")
+  ]);
+  POS_MAPS.glutes.options[0].side="back"; POS_MAPS.glutes.options[0].paints={glutMed:"g",lowBack:"r"};
+  POS_MAPS.glutes.options[1].side="back"; POS_MAPS.glutes.options[1].paints={glutMax:"g",lowBack:"r"};
+  POS_MAPS.glutes.options[2].side="back"; POS_MAPS.glutes.options[2].paints={glutLow:"g",hamUp:"r"};
+  POS_MAPS.glutes.options.forEach(function(o){ o.svg=mannequin(o.side, o.paints); });
+  headMap("back","Back placement","Elbow path picks the muscle. Tight elbows are lats. Flared elbows are the upper back.",[
+    posOption("lats","1","Lats","Lats","Biceps","Elbows tight to the ribs. Drive the elbow toward the hip."),
+    posOption("upper","2","Upper back","Traps / rhomboids","Biceps","Elbows flare about 45 to 60 degrees. Pull to the mid-chest and squeeze the blades.")
+  ]);
+  POS_MAPS.back.options[0].side="back"; POS_MAPS.back.options[0].paints={lats:"g",arms:"r"};
+  POS_MAPS.back.options[1].side="back"; POS_MAPS.back.options[1].paints={upperBack:"g",arms:"r"};
+  POS_MAPS.back.options.forEach(function(o){ o.svg=mannequin(o.side, o.paints); });
+  headMap("core","Core and obliques","Green is the torso muscle to brace. Red is the hip or low back taking the rep.",[
+    posOption("side","1","Side plank","Obliques","Low back","Anti-rotation and side plank. Hips stay up in one line."),
+    posOption("upper","2","Upper abs","Upper abs","Hip flexors","Braced flexion. Ribs curl toward the belt. The hips stay still."),
+    posOption("lower","3","Lower abs","Lower abs","Hip flexors","Reverse crunch. The pelvis curls. Do not swing the legs.")
+  ]);
+  POS_MAPS.core.options[0].side="front"; POS_MAPS.core.options[0].paints={oblique:"g",absL:"r"};
+  POS_MAPS.core.options[1].side="front"; POS_MAPS.core.options[1].paints={absU:"g",hip:"r"};
+  POS_MAPS.core.options[2].side="front"; POS_MAPS.core.options[2].paints={absL:"g",hip:"r"};
+  POS_MAPS.core.options.forEach(function(o){ o.svg=mannequin(o.side, o.paints); });
+  POS_BY_EX={
+    "Leg Press Calf Raise":["calf"],
+    "Seated Calf Raise":["calf"],
+    "Deep Leg Press":["sidepress","glutes","quads"],
+    "Barbell Back Squat":["smith","quads"],
+    "Leg Extension":["quads"],
+    "Dumbbell Hammer Curl":["biceps"],
+    "Cable Curl":["biceps"],
+    "Rope Triceps Pushdown":["triceps"],
+    "Overhead Cable Triceps Extension":["triceps"],
+    "Face Pull":["shoulders"],
+    "Dumbbell Lateral Raise":["shoulders"],
+    "Dumbbell Incline Press":["chest","shoulders"],
+    "Pec Deck Fly (or Cable Fly)":["chest"],
+    "Dumbbell Bench Press":["chest"],
+    "Smith Romanian Deadlift":["hams","glutes"],
+    "Single-Leg Standing Leg Curl":["hams"],
+    "45° Back Extension (glute-focused)":["hams","glutes"],
+    "Banded Barbell Hip Thrust":["glutes"],
+    "Seated Hip Abduction":["glutes"],
+    "Band-Assisted Chin-Up / Pull-Up":["back"],
+    "Wide-Grip Lat Pulldown":["back"],
+    "Barbell Bent-Over Row":["back"],
+    "Single-Arm Cable Row":["back"],
+    "Side Plank":["core"],
+    "Bench Reverse Crunch":["core"],
+    "Cable Crunch":["core"]
+  };
+}
+function positionMapHTML(exerciseName){
+  var ids=POS_BY_EX[exerciseName]||[];
+  if (!ids.length) return "";
+  return ids.map(function(id){
+    var map=POS_MAPS[id];
+    if (!map) return "";
+    var first=map.options[0];
+    var h='<div class="pos-map" data-map="'+id+'">';
+    h+='<div class="pos-title">'+esc(map.title)+'</div>';
+    h+='<div class="pos-cue">'+esc(map.cue)+'</div>';
+    if (map.layout==="stack"){
+      h+='<div class="pos-stage">'+(POS_STAGE[id][first.id]||"")+'</div>';
+      h+='<div class="pos-picks">';
+      map.options.forEach(function(o,i){
+        h+='<button type="button" class="pos-opt'+(i===0?" on":"")+'" data-id="'+esc(o.id)+'" data-detail="'+esc(o.detail)+'">';
+        h+='<div class="pos-h"><span class="pos-num">'+esc(o.n)+'</span><span class="pos-name">'+esc(o.name)+'</span></div>';
+        h+='<div class="pos-pri">'+esc(o.primary)+' (primary)</div>';
+        if (o.secondary) h+='<div class="pos-sec">'+esc(o.secondary)+' (secondary)</div>';
+        h+='</button>';
+      });
+      h+='</div>';
+    } else {
+      h+='<div class="pos-grid">';
+      map.options.forEach(function(o,i){
+        h+='<button type="button" class="pos-opt'+(i===0?" on":"")+'" data-id="'+esc(o.id)+'" data-detail="'+esc(o.detail)+'">';
+        h+=(o.svg||"");
+        h+='<div class="pos-h"><span class="pos-num">'+esc(o.n)+'</span><span class="pos-name">'+esc(o.name)+'</span></div>';
+        h+='<div class="pos-pri">'+esc(o.primary)+'</div>';
+        if (o.secondary) h+='<div class="pos-sec">'+esc(o.secondary)+'</div>';
+        h+='</button>';
+      });
+      h+='</div>';
+    }
+    h+='<div class="pos-detail">'+esc(first.detail)+'</div></div>';
+    return h;
+  }).join("");
+}
+function wirePositionMap(root){
+  root.querySelectorAll(".pos-map").forEach(function(map){
+    var id=map.getAttribute("data-map");
+    map.querySelectorAll(".pos-opt").forEach(function(btn){
+      btn.addEventListener("click", function(ev){
+        ev.stopPropagation();
+        map.querySelectorAll(".pos-opt").forEach(function(b){ b.classList.toggle("on", b===btn); });
+        var det=map.querySelector(".pos-detail");
+        if (det) det.textContent=btn.getAttribute("data-detail")||"";
+        var stage=map.querySelector(".pos-stage");
+        if (stage && POS_STAGE[id]) stage.innerHTML=POS_STAGE[id][btn.getAttribute("data-id")]||"";
+      });
+    });
+  });
+}
+function sideFrame(inner){
+  return '<svg class="coach-side" viewBox="0 0 340 200" role="img">'+
+    '<defs><marker id="coachArr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#4ade80"/></marker></defs>'+
+    '<rect width="340" height="200" fill="#101014"/>'+inner+'</svg>';
+}
+function coachArrow(x1,y1,x2,y2){
+  return '<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="#4ade80" stroke-width="3" marker-end="url(#coachArr)"/>';
+}
+function coachDash(d){
+  return '<path d="'+d+'" fill="none" stroke="#f4b740" stroke-width="3" stroke-dasharray="7 5"/>';
+}
+var COACH={
+  "Face Pull":{
+    short:"Face Pull",
+    defaultView:"back",
+    paint:{
+      back:{delt_rear:"target", traps:"comp"},
+      front:{bi_long:"comp", bi_short:"comp"}
+    },
+    overlays:{
+      back:[
+        {kind:"dash", d:"M150,500 C200,420 250,340 310,250"},
+        {kind:"dash", d:"M570,500 C520,420 470,340 410,250"},
+        {kind:"arrow", x1:230, y1:470, x2:320, y2:270},
+        {kind:"arrow", x1:490, y1:470, x2:400, y2:270},
+        {kind:"label", x:250, y:230, text:"pull wide"}
+      ]
+    },
+    viewHint:{front:"Green rear delts are on the Back view. Red here is the biceps if the rope turns into a curl."},
+    do:["Pull the rope toward your face with the elbows high","Rotate the hands back and apart, and pull wide","Pause, then return slowly"],
+    dont:["Lean back and swing the weight","Let the elbows drop","Go so heavy the traps shrug the rope"]
+  },
+  "Banded Barbell Hip Thrust":{
+    short:"Hip Thrust",
+    defaultView:"side",
+    paint:{back:{glute_max:"target", glute_up:"target", core:"comp"}},
+    viewHint:{front:"The glute glow is on the Back view. Use Side to see the hip path.", back:"Green is the glute to squeeze. Red on the low back is the arch to avoid."},
+    side:"hip",
+    do:["Band just above the knees, and push the knees out the whole rep","Tuck the pelvis and squeeze the glutes at the top","Shins about vertical at the top, and pause the squeeze"],
+    dont:["Arch the low back instead of tucking the pelvis","Bounce off the bottom","Let the knees cave in"]
+  },
+  "Deep Leg Press":{
+    short:"Leg Press",
+    defaultView:"side",
+    paint:{
+      back:{glute_max:"target", glute_low:"target", core:"comp"},
+      front:{quads:"target"}
+    },
+    viewHint:{front:"Green quads on this view. Glutes and the low-back warning are on the Back view.", back:"Green glutes for the high, wide stance. Red low back means the hips peeled off the pad."},
+    side:"legpress",
+    do:["Feet a little high and wide when the goal is glutes","Keep the hips glued to the pad","Drive through the whole foot and stop short of a hard lockout"],
+    dont:["Let the hips peel off the pad","Lock the knees hard","Bounce out of the bottom"]
+  },
+  "Smith Romanian Deadlift":{
+    short:"RDL",
+    defaultView:"side",
+    paint:{back:{hamstrings:"target", glute_low:"target", core:"comp"}},
+    viewHint:{front:"Hamstrings and glutes are on the Back view. Side shows the bar path.", back:"Green hamstrings and lower glute. Red low back means the spine rounded and took the lift."},
+    side:"rdl",
+    do:["Push the hips back and let the bar slide down the legs","Soft knees, flat back, pause at the hamstring stretch","Drive the hips forward and squeeze the glutes"],
+    dont:["Round the low back","Squat the bar down instead of hinging","Let the bar drift off the legs"]
+  },
+  "Dumbbell Hammer Curl":{
+    short:"Hammer Curl",
+    defaultView:"side",
+    paint:{front:{brachialis:"target", brachiorad:"target", delt_front:"comp"}},
+    viewHint:{back:"The curl shows on the Front and Side views."},
+    side:"curl",
+    do:["Palms face each other and the elbows stay at your sides","Curl without swinging, and squeeze at the top","Lower under control"],
+    dont:["Swing the torso to start the weight","Let the elbows drift forward","Rush the lowering"]
+  },
+  "Cable Curl":{
+    short:"Cable Curl",
+    defaultView:"front",
+    paint:{front:{bi_long:"target", bi_short:"target", delt_front:"comp"}},
+    overlays:{
+      front:[
+        {kind:"dash", d:"M200,560 Q140,500 210,400"},
+        {kind:"arrow", x1:190, y1:540, x2:205, y2:400},
+        {kind:"label", x:120, y:470, text:"curl"}
+      ]
+    },
+    viewHint:{back:"Biceps are on the Front view. Side shows the elbow staying still."},
+    side:"curl",
+    do:["Elbows stay at your sides the whole rep","Curl and squeeze without swinging","Lower slowly so the cable stays loaded"],
+    dont:["Swing the torso","Let the elbows move forward","Turn it into a front raise"]
+  }
+};
+function sidePoseSVG(spec){
+  var kind=spec.side;
+  if (kind==="hip") return sideFrame(
+    '<line x1="16" y1="172" x2="324" y2="172" stroke="#3f3f46" stroke-width="4"/>'+
+    '<rect x="36" y="124" width="128" height="16" rx="4" fill="#52525b"/>'+
+    '<text x="78" y="116" fill="#a1a1aa" font-size="11" font-family="Inter,sans-serif">bench</text>'+
+    '<circle cx="58" cy="118" r="12" fill="#e4e4e7"/>'+
+    '<path d="M70 122 Q110 112 156 78" fill="none" stroke="#d4d4d8" stroke-width="18" stroke-linecap="round"/>'+
+    '<ellipse cx="112" cy="108" rx="18" ry="9" fill="#f43f5e"/>'+
+    '<text x="70" y="98" fill="#fda4af" font-size="12" font-weight="700" font-family="Inter,sans-serif">low back</text>'+
+    '<ellipse cx="158" cy="74" rx="22" ry="15" fill="#22c55e"/>'+
+    '<text x="184" y="70" fill="#86efac" font-size="13" font-weight="700" font-family="Inter,sans-serif">glutes</text>'+
+    '<path d="M164 90 L220 156" fill="none" stroke="#d4d4d8" stroke-width="16" stroke-linecap="round"/>'+
+    '<path d="M220 156 L280 156" fill="none" stroke="#d4d4d8" stroke-width="14" stroke-linecap="round"/>'+
+    coachDash("M158,140 Q186,108 158,74")+
+    coachArrow(158,58,158,24)+
+    '<text x="166" y="28" fill="#86efac" font-size="13" font-weight="700" font-family="Inter,sans-serif">drive up</text>'
+  );
+  if (kind==="legpress") return sideFrame(
+    '<polygon points="28,36 78,150 58,162 16,48" fill="#52525b"/>'+
+    '<text x="20" y="28" fill="#a1a1aa" font-size="11" font-family="Inter,sans-serif">pad</text>'+
+    '<circle cx="48" cy="58" r="11" fill="#e4e4e7"/>'+
+    '<path d="M58 78 L120 132" fill="none" stroke="#d4d4d8" stroke-width="16" stroke-linecap="round"/>'+
+    '<ellipse cx="92" cy="112" rx="16" ry="10" fill="#22c55e"/>'+
+    '<text x="112" y="148" fill="#86efac" font-size="12" font-weight="700" font-family="Inter,sans-serif">glutes</text>'+
+    '<path d="M118 120 L196 78" fill="none" stroke="#86efac" stroke-width="16" stroke-linecap="round"/>'+
+    '<text x="150" y="70" fill="#86efac" font-size="12" font-weight="700" font-family="Inter,sans-serif">quads</text>'+
+    '<ellipse cx="70" cy="96" rx="12" ry="8" fill="#f43f5e"/>'+
+    '<text x="24" y="188" fill="#fda4af" font-size="12" font-weight="700" font-family="Inter,sans-serif">low back stays on the pad</text>'+
+    '<rect x="230" y="40" width="86" height="120" rx="8" fill="#6b7078" stroke="#2a2c31" stroke-width="3"/>'+
+    '<text x="252" y="34" fill="#a1a1aa" font-size="11" font-family="Inter,sans-serif">sled</text>'+
+    coachDash("M250,90 L318,90")+
+    coachArrow(140,110,210,78)+
+    '<text x="214" y="78" fill="#86efac" font-size="12" font-weight="700" font-family="Inter,sans-serif">press</text>'
+  );
+  if (kind==="rdl") return sideFrame(
+    '<line x1="20" y1="176" x2="300" y2="176" stroke="#3f3f46" stroke-width="4"/>'+
+    '<circle cx="168" cy="36" r="12" fill="#e4e4e7"/>'+
+    '<path d="M160 50 L92 118" fill="none" stroke="#d4d4d8" stroke-width="16" stroke-linecap="round"/>'+
+    '<ellipse cx="108" cy="108" rx="14" ry="8" fill="#f43f5e"/>'+
+    '<text x="118" y="104" fill="#fda4af" font-size="12" font-weight="700" font-family="Inter,sans-serif">low back</text>'+
+    '<path d="M92 118 L92 176" fill="none" stroke="#d4d4d8" stroke-width="16" stroke-linecap="round"/>'+
+    '<ellipse cx="100" cy="148" rx="8" ry="18" fill="#22c55e"/>'+
+    '<text x="112" y="152" fill="#86efac" font-size="12" font-weight="700" font-family="Inter,sans-serif">hamstrings</text>'+
+    '<rect x="78" y="126" width="18" height="8" rx="2" fill="#f4b740"/>'+
+    coachDash("M86,70 L86,168")+
+    coachArrow(92,112,36,112)+
+    '<text x="8" y="104" fill="#86efac" font-size="12" font-weight="700" font-family="Inter,sans-serif">hips back</text>'+
+    '<text x="150" y="188" fill="#f4b740" font-size="12" font-family="Inter,sans-serif">bar stays on the legs</text>'
+  );
+  if (kind==="face") return sideFrame(
+    '<rect x="18" y="40" width="28" height="120" rx="4" fill="#52525b"/>'+
+    '<text x="14" y="32" fill="#a1a1aa" font-size="11" font-family="Inter,sans-serif">cable</text>'+
+    '<circle cx="188" cy="48" r="13" fill="#e4e4e7"/>'+
+    '<path d="M180 64 L168 150" fill="none" stroke="#d4d4d8" stroke-width="18" stroke-linecap="round"/>'+
+    '<path d="M172 78 L120 96 L150 70" fill="none" stroke="#d4d4d8" stroke-width="12" stroke-linecap="round"/>'+
+    '<ellipse cx="156" cy="74" rx="14" ry="10" fill="#22c55e"/>'+
+    '<text x="176" y="78" fill="#86efac" font-size="12" font-weight="700" font-family="Inter,sans-serif">rear delt</text>'+
+    '<ellipse cx="176" cy="62" rx="12" ry="7" fill="#f43f5e"/>'+
+    '<text x="200" y="60" fill="#fda4af" font-size="12" font-weight="700" font-family="Inter,sans-serif">trap</text>'+
+    coachDash("M46,78 L150,70")+
+    coachArrow(70,84,140,74)+
+    '<text x="70" y="118" fill="#86efac" font-size="12" font-weight="700" font-family="Inter,sans-serif">pull to the face, elbow high</text>'
+  );
+  return sideFrame(
+    '<line x1="24" y1="176" x2="220" y2="176" stroke="#3f3f46" stroke-width="4"/>'+
+    '<circle cx="120" cy="36" r="13" fill="#e4e4e7"/>'+
+    '<path d="M120 50 L112 150" fill="none" stroke="#d4d4d8" stroke-width="18" stroke-linecap="round"/>'+
+    '<path d="M116 78 L116 132" fill="none" stroke="#a1a1aa" stroke-width="2" stroke-dasharray="4 4"/>'+
+    '<path d="M116 128 L168 96" fill="none" stroke="#d4d4d8" stroke-width="12" stroke-linecap="round"/>'+
+    '<ellipse cx="128" cy="96" rx="12" ry="16" fill="#22c55e"/>'+
+    '<text x="146" y="100" fill="#86efac" font-size="12" font-weight="700" font-family="Inter,sans-serif">biceps / brachialis</text>'+
+    '<ellipse cx="124" cy="70" rx="12" ry="8" fill="#f43f5e"/>'+
+    '<text x="146" y="68" fill="#fda4af" font-size="12" font-weight="700" font-family="Inter,sans-serif">front delt</text>'+
+    coachDash("M116,132 Q150,150 176,96")+
+    coachArrow(150,120,172,96)+
+    '<text x="24" y="188" fill="#a1a1aa" font-size="12" font-family="Inter,sans-serif">elbow stays on the dashed line</text>'
+  );
+}
+if (!COACH["Face Pull"].side) COACH["Face Pull"].side="face";
+function coachListHTML(items, yes){
+  return "<ul>"+items.map(function(t){
+    return "<li><span class='"+(yes?"mark-yes":"mark-no")+"'>"+(yes?"✓":"✕")+"</span>"+esc(t)+"</li>";
+  }).join("")+"</ul>";
+}
+function coachViewHasTarget(spec, view){
+  if (view==="side") return !!spec.side;
+  var paint=spec.paint && spec.paint[view];
+  if (!paint) return false;
+  return Object.keys(paint).some(function(id){
+    if (paint[id]!=="target") return false;
+    var g=null;
+    MUSCLE_GROUPS.forEach(function(item){ if (item.id===id) g=item; });
+    return g && g[view] && g[view].length;
+  });
+}
+function renderCoachView(){
+  var spec=COACH[state.coachEx];
+  var view=state.coachView||spec.defaultView||"side";
+  if (["front","back","side"].indexOf(view)<0) view="side";
+  var wrap=el('<div class="content coach-view"></div>');
+  var chips=el('<div class="coach-chips"></div>');
+  Object.keys(COACH).forEach(function(name){
+    var b=el('<button type="button" class="t-chip'+(name===state.coachEx?" on":"")+'">'+esc(COACH[name].short)+'</button>');
+    b.addEventListener("click", function(){
+      state.coachEx=name;
+      state.coachView=COACH[name].defaultView||"side";
+      renderApp();
+    });
+    chips.appendChild(b);
+  });
+  wrap.appendChild(chips);
+  wrap.appendChild(el('<div class="coach-title">'+esc(spec.short)+'</div>'));
+  var tg=el('<div class="anat-tg">'+
+    '<button type="button" class="logfor-btn cv-front'+(view==="front"?" active":"")+'">Front</button>'+
+    '<button type="button" class="logfor-btn cv-back'+(view==="back"?" active":"")+'">Back</button>'+
+    '<button type="button" class="logfor-btn cv-side'+(view==="side"?" active":"")+'">Side</button>'+
+  '</div>');
+  tg.querySelector(".cv-front").addEventListener("click", function(){ state.coachView="front"; renderApp(); });
+  tg.querySelector(".cv-back").addEventListener("click", function(){ state.coachView="back"; renderApp(); });
+  tg.querySelector(".cv-side").addEventListener("click", function(){ state.coachView="side"; renderApp(); });
+  wrap.appendChild(tg);
+  wrap.appendChild(el('<div class="coach-legend"><span><b class="g">Green</b> muscle to feel</span><span><b class="r">Red</b> muscle taking over</span><span>Arrow = pull · dashed = weight path</span></div>'));
+  var fig=el('<div class="coach-fig"></div>');
+  if (view==="side") fig.innerHTML=sidePoseSVG(spec);
+  else fig.innerHTML=anatomySVG(view, "muscle", null, null, {paint:spec.paint||{}, overlays:spec.overlays||{}});
+  wrap.appendChild(fig);
+  var hint=(spec.viewHint&&spec.viewHint[view])||"";
+  if (view!=="side" && !coachViewHasTarget(spec, view) && !hint) hint="The target muscle is on another view. Flip Front, Back, or Side.";
+  if (hint) wrap.appendChild(el('<div class="coach-hint">'+esc(hint)+'</div>'));
+  wrap.appendChild(el('<div class="coach-pair"><div class="coach-do"><div class="k">Do this</div>'+coachListHTML(spec.do, true)+'</div><div class="coach-dont"><div class="k">Not this</div>'+coachListHTML(spec.dont, false)+'</div></div>'));
+  var back=el('<button type="button" class="v4-btn ghost" style="width:100%">Back to the workout</button>');
+  back.addEventListener("click", function(){ state.anatMode="muscle"; goView("workout"); });
+  wrap.appendChild(back);
+  var mus=el('<button type="button" class="v4-btn ghost" style="width:100%;margin-top:8px">Muscle map</button>');
+  mus.addEventListener("click", function(){ state.anatMode="muscle"; renderApp(); });
+  wrap.appendChild(mus);
+  return wrap;
+}
+function pendingMissCount(ex){
+  var n=0;
+  (ex.sets||[]).forEach(function(s){ if (isBlankVal(s.weight)||isBlankVal(s.reps)) n++; });
+  return n;
+}
+function pendingMiniHTML(ex){
+  var h='<table class="pend-mini"><tr><td>Set</td><td>Weight</td><td>Reps</td></tr>';
+  (ex.sets||[]).forEach(function(s){
+    var w=isBlankVal(s.weight)?'<span class="pend-miss">?</span>':esc(setVal(s.weight));
+    var r=isBlankVal(s.reps)?'<span class="pend-miss">?</span>':esc(setVal(s.reps));
+    h+='<tr><td>'+s.n+'</td><td>'+w+'</td><td>'+r+'</td></tr>';
+  });
+  return h+'</table>';
+}
+function openPendingEntry(entry, dayId){
+  var copy=JSON.parse(JSON.stringify(entry));
+  copy.dayId=dayId;
+  applyPendingListToGrids([copy]);
+  var idx=dayIndexFromId(dayId);
+  state.dayIdx=idx;
+  state.logDate=copy.date;
+  state.view="workout";
+  state.open={};
+  var opened=false;
+  DAYS[idx].exercises.forEach(function(ex,i){
+    if (!opened && copy.exercises.some(function(e){ return e.name===ex.name; })){ state.open[i]=true; opened=true; }
+  });
+  loadDay(idx);
+  renderApp();
+}
+function renderPendingCard(){
+  var list=loadPending();
+  var card=el('<div class="fuel-card pend-card"><div class="k">Voice log — waiting for you</div></div>');
+  card.appendChild(el('<div class="pend-note">Grok can drop sets into a separate pending bin. This phone pulls them, shows them here, and puts them in the set grid. Your saved history is not replaced. A blank stays blank. A number already in a row is kept if the new log disagrees.</div>'));
+  if (pendingState.status==="error") card.appendChild(el('<div class="sg-voice">'+esc(pendingState.lastError)+'</div>'));
+  else if (pendingState.status==="syncing") card.appendChild(el('<div class="pend-note">Checking the pending bin…</div>'));
+  if (!list.length) card.appendChild(el('<div class="pend-note">No voice sets waiting.</div>'));
+  list.forEach(function(entry){
+    var block=el('<div class="pend-ex"></div>');
+    var title=(entry.date||"")+" · "+(entry.dayTitle||("Day "+(entry.dayId||"?")));
+    block.appendChild(el('<div style="font-weight:800;font-size:13px">'+esc(title)+'</div>'));
+    if (entry.note) block.appendChild(el('<div class="sg-exnote">'+esc(entry.note)+'</div>'));
+    (entry.exercises||[]).forEach(function(ex){
+      var miss=pendingMissCount(ex);
+      var det=el('<details class="pend-ex"><summary>'+esc(ex.name)+' · '+(ex.sets||[]).length+' sets'+(miss?' · '+miss+' blank':"")+'</summary>'+pendingMiniHTML(ex)+(ex.note?'<div class="sg-exnote">'+esc(ex.note)+'</div>':"")+'</details>');
+      block.appendChild(det);
+    });
+    var dayId=resolveDayId(entry);
+    var row=el('<div class="sync-btns" style="margin-top:8px"></div>');
+    if (dayId){
+      var open=el('<button type="button" class="sync-btn">Open in the set grid</button>');
+      open.addEventListener("click", function(){ openPendingEntry(entry, dayId); });
+      row.appendChild(open);
+    } else {
+      var choices=[];
+      (entry.exercises||[]).forEach(function(ex){ daysForExercise(ex.name).forEach(function(d){ choices.push(d); }); });
+      var seen={};
+      choices.forEach(function(d){
+        if (seen[d.id]) return; seen[d.id]=1;
+        var b=el('<button type="button" class="sync-btn">Load onto '+esc(d.title)+'</button>');
+        b.addEventListener("click", function(){ openPendingEntry(entry, d.id); });
+        row.appendChild(b);
+      });
+    }
+    var dismiss=el('<button type="button" class="sync-btn ghost">Dismiss</button>');
+    dismiss.addEventListener("click", function(){
+      var accepted=loadAccepted();
+      accepted.push(String(entry.id));
+      saveAccepted(mergeIdLists(accepted, []));
+      savePending(loadPending().filter(function(e){ return e.id!==entry.id; }));
+      renderApp();
+    });
+    row.appendChild(dismiss);
+    block.appendChild(row);
+    card.appendChild(block);
+  });
+  var tools=el('<details class="pend-ex"><summary>Pending bin and paste</summary>'+
+    '<div class="pend-note">Optional older path. iPhone and laptop already share one sync bin. Use this only for a separate pending bin. Put null in JSON when a number was not said.</div>'+
+    '<input class="pend-id" placeholder="Pending bin id">'+
+    '<div class="sync-btns" style="margin-top:8px"><button type="button" class="sync-btn pend-save">Save bin</button><button type="button" class="sync-btn pend-pull">Pull voice log</button></div>'+
+    '<textarea class="pend-paste" placeholder=\'{"entries":[{"date":"2026-11-20","dayId":1,"exercises":[{"name":"Deep Leg Press","sets":[{"n":1,"weight":193,"reps":null}]}]}]}\'></textarea>'+
+    '<button type="button" class="sync-btn pend-read" style="margin-top:8px">Read pasted log</button>'+
+    '<div class="pend-status pend-note"></div></details>');
+  var idInput=tools.querySelector(".pend-id");
+  idInput.value=localStorage.getItem(PENDING_BIN_KEY)||"";
+  tools.querySelector(".pend-save").addEventListener("click", function(){
+    var id=idInput.value.trim();
+    if (!id){ localStorage.removeItem(PENDING_BIN_KEY); }
+    else store.set(PENDING_BIN_KEY, id);
+    tools.querySelector(".pend-status").textContent=id?"Pending bin saved on this phone.":"Pending bin cleared.";
+  });
+  tools.querySelector(".pend-pull").addEventListener("click", function(){
+    if (idInput.value.trim()) store.set(PENDING_BIN_KEY, idInput.value.trim());
+    pullPendingBin(function(err, report){
+      if (err){ renderApp(); return; }
+      showSaveToast("Voice log checked"+(report&&report.queued?" · "+report.queued+" waiting":""));
+      renderApp();
+    });
+  });
+  tools.querySelector(".pend-read").addEventListener("click", function(){
+    var text=tools.querySelector(".pend-paste").value.trim();
+    if (!text){ tools.querySelector(".pend-status").textContent="Paste the pending JSON first."; return; }
+    var parsed=jparse(text, null);
+    if (!parsed){ tools.querySelector(".pend-status").textContent="That text is not pending JSON, so no numbers were read from it."; return; }
+    var entries=normalizePendingPayload(parsed);
+    if (!entries.length){ tools.querySelector(".pend-status").textContent="No dated exercises were in that JSON."; return; }
+    var report=ingestPendingEntries(entries);
+    showSaveToast("Voice log loaded · "+report.queued+" waiting");
+    renderApp();
+  });
+  card.appendChild(tools);
+  return card;
+}
+function m165SelfCheck(){
+  var results=[];
+  function assert(name, cond){ results.push({name:name, ok:!!cond}); }
+  assert("blank null", cleanLoggedNumber(null)===null);
+  assert("blank question", cleanLoggedNumber("?")===null);
+  assert("keep 180", cleanLoggedNumber(180)===180);
+  assert("do not guess words", cleanLoggedNumber("about 180")===null);
+  assert("typed 180 lb", parseTypedLoad("180 lb")===180);
+  var entry=buildLowerAEntry();
+  assert("five exercises", entry.exercises.length===5);
+  assert("one hip thrust", entry.exercises.filter(function(e){return e.name==="Banded Barbell Hip Thrust";}).length===1);
+  var ht=entry.exercises[0];
+  assert("hip numbers", ht.sets.map(function(s){return s.weight+"x"+s.reps;}).join(",")==="92x10,112x10,122x10,175x10,270x8");
+  var sq=entry.exercises[1];
+  assert("squat blanks", sq.sets.length===3 && sq.sets.every(function(s){return s.weight===null && s.reps===null && s.planned;}));
+  var lp=entry.exercises[2];
+  assert("leg press loads", lp.sets[0].weight===193 && lp.sets[1].weight===283 && lp.sets[2].weight===463);
+  assert("leg press reps", lp.sets[0].reps===null && lp.sets[1].reps===null && lp.sets[2].reps===10);
+  var calf=entry.exercises[3];
+  assert("calf 180 not recalculated", calf.sets.every(function(s){return s.weight===180 && s.reps===null;}));
+  var cr=entry.exercises[4];
+  assert("crunch reps", cr.sets.map(function(s){return s.reps;}).join(",")==="12,15,15" && cr.sets.every(function(s){return s.weight===null;}));
+  var merged=mergeSetRows([{n:1, weight:193, reps:null, confirmed:false}], [{n:1, weight:999, reps:10}]);
+  assert("keep 193", merged.rows[0].weight===193 && merged.rows[0].reps===10 && merged.conflicts.length===1);
+  var signed=mergeSetRows([{n:1, weight:193, reps:null, confirmed:true}], [{n:1, weight:193, reps:10}]);
+  assert("signed blank stays", signed.rows[0].reps===null);
+  var added=mergeSetRows([{n:1, weight:193, reps:8}], [{n:2, weight:50, reps:5}]);
+  assert("does not drop a set", added.rows.length===2 && added.rows[0].weight===193);
+  var once=[{n:1, weight:180, reps:12, confirmed:true, loggedAt:1000}];
+  var twice=mergeSetRows(once, [{n:1, weight:180, reps:12, loggedAt:1500}], {date:"2026-11-24", dayId:1, exercise:"Deep Leg Press"});
+  assert("same set sent twice is skipped", twice.rows.length===1 && twice.rows[0].weight===180 && twice.skipped.length===1);
+  var replay=mergeSetRows(twice.rows, [{n:1, weight:180, reps:12, loggedAt:2000}], {date:"2026-11-24", dayId:1, exercise:"Deep Leg Press"});
+  assert("voice log replayed twice is skipped", replay.rows.length===1 && replay.skipped.length===1 && replay.rows[0].reps===12);
+  var fixed=mergeSetRows(once, [{n:1, weight:185, reps:10, edit:true, loggedAt:3000}], {date:"2026-11-24", dayId:1, exercise:"Deep Leg Press", mode:"edit"});
+  assert("correction updates in place", fixed.rows.length===1 && fixed.rows[0].weight===185 && fixed.rows[0].reps===10 && fixed.skipped.length===0);
+  var pair=mergeSetRows([{n:1, weight:180, reps:10, loggedAt:1000}], [{n:2, weight:180, reps:10, loggedAt:4000}], {date:"2026-11-24", dayId:1, exercise:"Leg Press Calf Raise"});
+  assert("different set numbers both kept", pair.rows.length===2 && pair.rows[0].n===1 && pair.rows[1].n===2 && pair.skipped.length===0);
+  var quick=mergeSetRows([{n:1, weight:100, reps:8, loggedAt:5000}], [{weight:100, reps:8, loggedAt:5000+60000}], {date:"2026-11-24", dayId:1, exercise:"Cable Curl"});
+  assert("no set number within 2 minutes is skipped", quick.rows.length===1 && quick.skipped.length===1);
+  var session=[{id:"2026-11-24-1", date:"2026-11-24", dayId:1, exercises:[{name:"Deep Leg Press", sets:[{n:1, weight:193, reps:10}]}]}];
+  var h1=mergeHistoryArrays([], session);
+  var h2=mergeHistoryArrays(h1, session);
+  assert("history replay keeps one set", h2.length===1 && h2[0].exercises.length===1 && h2[0].exercises[0].sets.length===1 && h2[0].exercises[0].sets[0].weight===193);
+  var union=mergeHistoryArrays(
+    [{id:"2026-11-24-1", date:"2026-11-24", dayId:1, exercises:[{name:"Deep Leg Press", sets:[{n:1, weight:193, reps:10}]}]}],
+    [{id:"2026-11-24-1", date:"2026-11-24", dayId:1, exercises:[{name:"Deep Leg Press", sets:[{n:2, weight:283, reps:8}]},{name:"Barbell Back Squat", sets:[{n:1, weight:100, reps:5}]}]}]
+  );
+  assert("history keeps both sets", union.length===1 && union[0].exercises[0].sets.length===2 && union[0].exercises[0].sets[0].weight===193 && union[0].exercises[0].sets[1].weight===283);
+  assert("history keeps both exercises", union[0].exercises.length===2 && union[0].exercises[1].name==="Barbell Back Squat");
+  var grids=mergeSetGridObjects(
+    {"Deep Leg Press":[{n:1, weight:193, reps:10, confirmed:true}]},
+    {"Deep Leg Press":[{n:1, weight:999, reps:10, confirmed:true},{n:2, weight:225, reps:8, confirmed:true}]}
+  );
+  assert("grid keeps 193 and adds set", grids["Deep Leg Press"][0].weight===193 && grids["Deep Leg Press"].length===2 && grids["Deep Leg Press"][1].weight===225);
+  assert("default sync id", DEFAULT_SYNC_ID==="6ae6c009ac6210605a62d670");
+  var priorSync=localStorage.getItem(SYNC_ID_KEY);
+  if (!priorSync){
+    ensureDefaultSync();
+    assert("auto pairs when empty", localStorage.getItem(SYNC_ID_KEY)===DEFAULT_SYNC_ID);
+  } else {
+    assert("keeps an existing sync id", localStorage.getItem(SYNC_ID_KEY)===priorSync);
+  }
+  var lists=mergePendingLists([{id:"a", exercises:[{name:"Squat", sets:[{n:1, weight:100, reps:5}]}]}, {id:"b", exercises:[]}], [{id:"a", exercises:[{name:"Squat", sets:[{n:1, weight:100, reps:null}]}]}]);
+  assert("pending keeps both", lists.length===2 && lists[0].exercises[0].sets[0].reps===5);
+  var payload=normalizePendingPayload({entries:[{date:"2026-11-21", dayId:1, exercises:[{name:"Deep Leg Press", sets:[{n:1, weight:"about 200", reps:null}]}]}]});
+  assert("payload blank", payload.length===1 && payload[0].exercises[0].sets[0].weight===null && payload[0].exercises[0].sets[0].reps===null);
+  var lower=DAYS[2].exercises;
+  var ai=lower.map(function(e){return e.name;}).indexOf("Seated Hip Abduction");
+  var si=lower.map(function(e){return e.name;}).indexOf("Side Plank");
+  assert("abduction before side plank", ai>=0 && si===ai+1);
+  assert("lower B is 2 sets", lower[ai].sets===2 && lower[ai].reps==="15-20");
+  var upper=DAYS[1].exercises.filter(function(e){return e.name==="Seated Hip Abduction";});
+  var onlyLower=DAYS.filter(function(d){ return d.exercises.some(function(e){ return e.name==="Seated Hip Abduction"; }); });
+  assert("saturday removed", upper.length===0 && onlyLower.length===1 && onlyLower[0].id===3);
+  assert("coach lifts", ["Face Pull","Banded Barbell Hip Thrust","Deep Leg Press","Smith Romanian Deadlift","Dumbbell Hammer Curl","Cable Curl"].every(function(n){return !!COACH[n];}));
+  window.__m165SelfCheck=results;
+  window.__m165SelfCheckOk=results.every(function(r){return r.ok;});
+  if (!window.__m165SelfCheckOk) console.error("m165 self-check failed", results.filter(function(r){return !r.ok;}));
+}
+initPosMaps();
+m165SelfCheck();
+window.__m165={
+  cleanLoggedNumber:cleanLoggedNumber,
+  mergeSetRows:mergeSetRows,
+  mergePendingLists:mergePendingLists,
+  normalizePendingPayload:normalizePendingPayload,
+  buildLowerAEntry:buildLowerAEntry,
+  applyPendingListToGrids:applyPendingListToGrids,
+  ingestPendingEntries:ingestPendingEntries,
+  isBlankVal:isBlankVal,
+  loadSetGrid:loadSetGrid,
+  loadPending:loadPending,
+  COACH:COACH
+};
+
 /* ============================= INIT ============================= */
 storageSelfTest();
 requestPersistentStorage();
 seedHistory();
+seedLowerA20261120();
 /* ===================== v4d: PROFILE · NAV · TODAY · GUIDE · ANATOMY · SETTINGS · ABOUT ===================== */
 /* App defaults (generic) vs owner seed (personal). A clean build for another user sets OWNER_SEED_ON=false:
    no personal history, supplements or name get seeded, and everything is set in Settings. */
@@ -3732,7 +5611,7 @@ var NAV_GROUPS=[
   {id:"today",label:"Today",icon:"🏠",views:[["workout","Workout"]]},
   {id:"train",label:"Train",icon:"🏋️",views:[["build","Build"],["recover","Recover"],["history","History"]]},
   {id:"fuel",label:"Fuel",icon:"🍽️",views:[["fuel","Fuel"],["meal","Meal Prep"]]},
-  {id:"pep",label:"Peptides",icon:"💉",views:[["peptide","Peptides"],["guide","Guide"]]},
+  {id:"pep",label:"Peptides",icon:"💉",views:[["peptide","Log"],["map","Map"],["guide","Guide"]]},
   {id:"more",label:"More",icon:"☰",views:[["body","Body"],["anatomy","Anatomy"],["settings","Settings"],["about","About"]]}
 ];
 function navGroupOf(view){ for (var i=0;i<NAV_GROUPS.length;i++) if (NAV_GROUPS[i].views.some(function(v){return v[0]===view;})) return NAV_GROUPS[i]; return NAV_GROUPS[0]; }
@@ -3974,16 +5853,26 @@ function groupExercises(g){
 }
 
 function pts720(a,mirror){ return a.map(function(p){ return (mirror?ANAT_W-p[0]:p[0])+","+p[1]; }).join(" "); }
-function anatomySVG(side,mode,sel,roles){
-  var s='<svg class="anat-svg" viewBox="0 0 '+ANAT_W+' '+ANAT_H+'" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="'+(side==="front"?"Front":"Back")+' muscle chart">';
+function anatomySVG(side,mode,sel,roles,coach){
+  var paint=coach&&coach.paint&&coach.paint[side]?coach.paint[side]:null;
+  var s='<svg class="anat-svg'+(paint?" coach":"")+'" viewBox="0 0 '+ANAT_W+' '+ANAT_H+'" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="'+(side==="front"?"Front":"Back")+' muscle chart">';
+  if (paint) s+='<defs><marker id="coachArr" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#4ade80"/></marker></defs>';
   s+='<image href="anat_'+side+'.jpg" x="0" y="0" width="'+ANAT_W+'" height="'+ANAT_H+'" preserveAspectRatio="xMidYMid meet"/>';
   MUSCLE_GROUPS.forEach(function(g){
     (g[side]||[]).forEach(function(poly){
-      var role=mode!=="muscle"?"":(roles?roles[g.id]||"":(sel===g.id?"primary":""));
-      var cls="mg"+(role?" hl-"+role:"");
+      var painted=paint?paint[g.id]:"";
+      var role=paint?"":(mode!=="muscle"?"":(roles?roles[g.id]||"":(sel===g.id?"primary":"")));
+      var cls="mg"+(painted?" coach-"+painted:"")+(role?" hl-"+role:"");
       [false,true].forEach(function(m){ s+='<polygon class="'+cls+'" data-g="'+g.id+'" points="'+pts720(poly,m)+'"/>'; });
     });
   });
+  if (coach&&coach.overlays&&coach.overlays[side]){
+    coach.overlays[side].forEach(function(o){
+      if (o.kind==="arrow") s+='<line x1="'+o.x1+'" y1="'+o.y1+'" x2="'+o.x2+'" y2="'+o.y2+'" stroke="#4ade80" stroke-width="10" marker-end="url(#coachArr)"/>';
+      if (o.kind==="dash") s+='<path d="'+o.d+'" fill="none" stroke="#f4b740" stroke-width="8" stroke-dasharray="16 12"/>';
+      if (o.kind==="label") s+='<text x="'+o.x+'" y="'+o.y+'" fill="#bbf7d0" font-size="32" font-family="Inter,sans-serif" font-weight="700">'+esc(o.text)+'</text>';
+    });
+  }
   if (mode==="pep"){
     PEP_AREAS.forEach(function(a){
       var on=sel?(a.peps.indexOf(sel)>=0):true, cls='pa'+(on?' on':'');
@@ -4011,6 +5900,7 @@ function exercisesFor(keys){
   return out;
 }
 function renderAnatomyView(){
+  if ((state.anatMode||"")==="coach" && COACH[state.coachEx]) return renderCoachView();
   var mode=state.anatMode||"muscle", side=state.anatSide||"front";
   if (mode==="pep") side="front";
   var sel=mode==="muscle"?state.anatMuscle:state.anatPep;
@@ -4064,6 +5954,265 @@ function renderAnatomyView(){
   return wrap;
 }
 
+/* ---------- Mission 165 peptide map (nine peptides, no amounts) ---------- */
+var MAP_PEPS=[
+  {id:"tesa",logId:"tesa",name:"Tesamorelin",organs:["gh","fat"],evidence:3,evidenceLabel:"Strong human evidence for an approved medical use",
+    does:"It asks the pituitary to release your own growth hormone in pulses. That signal is studied for abdominal fat and overnight repair. It is an approved medicine for a specific condition, not a general fat-loss product. Your clinic directs this use.",
+    where:"Pituitary and the growth-hormone axis, with effects on belly fat.",
+    train:"Recovery and body composition, not the lift itself. The clinic places it at night in the fasted window, which sits with sleep after training days.",
+    days:[5,6,0,1,3],slot:"night"},
+  {id:"glow",logId:"glowkpv",name:"GLOW+KPV",organs:["skin","joints","gut"],evidence:1,evidenceLabel:"Mostly lab or animal research",
+    does:"A clinic blend aimed at tissue repair, skin, and calming inflammation. The usual mix is studied mostly in animals and lab work, not in large human trials. Confirm the contents with your clinic.",
+    where:"Skin, tendons and joints, and the gut lining.",
+    train:"Supports the joints and connective tissue between hard lower-body days. The clinic lists it every morning.",
+    days:[0,1,2,3,4,5,6],slot:"wake"},
+  {id:"motsc",logId:"motsc",name:"MOTS-c",organs:["fat","muscle"],evidence:1,evidenceLabel:"Mostly lab or animal research",
+    does:"A mitochondrial peptide studied as an exercise-like signal for muscle fuel and insulin sensitivity. Human evidence is still thin. It is not an approved treatment.",
+    where:"Skeletal muscle and metabolic tissues.",
+    train:"The research link is muscle fuel. The clinic places it on Friday before training, plus Monday and Wednesday mornings.",
+    days:[5,1,3],slot:"wake"},
+  {id:"semax",logId:"semax",name:"Semax/Selank",organs:["brain"],evidence:2,evidenceLabel:"Some human research, not an approved use here",
+    does:"Two short brain peptides used together on your clinic list. Published human work is mostly small studies from where they are registered medicines. They are not approved in the United States.",
+    where:"Brain pathways tied to focus and calm.",
+    train:"For alertness and steadiness on patrol, not for the muscle worked in the gym. The clinic puts it before shift on work days, and on waking on Tuesday.",
+    days:[5,6,0,1,2],slotFor:function(day){ return day===2?"wake":"shift"; }},
+  {id:"tirz",logId:"tirz",name:"Tirzepatide",organs:["gut","fat"],evidence:3,evidenceLabel:"Strong human evidence for an approved medical use",
+    does:"It turns on two gut-hormone signals that slow appetite and help blood sugar on its approved labels. Your clinic directs how it fits the mission. This map does not change that plan.",
+    where:"Gut, appetite, and abdominal fat.",
+    train:"It supports the waist goal between lifting days. It is not a performance drug for the session itself. The clinic lists Monday and Thursday nights.",
+    days:[1,4],slot:"night"},
+  {id:"testcyp",logId:"testcyp",name:"Testosterone Cyp",organs:["muscle"],evidence:3,evidenceLabel:"Strong human evidence for an approved medical use",
+    does:"Testosterone in a slow-release form, used as replacement when a clinic has confirmed it is needed. It is not a peptide, and it is not an approved performance drug.",
+    where:"Muscle, bone, and other androgen-sensitive tissues.",
+    train:"Supports the muscle you train, on the clinic's hormone plan. Listed on Saturday and Wednesday mornings, around the training week.",
+    days:[6,3],slot:"wake"},
+  {id:"gluta",logId:"gluta",name:"Glutathione",organs:["liver"],evidence:2,evidenceLabel:"Some human research, not an approved use here",
+    does:"The body's main small antioxidant. Clinics offer it for recovery. Injected wellness use is not an approved drug indication.",
+    where:"Liver and whole-body antioxidant defense.",
+    train:"A recovery piece after hard sessions, not a muscle-builder. The clinic lists Saturday, Tuesday, and Thursday nights.",
+    days:[6,2,4],slot:"night"},
+  {id:"nad",logId:"nad",name:"NAD+",organs:["brain","muscle"],evidence:2,evidenceLabel:"Some human research, not an approved use here",
+    does:"A cell energy coenzyme, not a peptide. Every cell uses it. Wellness injections are still being studied and are not an approved energy treatment.",
+    where:"Mitochondria in muscle and brain.",
+    train:"Recovery and energy on easier mornings. The clinic lists Sunday, Tuesday, and Thursday mornings, not the heavy lift days.",
+    days:[0,2,4],slot:"wake"},
+  {id:"dihexa",logId:"dihexa",name:"Dihexa",organs:["brain"],evidence:1,evidenceLabel:"Mostly lab or animal research",logKind:"dihexa",
+    does:"A lab-made molecule studied in animals for synapse growth and memory. There is no adequate human trial, and it is not an approved medicine.",
+    where:"Brain signaling studied in animals.",
+    train:"Not part of the lifting plan. It is logged on its own. Days stay blank until your clinic sets them. This map will not guess.",
+    days:[],slot:"day"}
+];
+var MAP_BY_ID={};
+MAP_PEPS.forEach(function(p){ MAP_BY_ID[p.id]=p; });
+var MAP_DAYS_KEY="m165-pepmap-days";
+var MAP_SLOT_LABEL={wake:"On waking",shift:"Before shift",night:"At night",day:"Whenever your clinic set"};
+function mapSavedDays(){ var o=jparse(store.get(MAP_DAYS_KEY),{}); return (o&&typeof o==="object")?o:{}; }
+function mapDays(p){
+  var saved=mapSavedDays()[p.id];
+  if (Array.isArray(saved)) return saved.map(Number);
+  return (p.days||[]).slice();
+}
+function mapSlot(p, day){ return p.slotFor?p.slotFor(day):(p.slot||"day"); }
+function mapLastLog(p){
+  var best=null;
+  if (p.logKind==="dihexa"){
+    for (var i=0;i<localStorage.length;i++){
+      var k=localStorage.key(i);
+      if (!k||k.indexOf("m165-dihexa-")!==0) continue;
+      var ds=k.slice(12);
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(ds)) continue;
+      var rec=jparse(localStorage.getItem(k),{});
+      if (!rec||!rec.taken) continue;
+      if (!best||ds>best.date) best={date:ds,time:rec.taken};
+    }
+    return best;
+  }
+  var tail="-"+p.logId;
+  for (var j=0;j<localStorage.length;j++){
+    var key=localStorage.key(j);
+    if (!key||!/^m165-pep-\d{4}-\d{2}-\d{2}$/.test(key)) continue;
+    var day=key.slice(9);
+    var log=jparse(localStorage.getItem(key),{});
+    if (!log||typeof log!=="object") continue;
+    Object.keys(log).forEach(function(slotKey){
+      if (slotKey.slice(-tail.length)!==tail) return;
+      if (!log[slotKey]) return;
+      if (!best||day>best.date) best={date:day,time:String(log[slotKey])};
+    });
+  }
+  return best;
+}
+function mapWhen(dateStr){
+  if (!dateStr) return "Not logged yet";
+  if (dateStr===todayStr()) return "Today";
+  if (dateStr===yesterdayStr()) return "Yesterday";
+  var names=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+  return names[new Date(dateStr+"T00:00:00").getDay()]||"Earlier";
+}
+function mapNextLabel(p){
+  var days=mapDays(p);
+  if (!days.length) return "No clinic day set";
+  var last=mapLastLog(p);
+  for (var i=0;i<8;i++){
+    var d=new Date(); d.setHours(12,0,0,0); d.setDate(d.getDate()+i);
+    if (days.indexOf(d.getDay())<0) continue;
+    if (i===0 && last && last.date===todayStr()) continue;
+    var when=i===0?"Today":(i===1?"Tomorrow":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][d.getDay()]);
+    return when+" · "+MAP_SLOT_LABEL[mapSlot(p, d.getDay())];
+  }
+  return "No clinic day set";
+}
+function mapStatus(p){
+  var last=mapLastLog(p);
+  var days=mapDays(p);
+  var due=days.indexOf(new Date().getDay())>=0;
+  var logged=!!(last&&last.date===todayStr());
+  return {last:last, logged:logged, due:due, hot:due&&!logged?"due":(logged?"logged":"idle"), next:mapNextLabel(p)};
+}
+function mapOrganHot(areaId){
+  var hot="idle", rank={idle:0,logged:1,due:2};
+  MAP_PEPS.forEach(function(p){
+    if (p.organs.indexOf(areaId)<0) return;
+    var st=mapStatus(p).hot;
+    if (rank[st]>rank[hot]) hot=st;
+  });
+  return hot;
+}
+function mapEvidenceHTML(n){
+  var h='<span class="ev e'+n+'" aria-label="Evidence '+n+' of 3">';
+  for (var i=1;i<=3;i++) h+='<i'+(i<=n?' class="on"':'')+'></i>';
+  return h+'</span>';
+}
+function mapFigureSVG(){
+  var sel=state.mapArea;
+  var s='<svg class="pmap-svg" viewBox="0 0 '+ANAT_W+' '+ANAT_H+'" role="img" aria-label="Peptide map on the Mission 165 figure">';
+  s+='<image href="anat_front.jpg" x="0" y="0" width="'+ANAT_W+'" height="'+ANAT_H+'" preserveAspectRatio="xMidYMid meet"/>';
+  PEP_AREAS.forEach(function(a){
+    var hot=mapOrganHot(a.id);
+    var on=sel===a.id || (state.mapPep && MAP_BY_ID[state.mapPep] && MAP_BY_ID[state.mapPep].organs.indexOf(a.id)>=0);
+    var cls="org "+hot+(on?" on":"");
+    if (!a.sh) return;
+    if (a.sh[0]==="e") s+='<ellipse class="'+cls+'" data-a="'+a.id+'" cx="'+a.sh[1]+'" cy="'+a.sh[2]+'" rx="'+a.sh[3]+'" ry="'+a.sh[4]+'"/>';
+    else a.sh[1].forEach(function(c){ [c[0],ANAT_W-c[0]].forEach(function(x){ s+='<circle class="'+cls+'" data-a="'+a.id+'" cx="'+x+'" cy="'+c[1]+'" r="'+c[2]+'"/>'; }); });
+  });
+  return s+'</svg>';
+}
+function mapToggleLog(p){
+  if (p.logKind==="dihexa"){
+    var rec=jparse(store.get("m165-dihexa-"+todayStr()),{});
+    if (rec.taken) delete rec.taken; else rec.taken=nowHM();
+    store.set("m165-dihexa-"+todayStr(), JSON.stringify(rec));
+    return;
+  }
+  var slot=mapSlot(p, new Date().getDay());
+  var key=slot+"-"+p.logId;
+  var logged=jparse(store.get(PEPK(todayStr())),{});
+  if (logged[key]) delete logged[key]; else logged[key]=nowHM();
+  store.set(PEPK(todayStr()), JSON.stringify(logged));
+}
+function renderPepMapView(){
+  if (!state.mapPep) state.mapPep=null;
+  var wrap=el('<div class="content map-view"></div>');
+  wrap.appendChild(el('<div class="coach-title" style="font-size:26px">Peptide Map</div>'));
+  wrap.appendChild(el('<div class="pend-note">Your nine peptides only. Tap a glow or a name. Amounts stay with your clinic and are not shown here.</div>'));
+  wrap.appendChild(el('<div class="map-leg"><span><b style="color:#2dd4bf">Teal pulse</b> due today</span><span><b style="color:#c084fc">Purple</b> logged today</span><span>Dim means not today</span></div>'));
+  wrap.appendChild(el('<div class="map-leg"><span>'+mapEvidenceHTML(3)+' strong human evidence</span><span>'+mapEvidenceHTML(2)+' some human research</span><span>'+mapEvidenceHTML(1)+' mostly lab or animal</span></div>'));
+  var fig=el('<div class="pmap-wrap">'+mapFigureSVG()+'</div>');
+  fig.querySelectorAll(".org").forEach(function(node){
+    node.addEventListener("click",function(){
+      var area=node.getAttribute("data-a");
+      state.mapArea=area;
+      var hits=MAP_PEPS.filter(function(p){ return p.organs.indexOf(area)>=0; });
+      state.mapPep=hits.length===1?hits[0].id:null;
+      renderApp();
+    });
+  });
+  wrap.appendChild(fig);
+  var chips=el('<div class="map-chips"></div>');
+  MAP_PEPS.forEach(function(p){
+    var st=mapStatus(p);
+    var b=el('<button type="button" class="t-chip'+(state.mapPep===p.id?" on":"")+'"><span class="pip '+st.hot+'"></span>'+mapEvidenceHTML(p.evidence)+esc(p.name)+'</button>');
+    b.addEventListener("click",function(){ state.mapPep=p.id; state.mapArea=p.organs[0]; renderApp(); });
+    chips.appendChild(b);
+  });
+  wrap.appendChild(chips);
+  if (state.mapArea && !state.mapPep){
+    var area=PEP_AREAS.filter(function(a){ return a.id===state.mapArea; })[0];
+    var hits=MAP_PEPS.filter(function(p){ return p.organs.indexOf(state.mapArea)>=0; });
+    var box=el('<div class="fuel-card map-card"><div class="k">'+esc(area?area.label:"Area")+'</div><div class="pend-note">'+esc(area?area.desc:"")+'</div></div>');
+    hits.forEach(function(p){
+      var btn=el('<button type="button" class="t-chip" style="margin:4px 4px 0 0">'+esc(p.name)+'</button>');
+      btn.addEventListener("click",function(){ state.mapPep=p.id; renderApp(); });
+      box.appendChild(btn);
+    });
+    wrap.appendChild(box);
+  }
+  if (state.mapPep && MAP_BY_ID[state.mapPep]){
+    var p=MAP_BY_ID[state.mapPep];
+    var st=mapStatus(p);
+    var card=el('<div class="fuel-card map-card" id="map-card"><div class="k">'+esc(p.name)+'</div>'+
+      '<div class="pend-note">'+mapEvidenceHTML(p.evidence)+esc(p.evidenceLabel)+'</div>'+
+      '<div class="pep-note"><b>What it does.</b> '+esc(p.does)+'</div>'+
+      '<div class="pep-note"><b>Where it works.</b> '+esc(p.where)+'</div>'+
+      '<div class="pep-note"><b>Training and recovery.</b> '+esc(p.train)+'</div>'+
+      '<div class="pep-note"><b>Last logged.</b> '+esc(st.last?mapWhen(st.last.date):"Not logged yet")+'</div>'+
+      '<div class="pep-note"><b>Next up.</b> '+esc(st.next)+'</div>'+
+      '<button type="button" class="v4-btn map-log" style="width:100%;margin-top:8px">'+(st.logged?"Undo today's log":"Log today")+'</button>'+
+      '<div class="a-sub">Clinic days</div><div class="map-days"></div>'+
+      '<div class="pend-note">Dosing stays with your clinic. Nothing on this card is an amount.</div></div>');
+    card.querySelector(".map-log").addEventListener("click",function(){ mapToggleLog(p); showSaveToast(st.logged?"Log cleared":"Logged"); renderApp(); });
+    var days=mapDays(p);
+    var names=["S","M","T","W","T","F","S"];
+    var row=card.querySelector(".map-days");
+    names.forEach(function(label, idx){
+      var b=el('<button type="button"'+(days.indexOf(idx)>=0?' class="on"':'')+'>'+label+'</button>');
+      b.addEventListener("click",function(){
+        var cur=mapDays(p);
+        var pos=cur.indexOf(idx);
+        if (pos>=0) cur.splice(pos,1); else cur.push(idx);
+        var all=mapSavedDays(); all[p.id]=cur; store.set(MAP_DAYS_KEY, JSON.stringify(all));
+        renderApp();
+      });
+      row.appendChild(b);
+    });
+    wrap.appendChild(card);
+  } else if (!state.mapArea){
+    wrap.appendChild(el('<div class="fuel-card map-card"><div class="k">Tap the figure</div><div class="pend-note">Glows follow today\'s clinic schedule and what you have already logged. Open a peptide to read the card or check it off.</div></div>'));
+  }
+  return wrap;
+}
+function m165MapCheck(){
+  var names={}, bad=[], digits=[];
+  MAP_PEPS.forEach(function(p){
+    names[p.name]=1;
+    var blob=[p.name,p.does,p.where,p.train,p.evidenceLabel].join(" ");
+    if (/\d/.test(blob)) digits.push(p.id);
+    if (!p.organs||!p.organs.length||!p.logId) bad.push(p.id);
+  });
+  var need=["Tesamorelin","GLOW+KPV","MOTS-c","Semax/Selank","Tirzepatide","Testosterone Cyp","Glutathione","NAD+","Dihexa"];
+  var missing=need.filter(function(n){ return !names[n]; });
+  window.__m165MapOk=MAP_PEPS.length===9 && !missing.length && !digits.length && !bad.length;
+  window.__m165MapBad={missing:missing,digits:digits,bad:bad};
+  if (!window.__m165MapOk) console.error("peptide map check failed", window.__m165MapBad);
+}
+m165MapCheck();
+function m165HeadCheck(){
+  var calf=rotationCue("Leg Press Calf Raise",1)==="Toes straight" && rotationCue("Leg Press Calf Raise",2)==="Toes out" && rotationCue("Leg Press Calf Raise",3)==="Toes in";
+  var bi=rotationCue("Cable Curl",1).indexOf("Close")===0 && rotationCue("Cable Curl",3).indexOf("Neutral")===0;
+  var tri=rotationCue("Rope Triceps Pushdown",1).indexOf("Overhead")===0 && rotationCue("Rope Triceps Pushdown",2).indexOf("Flared")===0;
+  var maps=POS_MAPS.chest && POS_MAPS.glutes && POS_MAPS.back && POS_MAPS.core && POS_MAPS.quads && POS_MAPS.hams;
+  var inc=exerciseMedia("Dumbbell Incline Press");
+  var dead=exerciseMedia("Deadlift (Trap Bar or Barbell)");
+  var shot=exShotHTML("Dumbbell Incline Press");
+  var plain=exShotHTML("Deadlift (Trap Bar or Barbell)");
+  var noStick=shot.indexOf("move-fig")<0 && shot.indexOf("move-toggle")<0 && plain.indexOf("head-tab")<0;
+  var has=!!(inc && inc.headImages && inc.headImages.upper && inc.headImages.lower && shot.indexOf("data-head=\"upper\"")>=0);
+  var keeps=!!(dead && dead.img==="ex_trapbar_deadlift.jpg" && !dead.headImages && plain.indexOf("ex_trapbar_deadlift.jpg")>=0);
+  window.__m165HeadOk=!!(calf && bi && tri && maps && noStick && has && keeps);
+  if (!window.__m165HeadOk) console.error("head check failed", calf, bi, tri, !!maps, noStick, has, keeps);
+}
+m165HeadCheck();
+
 /* ---------- Settings (profile, targets, schedule, sync) ---------- */
 function dayChecks(cls,sel){ return '<div class="set-days">'+DOW.map(function(d,i){ return '<label><input type="checkbox" class="'+cls+'" value="'+i+'"'+(sel.indexOf(i)>=0?" checked":"")+'>'+d+'</label>'; }).join("")+'</div>'; }
 function renderSettingsView(){
@@ -4095,7 +6244,7 @@ function renderSettingsView(){
 }
 
 /* ---------- About / branding ---------- */
-var APP_VERSION="v4 draft · Nov 2026";
+var APP_VERSION="v5 · Nov 24, 2026";
 function renderAboutView(){
   var p=profile();
   var w=el('<div class="content about"><div class="about-hero"><img src="'+AVATAR_SRC+'" alt="Mission 165 mascot"><div><div class="hero-kicker">MISSION 165</div><div class="about-t">Train. Fuel. Recover. Track.</div><div class="hero-motto">Mantente Vigilante · Enfoca La Mira</div></div></div>'+
@@ -4114,6 +6263,7 @@ function renderAboutView(){
 seedProfileV4d();
 if (OWNER_SEED_ON) seedRecoveredHistoryV4();
 if (OWNER_SEED_ON) seedSuppsV4c();
+ensureDefaultSync();
 loadHistory();
 loadDay(0);
 renderApp();
@@ -4130,6 +6280,7 @@ document.addEventListener("visibilitychange",function(){
 });
 window.addEventListener("pagehide",forceSaveNow);
 initCloudSync();
+initPendingSync();
 renderExportBanner();
 startPepReminderLoop();
 if ("serviceWorker" in navigator){
