@@ -186,6 +186,8 @@
   .logfor-btn.today.active{border-color:var(--violet);background:rgba(139,92,246,.13);color:var(--text);}
   .logfor-btn.yest.active{border-color:var(--amber);background:rgba(244,183,64,.13);color:var(--text);}
   .logfor-date{font-size:10px;padding:3px 6px;border-radius:6px;background:transparent;border:1px solid var(--border);color:var(--muted);color-scheme:dark;}
+  .sync-pill{margin-left:auto;min-height:32px;padding:0 12px;border-radius:999px;border:1px solid rgba(139,92,246,.55);background:rgba(139,92,246,.16);color:#ddd6fe;font-size:12px;font-weight:800;cursor:pointer;}
+  .sync-pill.syncing{opacity:.7;}
 
   .content{padding:16px 18px 0;}
 
@@ -1398,6 +1400,7 @@ function storageSelfTest(){
 // verification link that never arrived. Switched to jsonbin.io, using
 // Damian's own free account, verified working directly
 // against the real API before shipping.)
+var DEFAULT_SYNC_ID="6ae6c009ac6210605a62d670";
 var SYNC_ID_KEY="m165-sync-id";
 var SYNC_TS_KEY="m165-sync-updatedAt";
 var SYNC_EXCLUDE=[SYNC_ID_KEY,SYNC_TS_KEY,"m165-storagetest","m165-safety-history","m165-export-snooze"];
@@ -1408,7 +1411,16 @@ var SYNC_ACCESS_KEY="$2a$10$V4HO/1f.NhGNJ5qcZrGgQeDzaRDVtrxaXX0r7Y5UXu3XL64clJLQ
 var SYNC_OWNER_EMAIL="dsenanm72@gmail.com";
 var syncState={status:"off",lastSync:0,lastError:""}; // off|idle|syncing|error
 var syncPushTimer=null;
+var syncLastPullAt=0;
+var syncPulling=false;
+var syncPulledOnce=false;
+var SYNC_PULL_MIN_MS=10000;
 function syncPaired(){ return !!localStorage.getItem(SYNC_ID_KEY); }
+function ensureDefaultSync(){
+  try{
+    if (!localStorage.getItem(SYNC_ID_KEY)) localStorage.setItem(SYNC_ID_KEY, DEFAULT_SYNC_ID);
+  }catch(e){}
+}
 function setSyncStatus(status,err){
   syncState.status=status;
   if (status==="idle") syncState.lastSync=Date.now();
@@ -1430,18 +1442,28 @@ function buildSnapshot(){
 // device, or the other device saving with less data, wiped this phone's
 // workout history. It now MERGES: nothing local is ever deleted, workout
 // history is unioned by session id, and body metrics are unioned by date.
-function mergeHistoryArrays(localArr,incomingArr,preferIncoming){
+function mergeHistorySession(local, incoming){
+  var out=Object.assign({}, local||{});
+  incoming=incoming||{};
+  if (!out.date && incoming.date) out.date=incoming.date;
+  if (!out.dayId && incoming.dayId) out.dayId=incoming.dayId;
+  if (!out.dayTitle && incoming.dayTitle) out.dayTitle=incoming.dayTitle;
+  if (out.durationMin==null && incoming.durationMin!=null) out.durationMin=incoming.durationMin;
+  out.exercises=mergeExerciseLists(out.exercises, incoming.exercises);
+  out.doneCount=(out.exercises||[]).length;
+  if (incoming.total && (!out.total || Number(incoming.total)>Number(out.total))) out.total=incoming.total;
+  if (!out.total) out.total=out.doneCount;
+  return out;
+}
+function mergeHistoryArrays(localArr, incomingArr){
   var byId={}, order=[];
-  (Array.isArray(localArr)?localArr:[]).forEach(function(h){ if (h&&h.id){ byId[h.id]=h; order.push(h.id); } });
-  (Array.isArray(incomingArr)?incomingArr:[]).forEach(function(h){
+  function take(h){
     if (!h||!h.id) return;
-    if (!byId[h.id]){ byId[h.id]=h; order.push(h.id); }
-    else if (preferIncoming){
-      // same session on both: keep whichever has more logged exercises
-      var a=byId[h.id], b=h;
-      if ((b.exercises||[]).length>=(a.exercises||[]).length) byId[h.id]=b;
-    }
-  });
+    if (!byId[h.id]){ byId[h.id]=h; order.push(h.id); return; }
+    byId[h.id]=mergeHistorySession(byId[h.id], h);
+  }
+  (Array.isArray(localArr)?localArr:[]).forEach(take);
+  (Array.isArray(incomingArr)?incomingArr:[]).forEach(take);
   return order.map(function(id){ return byId[id]; });
 }
 function mergeMetricsArrays(localArr,incomingArr,preferIncoming){
@@ -1483,9 +1505,14 @@ function mergeSnapshot(data,mode){
     }
     if (k===HISTORY_KEY){
       var la=jparse(cur,[]), ia=jparse(inc,[]);
-      var merged=mergeHistoryArrays(la,ia,preferIncoming);
+      var merged=mergeHistoryArrays(la,ia);
       added.sessions+=Math.max(0,merged.length-(Array.isArray(la)?la.length:0));
       localStorage.setItem(k,JSON.stringify(merged));
+    } else if (k.indexOf(SETGRID_PREFIX)===0){
+      var lg=jparse(cur,{}), ig=jparse(inc,{});
+      var mg=mergeSetGridObjects(lg, ig);
+      if (JSON.stringify(mg)!==JSON.stringify(lg||{})) added.keys++;
+      localStorage.setItem(k,JSON.stringify(mg));
     } else if (k===METRICS_KEY){
       var lm=jparse(cur,[]), im=jparse(inc,[]);
       var mm=mergeMetricsArrays(lm,im,preferIncoming);
@@ -1520,6 +1547,7 @@ function v4MergeValue(k,a,b,preferIncoming){
 function applySnapshot(data){ return mergeSnapshot(data,"sync"); }
 function markDirtyAndScheduleSync(){
   if (typeof syncPaired!=="function"||!syncPaired()) return;
+  if (!syncPulledOnce) return;
   if (syncPushTimer) clearTimeout(syncPushTimer);
   syncPushTimer=setTimeout(pushSnapshot,2200);
 }
@@ -1557,16 +1585,103 @@ function pullSnapshot(cb){
       applySnapshot(remote.data);
       localStorage.setItem(SYNC_TS_KEY,String(remote.updatedAt));
       loadHistory(); loadDay(state.dayIdx); renderApp();
-      // v2: if this device had sessions/metrics the other one didn't, send the merged copy back
-      var rh=jparse((remote.data||{})[HISTORY_KEY],[]), rm=jparse((remote.data||{})[METRICS_KEY],[]);
-      var lh=jparse(localStorage.getItem(HISTORY_KEY),[]), lm=jparse(localStorage.getItem(METRICS_KEY),[]);
-      if ((lh.length||0)>(rh.length||0)||(lm.length||0)>(rm.length||0)) markDirtyAndScheduleSync();
+      syncPulledOnce=true;
+      if (syncRicherThanRemote(remote.data||{})) markDirtyAndScheduleSync();
+    } else {
+      syncPulledOnce=true;
     }
     setSyncStatus("idle");
     if (cb) cb();
   }).catch(function(e){
-    if (e.status===404){ setSyncStatus("idle"); if (cb) cb(); return; } // nothing pushed yet — not an error
+    if (e.status===404){ syncPulledOnce=true; setSyncStatus("idle"); if (cb) cb(); return; }
     setSyncStatus("error",e.message); if (cb) cb();
+  });
+}
+function remoteJson(data, key){
+  if (!data || data[key]==null) return null;
+  var v=data[key];
+  if (typeof v==="string") return jparse(v, null);
+  return v;
+}
+function historyRicher(localArr, remoteArr){
+  localArr=Array.isArray(localArr)?localArr:[];
+  remoteArr=Array.isArray(remoteArr)?remoteArr:[];
+  if (localArr.length>remoteArr.length) return true;
+  var remoteBy={};
+  remoteArr.forEach(function(h){ if (h&&h.id) remoteBy[h.id]=h; });
+  var richer=false;
+  localArr.forEach(function(h){
+    if (!h||!h.id) return;
+    var other=remoteBy[h.id];
+    if (!other){ richer=true; return; }
+    var names={};
+    (other.exercises||[]).forEach(function(e){ if (e&&e.name) names[e.name]=e; });
+    (h.exercises||[]).forEach(function(e){
+      if (!e||!e.name) return;
+      var re=names[e.name];
+      if (!re){ richer=true; return; }
+      var remoteSets={};
+      (re.sets||[]).forEach(function(s){ if (s) remoteSets[s.n]=s; });
+      (e.sets||[]).forEach(function(s){
+        if (!s) return;
+        var rs=remoteSets[s.n];
+        if (!rs){ richer=true; return; }
+        if (isBlankVal(rs.weight) && !isBlankVal(s.weight)) richer=true;
+        if (isBlankVal(rs.reps) && !isBlankVal(s.reps)) richer=true;
+      });
+    });
+  });
+  return richer;
+}
+function gridRicher(localGrid, remoteGrid){
+  localGrid=(localGrid&&typeof localGrid==="object")?localGrid:{};
+  remoteGrid=(remoteGrid&&typeof remoteGrid==="object")?remoteGrid:{};
+  var richer=false;
+  Object.keys(localGrid).forEach(function(name){
+    if (!name || name.charAt(0)==="_") return;
+    var lr=Array.isArray(localGrid[name])?localGrid[name]:[];
+    var rr=Array.isArray(remoteGrid[name])?remoteGrid[name]:[];
+    var remoteBy={};
+    rr.forEach(function(r){ if (r) remoteBy[r.n]=r; });
+    lr.forEach(function(r){
+      if (!r) return;
+      var o=remoteBy[r.n];
+      if (!o){ richer=true; return; }
+      if (isBlankVal(o.weight) && !isBlankVal(r.weight)) richer=true;
+      if (isBlankVal(o.reps) && !isBlankVal(r.reps)) richer=true;
+      if (r.confirmed && !o.confirmed) richer=true;
+    });
+  });
+  return richer;
+}
+function syncRicherThanRemote(remoteData){
+  var lh=jparse(localStorage.getItem(HISTORY_KEY),[]);
+  var rh=remoteJson(remoteData, HISTORY_KEY)||[];
+  if (historyRicher(lh, rh)) return true;
+  var keys={};
+  for (var i=0;i<localStorage.length;i++){
+    var k=localStorage.key(i);
+    if (k && k.indexOf(SETGRID_PREFIX)===0) keys[k]=1;
+  }
+  var richer=false;
+  Object.keys(keys).forEach(function(k){
+    if (gridRicher(jparse(localStorage.getItem(k),{}), remoteJson(remoteData, k)||{})) richer=true;
+  });
+  return richer;
+}
+function syncPull(force, cb){
+  ensureDefaultSync();
+  if (!syncPaired()){ if (cb) cb(); return; }
+  var now=Date.now();
+  if (!force && (syncPulling || (syncLastPullAt && (now-syncLastPullAt)<SYNC_PULL_MIN_MS))){
+    if (cb) cb();
+    return;
+  }
+  syncLastPullAt=now;
+  syncPulling=true;
+  pullSnapshot(function(){
+    syncPulling=false;
+    if (cb) cb();
   });
 }
 function startNewSync(cb){
@@ -1621,10 +1736,12 @@ function unpairSync(){
   setSyncStatus("off");
 }
 function initCloudSync(){
-  if (syncPaired()) pullSnapshot();
+  ensureDefaultSync();
+  if (syncPaired()) syncPull(true);
   document.addEventListener("visibilitychange",function(){
-    if (document.visibilityState==="visible") pullSnapshot();
+    if (document.visibilityState==="visible") syncPull(false);
   });
+  window.addEventListener("focus",function(){ syncPull(false); });
 }
 function PK(d){return "m165-progress-day-"+d;}
 function WK(d){return "m165-weights-day-"+d;}
@@ -1919,6 +2036,7 @@ function renderNav(){
   yBtn.addEventListener("click",function(){ state.logDate=yesterdayStr(); renderApp(); });
   dInput.addEventListener("change",function(){ if (dInput.value){ state.logDate=dInput.value; renderApp(); } });
   lf.appendChild(tBtn); lf.appendChild(yBtn); lf.appendChild(dInput);
+  lf.appendChild(makeSyncPill());
   nav.appendChild(lf);
   return nav;
 }
@@ -2550,6 +2668,17 @@ function backupText(){
   }
   return lines.join("\n");
 }
+function makeSyncPill(){
+  var label=syncState.status==="syncing"?"Syncing":(syncState.status==="error"?"Retry sync":"Sync");
+  var b=el('<button type="button" class="sync-pill'+(syncState.status==="syncing"?" syncing":"")+'" aria-label="Sync">'+esc(label)+'</button>');
+  b.addEventListener("click",function(e){
+    e.stopPropagation();
+    b.textContent="Syncing";
+    b.classList.add("syncing");
+    syncPull(true, function(){ renderApp(); });
+  });
+  return b;
+}
 function renderSyncCard(){
   var card=el('<div class="sync-card"></div>');
   var dotClass="off",statusText="Not set up — data stays on this device only";
@@ -2586,7 +2715,7 @@ function renderSyncCard(){
     card.appendChild(el('<div class="sync-code">Code: <strong>'+esc(id)+'</strong></div>'));
     var row2=el('<div class="sync-btns"></div>');
     var syncNow=el('<button class="sync-btn">Sync Now</button>');
-    syncNow.addEventListener("click",function(){ pullSnapshot(function(){ pushSnapshot(); }); });
+    syncNow.addEventListener("click",function(){ syncPull(true, function(){ pushSnapshot(); }); });
     var unpair=el('<button class="sync-btn ghost">Unpair This Device</button>');
     unpair.addEventListener("click",function(){
       if (!confirm("Stop syncing this device? Your local data stays here, but it won't send or receive updates from your other device anymore.")) return;
@@ -2599,6 +2728,10 @@ function renderSyncCard(){
 }
 function renderHistoryView(){
   var wrap=el('<div class="content"></div>');
+  var pillRow=el('<div class="logfor-row" style="padding:0 0 12px"></div>');
+  pillRow.appendChild(el('<span class="logfor-label">Cloud</span>'));
+  pillRow.appendChild(makeSyncPill());
+  wrap.appendChild(pillRow);
   wrap.appendChild(renderDataCard());
   wrap.appendChild(renderSyncCard());
   wrap.appendChild(renderPendingCard());
@@ -3994,7 +4127,6 @@ function parseTypedLoad(raw){
 function syncSkippedKey(k){
   if (!k) return true;
   if (SYNC_EXCLUDE.indexOf(k)>=0) return true;
-  if (k.indexOf(SETGRID_PREFIX)===0) return true;
   return false;
 }
 function storeLocal(k,v){
@@ -4040,7 +4172,7 @@ function mergeSetRows(localRows, incomingRows){
     if (!isFinite(n)) return;
     if (!byN[n]){
       order.push(n);
-      byN[n]={n:n, weight:isBlankVal(s.weight)?null:s.weight, reps:isBlankVal(s.reps)?null:s.reps, note:s.note||"", confirmed:false, planned:!!s.planned, source:s.source||"voice"};
+      byN[n]={n:n, weight:isBlankVal(s.weight)?null:s.weight, reps:isBlankVal(s.reps)?null:s.reps, note:s.note||"", confirmed:!!s.confirmed, planned:!!s.planned, source:s.source||"voice"};
       return;
     }
     var row=byN[n];
@@ -4055,10 +4187,38 @@ function mergeSetRows(localRows, incomingRows){
       if (String(row[f])!==String(inc)) conflicts.push({n:n, field:f, kept:row[f], skipped:inc});
     });
     if (s.note && !row.note) row.note=s.note;
+    if (s.confirmed) row.confirmed=true;
     if (s.planned && isBlankVal(row.weight) && isBlankVal(row.reps)) row.planned=true;
   });
   order.sort(function(a,b){ return a-b; });
   return {rows:order.map(function(n){ return byN[n]; }), conflicts:conflicts};
+}
+function mergeSetGridObjects(localGrid, incomingGrid){
+  localGrid=(localGrid && typeof localGrid==="object" && !Array.isArray(localGrid))?localGrid:{};
+  incomingGrid=(incomingGrid && typeof incomingGrid==="object" && !Array.isArray(incomingGrid))?incomingGrid:{};
+  var names={}, out={};
+  Object.keys(localGrid).forEach(function(k){ names[k]=1; });
+  Object.keys(incomingGrid).forEach(function(k){ names[k]=1; });
+  Object.keys(names).forEach(function(k){
+    if (k==="_notes"){
+      var ln=(localGrid._notes && typeof localGrid._notes==="object")?localGrid._notes:{};
+      var inn=(incomingGrid._notes && typeof incomingGrid._notes==="object")?incomingGrid._notes:{};
+      var notes=Object.assign({}, inn);
+      Object.keys(ln).forEach(function(nk){ if (ln[nk]) notes[nk]=ln[nk]; });
+      out._notes=notes;
+      return;
+    }
+    if (k==="_sessionNote"){
+      out._sessionNote=localGrid._sessionNote || incomingGrid._sessionNote || "";
+      return;
+    }
+    if (k.charAt(0)==="_"){
+      out[k]=localGrid[k]!=null?localGrid[k]:incomingGrid[k];
+      return;
+    }
+    out[k]=mergeSetRows(Array.isArray(localGrid[k])?localGrid[k]:[], Array.isArray(incomingGrid[k])?incomingGrid[k]:[]).rows;
+  });
+  return out;
 }
 function mergeExerciseLists(localEx, incomingEx){
   var byName={}, order=[];
@@ -4222,7 +4382,7 @@ function loadSetGrid(date, dayId){
   if (!g || typeof g!=="object" || Array.isArray(g)) return {};
   return g;
 }
-function saveSetGrid(date, dayId, grid){ storeLocal(setGridKey(date, dayId), JSON.stringify(grid)); }
+function saveSetGrid(date, dayId, grid){ store.set(setGridKey(date, dayId), JSON.stringify(grid)); }
 function applyPendingListToGrids(entries){
   var report={applied:0, conflicts:0};
   (entries||[]).forEach(function(entry){
@@ -5184,7 +5344,7 @@ function renderPendingCard(){
     card.appendChild(block);
   });
   var tools=el('<details class="pend-ex"><summary>Pending bin and paste</summary>'+
-    '<div class="pend-note">The pending bin is not your history bin. Grok writes only this bin. Put null in JSON when a number was not said.</div>'+
+    '<div class="pend-note">Optional older path. iPhone and laptop already share one sync bin. Use this only for a separate pending bin. Put null in JSON when a number was not said.</div>'+
     '<input class="pend-id" placeholder="Pending bin id">'+
     '<div class="sync-btns" style="margin-top:8px"><button type="button" class="sync-btn pend-save">Save bin</button><button type="button" class="sync-btn pend-pull">Pull voice log</button></div>'+
     '<textarea class="pend-paste" placeholder=\'{"entries":[{"date":"2026-11-20","dayId":1,"exercises":[{"name":"Deep Leg Press","sets":[{"n":1,"weight":193,"reps":null}]}]}]}\'></textarea>'+
@@ -5248,6 +5408,25 @@ function m165SelfCheck(){
   assert("signed blank stays", signed.rows[0].reps===null);
   var added=mergeSetRows([{n:1, weight:193, reps:8}], [{n:2, weight:50, reps:5}]);
   assert("does not drop a set", added.rows.length===2 && added.rows[0].weight===193);
+  var union=mergeHistoryArrays(
+    [{id:"2026-11-24-1", date:"2026-11-24", dayId:1, exercises:[{name:"Deep Leg Press", sets:[{n:1, weight:193, reps:10}]}]}],
+    [{id:"2026-11-24-1", date:"2026-11-24", dayId:1, exercises:[{name:"Deep Leg Press", sets:[{n:2, weight:283, reps:8}]},{name:"Barbell Back Squat", sets:[{n:1, weight:100, reps:5}]}]}]
+  );
+  assert("history keeps both sets", union.length===1 && union[0].exercises[0].sets.length===2 && union[0].exercises[0].sets[0].weight===193 && union[0].exercises[0].sets[1].weight===283);
+  assert("history keeps both exercises", union[0].exercises.length===2 && union[0].exercises[1].name==="Barbell Back Squat");
+  var grids=mergeSetGridObjects(
+    {"Deep Leg Press":[{n:1, weight:193, reps:10, confirmed:true}]},
+    {"Deep Leg Press":[{n:1, weight:999, reps:10, confirmed:true},{n:2, weight:225, reps:8, confirmed:true}]}
+  );
+  assert("grid keeps 193 and adds set", grids["Deep Leg Press"][0].weight===193 && grids["Deep Leg Press"].length===2 && grids["Deep Leg Press"][1].weight===225);
+  assert("default sync id", DEFAULT_SYNC_ID==="6ae6c009ac6210605a62d670");
+  var priorSync=localStorage.getItem(SYNC_ID_KEY);
+  if (!priorSync){
+    ensureDefaultSync();
+    assert("auto pairs when empty", localStorage.getItem(SYNC_ID_KEY)===DEFAULT_SYNC_ID);
+  } else {
+    assert("keeps an existing sync id", localStorage.getItem(SYNC_ID_KEY)===priorSync);
+  }
   var lists=mergePendingLists([{id:"a", exercises:[{name:"Squat", sets:[{n:1, weight:100, reps:5}]}]}, {id:"b", exercises:[]}], [{id:"a", exercises:[{name:"Squat", sets:[{n:1, weight:100, reps:null}]}]}]);
   assert("pending keeps both", lists.length===2 && lists[0].exercises[0].sets[0].reps===5);
   var payload=normalizePendingPayload({entries:[{date:"2026-11-21", dayId:1, exercises:[{name:"Deep Leg Press", sets:[{n:1, weight:"about 200", reps:null}]}]}]});
@@ -5962,6 +6141,7 @@ function renderAboutView(){
 seedProfileV4d();
 if (OWNER_SEED_ON) seedRecoveredHistoryV4();
 if (OWNER_SEED_ON) seedSuppsV4c();
+ensureDefaultSync();
 loadHistory();
 loadDay(0);
 renderApp();

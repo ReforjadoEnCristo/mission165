@@ -1,0 +1,10 @@
+{
+  "name": "mission165",
+  "private": true,
+  "scripts": {
+    "test:sync": "playwright test tests/voice-sync.spec.js"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.49.1"
+  }
+}
