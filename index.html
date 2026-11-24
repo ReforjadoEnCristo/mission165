@@ -454,99 +454,17 @@
   .sg-pm button:disabled{opacity:.35;}
   .sg-hint{font-size:11px;color:var(--muted);}
   .rot-row td{padding:0 3px 6px;}
-  .rot-tag{display:inline-block;max-width:100%;font-size:11px;font-weight:800;line-height:1.25;color:#ccfbf1;background:rgba(45,212,191,.14);border:1px solid rgba(45,212,191,.5);border-radius:999px;padding:3px 8px;}
+  .rot-tag{display:inline-block;max-width:100%;font-size:11px;font-weight:800;line-height:1.25;color:#ccfbf1;background:rgba(45,212,191,.14);border:1px solid rgba(45,212,191,.5);border-radius:999px;padding:3px 8px;cursor:pointer;font-family:inherit;text-align:left;}
+  .rot-tag.on{color:#fecaca;background:rgba(248,113,113,.16);border-color:#f87171;}
   .rot-note{font-size:11.5px;color:#d6d6de;line-height:1.4;margin:0 0 8px;}
-  .move-fig{background:#101014;border:1px solid var(--border);border-radius:12px;padding:8px 8px 10px;margin:0 0 12px;}
-  .move-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px;}
-  .move-toggle{min-height:36px;padding:0 14px;border-radius:999px;border:1px solid #2dd4bf;background:rgba(45,212,191,.14);color:#ccfbf1;font-weight:800;font-size:12px;cursor:pointer;}
-  .move-svg{width:100%;height:auto;display:block;}
-  .move-svg .limb,.move-svg .glow,.move-svg .pull{transform-box:view-box;}
-  .move-fig.is-paused .limb,.move-fig.is-paused .glow,.move-fig.is-paused .pull{animation-play-state:paused;}
-  .move-svg .glow{fill:#22c55e;opacity:.35;}
-  .move-svg .comp{fill:#f43f5e;opacity:.55;}
-  .move-hinge .torso{transform-origin:150px 118px;animation:hingeBend 2.8s ease-in-out infinite;}
-  .move-hinge .glow{animation:muscleGlow 2.8s ease-in-out infinite;}
-  .move-hinge .pull{animation:nudgeLeft 2.8s ease-in-out infinite;}
-  .move-squat .hips{animation:squatDrop 2.8s ease-in-out infinite;}
-  .move-squat .glow{animation:muscleGlow 2.8s ease-in-out infinite;}
-  .move-squat .pull{animation:nudgeDown 2.8s ease-in-out infinite;}
-  .move-legpress .sled{animation:sledPress 2.8s ease-in-out infinite;}
-  .move-legpress .glow{animation:muscleGlow 2.8s ease-in-out infinite;}
-  .move-legpress .pull{animation:nudgeRight 2.8s ease-in-out infinite;}
-  .move-calf .heel{transform-origin:186px 146px;animation:heelRise 2.8s ease-in-out infinite;}
-  .move-calf .glow{animation:muscleGlow 2.8s ease-in-out infinite;}
-  .move-calf .pull{animation:nudgeUp 2.8s ease-in-out infinite;}
-  .move-abduct .kneeL{transform-origin:140px 96px;animation:kneeOutL 2.8s ease-in-out infinite;}
-  .move-abduct .kneeR{transform-origin:140px 96px;animation:kneeOutR 2.8s ease-in-out infinite;}
-  .move-abduct .glow{animation:muscleGlow 2.8s ease-in-out infinite;}
-  .move-pull .arms{animation:pullDown 2.8s ease-in-out infinite;}
-  .move-pull .glow{animation:muscleGlow 2.8s ease-in-out infinite;}
-  .move-pull .pull{animation:nudgeDown 2.8s ease-in-out infinite;}
-  .move-row .arms{animation:rowBack 2.8s ease-in-out infinite;}
-  .move-row .glow{animation:muscleGlow 2.8s ease-in-out infinite;}
-  .move-row .pull{animation:nudgeLeft 2.8s ease-in-out infinite;}
-  .move-press .arms{transform-origin:140px 70px;animation:pressOut 2.8s ease-in-out infinite;}
-  .move-press .glow{animation:muscleGlow 2.8s ease-in-out infinite;}
-  .move-press .pull{animation:nudgeUp 2.8s ease-in-out infinite;}
-  .move-fly .armL{transform-origin:140px 72px;animation:flyInL 2.8s ease-in-out infinite;}
-  .move-fly .armR{transform-origin:140px 72px;animation:flyInR 2.8s ease-in-out infinite;}
-  .move-fly .glow{animation:muscleGlow 2.8s ease-in-out infinite;}
-  .move-rear .arms{animation:rearPull 2.8s ease-in-out infinite;}
-  .move-rear .glow{animation:muscleGlow 2.8s ease-in-out infinite;}
-  .move-rear .pull{animation:nudgeLeft 2.8s ease-in-out infinite;}
-  .move-raise .arms{transform-origin:140px 78px;animation:armRaise 2.8s ease-in-out infinite;}
-  .move-raise .glow{animation:muscleGlow 2.8s ease-in-out infinite;}
-  .move-raise .pull{animation:nudgeUp 2.8s ease-in-out infinite;}
-  .move-curl .forearm{transform-origin:168px 78px;animation:curlUp 2.8s ease-in-out infinite;}
-  .move-curl .glow{animation:muscleGlow 2.8s ease-in-out infinite;}
-  .move-curl .pull{animation:nudgeUp 2.8s ease-in-out infinite;}
-  .move-pushdown .forearm{transform-origin:150px 72px;animation:pushDown 2.8s ease-in-out infinite;}
-  .move-pushdown .glow{animation:muscleGlow 2.8s ease-in-out infinite;}
-  .move-pushdown .pull{animation:nudgeDown 2.8s ease-in-out infinite;}
-  .move-overhead .forearm{transform-origin:140px 46px;animation:overheadExt 2.8s ease-in-out infinite;}
-  .move-overhead .glow{animation:muscleGlow 2.8s ease-in-out infinite;}
-  .move-overhead .pull{animation:nudgeUp 2.8s ease-in-out infinite;}
-  .move-plank .hips{animation:plankLift 2.8s ease-in-out infinite;}
-  .move-plank .glow{animation:muscleGlow 2.8s ease-in-out infinite;}
-  .move-crunch .torso{transform-origin:150px 120px;animation:crunchCurl 2.8s ease-in-out infinite;}
-  .move-crunch .glow{animation:muscleGlow 2.8s ease-in-out infinite;}
-  .move-thrust .hips{animation:thrustUp 2.8s ease-in-out infinite;}
-  .move-thrust .glow{animation:muscleGlow 2.8s ease-in-out infinite;}
-  .move-thrust .pull{animation:nudgeUp 2.8s ease-in-out infinite;}
-  .move-extend .shin{transform-origin:118px 108px;animation:kneeExt 2.8s ease-in-out infinite;}
-  .move-extend .glow{animation:muscleGlow 2.8s ease-in-out infinite;}
-  .move-curlham .shin{transform-origin:130px 100px;animation:hamCurl 2.8s ease-in-out infinite;}
-  .move-curlham .glow{animation:muscleGlow 2.8s ease-in-out infinite;}
-  @keyframes muscleGlow{0%,100%{opacity:.28;}50%{opacity:1;}}
-  @keyframes nudgeUp{0%,100%{transform:translate(0,6px);}50%{transform:translate(0,-10px);}}
-  @keyframes nudgeDown{0%,100%{transform:translate(0,-6px);}50%{transform:translate(0,10px);}}
-  @keyframes nudgeLeft{0%,100%{transform:translate(8px,0);}50%{transform:translate(-10px,0);}}
-  @keyframes nudgeRight{0%,100%{transform:translate(-8px,0);}50%{transform:translate(12px,0);}}
-  @keyframes hingeBend{0%,100%{transform:rotate(0deg);}50%{transform:rotate(48deg);}}
-  @keyframes squatDrop{0%,100%{transform:translate(0,0);}50%{transform:translate(0,22px);}}
-  @keyframes sledPress{0%,100%{transform:translate(0,0);}50%{transform:translate(28px,0);}}
-  @keyframes heelRise{0%,100%{transform:rotate(0deg);}50%{transform:rotate(26deg);}}
-  @keyframes kneeOutL{0%,100%{transform:rotate(-14deg);}50%{transform:rotate(32deg);}}
-  @keyframes kneeOutR{0%,100%{transform:rotate(14deg);}50%{transform:rotate(-32deg);}}
-  @keyframes pullDown{0%,100%{transform:translate(0,-22px);}50%{transform:translate(0,28px);}}
-  @keyframes rowBack{0%,100%{transform:translate(16px,0);}50%{transform:translate(-12px,0);}}
-  @keyframes pressOut{0%,100%{transform:rotate(55deg);}50%{transform:rotate(0deg);}}
-  @keyframes flyInL{0%,100%{transform:rotate(18deg);}50%{transform:rotate(-48deg);}}
-  @keyframes flyInR{0%,100%{transform:rotate(-18deg);}50%{transform:rotate(48deg);}}
-  @keyframes rearPull{0%,100%{transform:translate(14px,8px);}50%{transform:translate(-8px,-6px);}}
-  @keyframes armRaise{0%,100%{transform:rotate(70deg);}50%{transform:rotate(0deg);}}
-  @keyframes curlUp{0%,100%{transform:rotate(0deg);}50%{transform:rotate(-100deg);}}
-  @keyframes pushDown{0%,100%{transform:rotate(-70deg);}50%{transform:rotate(0deg);}}
-  @keyframes overheadExt{0%,100%{transform:rotate(80deg);}50%{transform:rotate(0deg);}}
-  @keyframes plankLift{0%,100%{transform:translate(0,8px);}50%{transform:translate(0,-4px);}}
-  @keyframes crunchCurl{0%,100%{transform:rotate(0deg);}50%{transform:rotate(-30deg);}}
-  @keyframes thrustUp{0%,100%{transform:translate(0,16px);}50%{transform:translate(0,-8px);}}
-  @keyframes kneeExt{0%,100%{transform:rotate(50deg);}50%{transform:rotate(0deg);}}
-  @keyframes hamCurl{0%,100%{transform:rotate(0deg);}50%{transform:rotate(-55deg);}}
+  .head-tabs{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 8px;}
+  .head-tab{min-height:36px;padding:0 12px;border-radius:999px;border:1px solid #3a3a44;background:#101014;color:#e4e4e7;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit;}
+  .head-tab.on{color:#fecaca;background:rgba(248,113,113,.16);border-color:#f87171;}
+  .ex-shot{transition:opacity .28s ease;}
+  .ex-shot.is-swap{opacity:.2;}
   @media (prefers-reduced-motion: reduce){
-    .move-svg .limb,.move-svg .glow,.move-svg .pull{animation:none;}
+    .ex-shot{transition:none;}
   }
-
   .pos-map{margin:0 0 14px;}
   .pos-title{font-family:'Oswald',sans-serif;font-size:16px;letter-spacing:.4px;text-transform:uppercase;color:#fff;margin-bottom:4px;}
   .pos-cue{font-size:12px;color:#d6d6de;line-height:1.45;margin-bottom:8px;}
@@ -2135,7 +2053,7 @@ function buildDetail(detail,ex,i,card){
     h+='<div class="stat"><div class="k">'+p[0]+'</div><div class="v">'+esc(p[1])+'</div></div>';
   });
   h+='</div>';
-  h+=moveFigureHTML(ex.name);
+  h+=exShotHTML(ex.name);
   h+=setGridHTML(ex);
   var lw=lastWeightFor(ex.name);
   if (lw) h+='<div class="last-logged">Last logged: <strong>'+esc(lw.weight)+'</strong> on '+esc(formatDate(lw.date))+'</div>';
@@ -2254,7 +2172,7 @@ function buildDetail(detail,ex,i,card){
   });
   wireSetGrid(detail, ex);
   wirePositionMap(detail);
-  wireMoveFigure(detail);
+  wireHeadSwap(detail, ex.name);
 }
 /* v3c: coaching cues from Charles Glass ("Godfather of Bodybuilding"), from public videos/articles. */
 var GLASS_TIPS={
@@ -2312,9 +2230,90 @@ var EX_IMG={
   "Side Plank":{img:"ex_side_plank.jpg",cap:R+"obliques (primary)"+O+"glute med, abs (secondary)"},
   "Cable Crunch":{img:"ex_cable_crunch.jpg",cap:R+"abs (primary)"+O+"obliques, lats (secondary)"}
 };
+function exerciseMedia(name){
+  return EX_MEDIA[GLASS_BY_NAME[name]]||EX_IMG[name]||null;
+}
+function attachHeads(name, heads){
+  var m=exerciseMedia(name);
+  if (m) m.headImages=heads;
+}
+attachHeads("Dumbbell Incline Press",{
+  upper:{label:"Upper",img:"ex_incline_upper.jpg",cap:"<b>Upper chest</b> lit · "+R+"clavicular head"+O+"front delts (secondary)"},
+  mid:{label:"Mid",img:"ex_incline_mid.jpg",cap:"<b>Mid chest</b> lit · "+R+"sternal head"+O+"front delts (secondary)"},
+  lower:{label:"Lower",img:"ex_incline_lower.jpg",cap:"<b>Lower chest</b> lit · "+R+"costal head"+O+"front delts (secondary)"}
+});
+attachHeads("Leg Press Calf Raise",{
+  straight:{label:"Toes straight",img:"ex_calf_straight.jpg",cap:"<b>Toes straight</b> · "+R+"gastrocnemius"+O+"hamstrings steady the knee"},
+  out:{label:"Toes out",img:"ex_calf_out.jpg",cap:"<b>Toes out</b> · "+R+"outer calf"+O+"hamstrings"},
+  "in":{label:"Toes in",img:"ex_calf_in.jpg",cap:"<b>Toes in</b> · "+R+"inner calf"+O+"hamstrings"}
+});
+attachHeads("Cable Curl",{
+  outer:{label:"Outer",img:"ex_curl_outer.jpg",cap:"<b>Close / outer</b> lit · "+R+"long head"+O+"forearm"},
+  inner:{label:"Inner",img:"ex_curl_inner.jpg",cap:"<b>Wide / inner</b> lit · "+R+"short head"+O+"forearm"},
+  neutral:{label:"Neutral",img:"ex_curl_neutral.jpg",cap:"<b>Neutral</b> lit · "+R+"brachialis"+O+"brachioradialis"}
+});
+attachHeads("Rope Triceps Pushdown",{
+  long:{label:"Long",img:"ex_tri_long.jpg",cap:"<b>Long head</b> lit · "+R+"triceps long head"+O+"forearms"},
+  lateral:{label:"Lateral",img:"ex_tri_lateral.jpg",cap:"<b>Lateral head</b> lit · "+R+"outer triceps"+O+"forearms"},
+  medial:{label:"Medial",img:"ex_tri_medial.jpg",cap:"<b>Medial head</b> lit · "+R+"medial head, above the elbow"+O+"forearms"}
+});
+function exShotHTML(name){
+  var m=exerciseMedia(name); if (!m||!m.img) return "";
+  var h='<div class="ex-media ex-shot-wrap">';
+  var heads=m.headImages;
+  if (heads){
+    h+='<div class="head-tabs" role="tablist">';
+    Object.keys(heads).forEach(function(k){
+      h+='<button type="button" class="head-tab" role="tab" data-head="'+esc(k)+'" aria-pressed="false">'+esc(heads[k].label||k)+'</button>';
+    });
+    h+='</div>';
+  }
+  h+='<img class="ex-shot" src="'+m.img+'" alt="'+esc(name)+' muscles worked">';
+  h+='<div class="cap head-cap">'+m.cap+'</div></div>';
+  return h;
+}
+function wireHeadSwap(detail, name){
+  var m=exerciseMedia(name);
+  var box=detail.querySelector(".ex-shot-wrap");
+  if (!box||!m||!m.headImages) return;
+  var img=box.querySelector(".ex-shot");
+  var cap=box.querySelector(".head-cap");
+  function mark(key){
+    detail.querySelectorAll(".head-tab,.rot-tag").forEach(function(el){
+      var on=!!key && el.getAttribute("data-head")===key;
+      el.classList.toggle("on", on);
+      if (el.classList.contains("head-tab")) el.setAttribute("aria-pressed", on?"true":"false");
+    });
+  }
+  function show(key){
+    var spec=m.headImages[key];
+    if (!spec||!img) return;
+    var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    function commit(){
+      img.src=spec.img;
+      img.alt=(spec.label||name)+" muscles worked";
+      if (cap) cap.innerHTML=spec.cap;
+      img.classList.remove("is-swap");
+    }
+    if (reduce) commit();
+    else { img.classList.add("is-swap"); window.setTimeout(commit, 180); }
+    mark(key);
+  }
+  box.querySelectorAll(".head-tab").forEach(function(btn){
+    btn.addEventListener("click",function(e){ e.stopPropagation(); show(btn.getAttribute("data-head")); });
+  });
+  detail.querySelectorAll(".rot-tag").forEach(function(btn){
+    btn.addEventListener("click",function(e){
+      e.stopPropagation();
+      var key=btn.getAttribute("data-head");
+      if (m.headImages[key]) show(key);
+    });
+  });
+}
 function exMediaHTML(name){
-  var m=EX_MEDIA[GLASS_BY_NAME[name]]||EX_IMG[name]; if (!m||!m.img) return "";
-  var h='<div class="ex-media"><img loading="lazy" src="'+m.img+'" alt="'+esc(name)+' muscles worked" onerror="this.parentNode.style.display=\'none\'"><div class="cap">'+m.cap+'</div>';
+  var m=exerciseMedia(name); if (!m) return "";
+  if (!m.chart && !(m.videos&&m.videos.length)) return "";
+  var h='<div class="ex-media">';
   if (m.chart) h+='<div class="box-k" style="margin-bottom:6px">Foot position → muscles worked</div><img loading="lazy" src="'+m.chart+'" alt="Leg press foot position chart"><div class="cap">Your goal: stance 1 (high &amp; wide) as the main glute set.</div>';
   if (m.videos) h+='<div class="vid-links">'+m.videos.map(function(v){return '<a href="'+v[0]+'" target="_blank" rel="noopener">'+esc(v[1])+'</a>';}).join("")+'</div>';
   return h+'</div>';
@@ -4345,39 +4344,45 @@ function setCellHTML(val, cls, flagMissing){
   return '<input class="sg-in '+cls+(show?" blank":"")+'" type="text" inputmode="'+(cls==="sg-r"?"numeric":"decimal")+'" autocomplete="off" placeholder="?" value="'+esc(setVal(val))+'">'+(show?'<span class="sg-flag">not recorded</span>':"");
 }
 var SET_ROT={
-  "Leg Press Calf Raise":["Toes straight","Toes out","Toes in"],
-  "Seated Calf Raise":["Toes straight","Toes out","Toes in"],
-  "Dumbbell Hammer Curl":["Close grip / outer","Wide grip / inner","Neutral / brachialis"],
-  "Cable Curl":["Close grip / outer","Wide grip / inner","Neutral / brachialis"],
-  "Rope Triceps Pushdown":["Overhead / long head","Flared rope / lateral","Straight arm / medial"],
-  "Overhead Cable Triceps Extension":["Overhead / long head","Flared rope / lateral","Straight arm / medial"],
-  "Dumbbell Lateral Raise":["Front raise","Elbows lead / side","Pull wide / rear"],
-  "Face Pull":["Front raise","Elbows lead / side","Pull wide / rear"],
-  "Dumbbell Incline Press":["Incline, elbows 45 / upper","Flat press / mid","Decline or high-to-low / lower"],
-  "Pec Deck Fly (or Cable Fly)":["Incline fly / upper","Flat fly / mid","High-to-low / lower"],
-  "Dumbbell Bench Press":["Incline, elbows 45 / upper","Flat press / mid","Decline / lower"],
-  "Leg Extension":["Narrow, toes straight / outer","Heels up, knee over toe / VMO","Long hip stretch / rectus"],
-  "Barbell Back Squat":["Narrow, toes straight / outer","Heels up / VMO","Deep hip stretch / rectus"],
-  "Smith Romanian Deadlift":["Hinge, toes neutral","Knee flexion, toes in","Knee flexion, toes out"],
-  "Single-Leg Standing Leg Curl":["Toes neutral","Toes in","Toes out"],
-  "45° Back Extension (glute-focused)":["Hinge, toes neutral","Toes in","Toes out"],
-  "Banded Barbell Hip Thrust":["Upper glute / abduction","Mid glute max","Lower glute tie-in"],
-  "Deep Leg Press":["Upper / side-press bias","Mid glute, feet high","Lower tie-in, deep"],
-  "Seated Hip Abduction":["Upper glute","Mid glute","Lower tie-in"],
-  "Band-Assisted Chin-Up / Pull-Up":["Elbows tight / lats","Elbows flared / upper back","Drive elbow to hip"],
-  "Wide-Grip Lat Pulldown":["Elbows tight / lats","Elbows flared / upper back","Drive elbow to hip"],
-  "Barbell Bent-Over Row":["Elbows tight / lats","Elbows flared / upper back","Drive elbow to hip"],
-  "Single-Arm Cable Row":["Elbows tight / lats","Elbows flared / upper back","Drive elbow to hip"],
-  "Side Plank":["Side plank / obliques","Brace / upper abs","Brace / lower abs"],
-  "Bench Reverse Crunch":["Anti-rotate / obliques","Brace / upper abs","Curl / lower abs"],
-  "Cable Crunch":["Anti-rotate / obliques","Brace / upper abs","Curl / lower abs"]
+  "Leg Press Calf Raise":[{cue:"Toes straight",head:"straight"},{cue:"Toes out",head:"out"},{cue:"Toes in",head:"in"}],
+  "Seated Calf Raise":[{cue:"Toes straight",head:"straight"},{cue:"Toes out",head:"out"},{cue:"Toes in",head:"in"}],
+  "Dumbbell Hammer Curl":[{cue:"Close grip / outer",head:"outer"},{cue:"Wide grip / inner",head:"inner"},{cue:"Neutral / brachialis",head:"neutral"}],
+  "Cable Curl":[{cue:"Close grip / outer",head:"outer"},{cue:"Wide grip / inner",head:"inner"},{cue:"Neutral / brachialis",head:"neutral"}],
+  "Rope Triceps Pushdown":[{cue:"Overhead / long head",head:"long"},{cue:"Flared rope / lateral",head:"lateral"},{cue:"Straight arm / medial",head:"medial"}],
+  "Overhead Cable Triceps Extension":[{cue:"Overhead / long head",head:"long"},{cue:"Flared rope / lateral",head:"lateral"},{cue:"Straight arm / medial",head:"medial"}],
+  "Dumbbell Lateral Raise":[{cue:"Front raise",head:"front"},{cue:"Elbows lead / side",head:"side"},{cue:"Pull wide / rear",head:"rear"}],
+  "Face Pull":[{cue:"Front raise",head:"front"},{cue:"Elbows lead / side",head:"side"},{cue:"Pull wide / rear",head:"rear"}],
+  "Dumbbell Incline Press":[{cue:"Incline, elbows 45 / upper",head:"upper"},{cue:"Flat press / mid",head:"mid"},{cue:"Decline or high-to-low / lower",head:"lower"}],
+  "Pec Deck Fly (or Cable Fly)":[{cue:"Incline fly / upper",head:"upper"},{cue:"Flat fly / mid",head:"mid"},{cue:"High-to-low / lower",head:"lower"}],
+  "Dumbbell Bench Press":[{cue:"Incline, elbows 45 / upper",head:"upper"},{cue:"Flat press / mid",head:"mid"},{cue:"Decline / lower",head:"lower"}],
+  "Leg Extension":[{cue:"Narrow, toes straight / outer",head:"outer"},{cue:"Heels up, knee over toe / VMO",head:"vmo"},{cue:"Long hip stretch / rectus",head:"rectus"}],
+  "Barbell Back Squat":[{cue:"Narrow, toes straight / outer",head:"outer"},{cue:"Heels up / VMO",head:"vmo"},{cue:"Deep hip stretch / rectus",head:"rectus"}],
+  "Smith Romanian Deadlift":[{cue:"Hinge, toes neutral",head:"hinge"},{cue:"Knee flexion, toes in",head:"in"},{cue:"Knee flexion, toes out",head:"out"}],
+  "Single-Leg Standing Leg Curl":[{cue:"Toes neutral",head:"hinge"},{cue:"Toes in",head:"in"},{cue:"Toes out",head:"out"}],
+  "45° Back Extension (glute-focused)":[{cue:"Hinge, toes neutral",head:"hinge"},{cue:"Toes in",head:"in"},{cue:"Toes out",head:"out"}],
+  "Banded Barbell Hip Thrust":[{cue:"Upper glute / abduction",head:"upper"},{cue:"Mid glute max",head:"mid"},{cue:"Lower glute tie-in",head:"low"}],
+  "Deep Leg Press":[{cue:"Upper / side-press bias",head:"upper"},{cue:"Mid glute, feet high",head:"mid"},{cue:"Lower tie-in, deep",head:"low"}],
+  "Seated Hip Abduction":[{cue:"Upper glute",head:"upper"},{cue:"Mid glute",head:"mid"},{cue:"Lower tie-in",head:"low"}],
+  "Band-Assisted Chin-Up / Pull-Up":[{cue:"Elbows tight / lats",head:"lats"},{cue:"Elbows flared / upper back",head:"upper"},{cue:"Drive elbow to hip",head:"hip"}],
+  "Wide-Grip Lat Pulldown":[{cue:"Elbows tight / lats",head:"lats"},{cue:"Elbows flared / upper back",head:"upper"},{cue:"Drive elbow to hip",head:"hip"}],
+  "Barbell Bent-Over Row":[{cue:"Elbows tight / lats",head:"lats"},{cue:"Elbows flared / upper back",head:"upper"},{cue:"Drive elbow to hip",head:"hip"}],
+  "Single-Arm Cable Row":[{cue:"Elbows tight / lats",head:"lats"},{cue:"Elbows flared / upper back",head:"upper"},{cue:"Drive elbow to hip",head:"hip"}],
+  "Side Plank":[{cue:"Side plank / obliques",head:"oblique"},{cue:"Brace / upper abs",head:"upper"},{cue:"Brace / lower abs",head:"lower"}],
+  "Bench Reverse Crunch":[{cue:"Anti-rotate / obliques",head:"oblique"},{cue:"Brace / upper abs",head:"upper"},{cue:"Curl / lower abs",head:"lower"}],
+  "Cable Crunch":[{cue:"Anti-rotate / obliques",head:"oblique"},{cue:"Brace / upper abs",head:"upper"},{cue:"Curl / lower abs",head:"lower"}]
 };
-function rotationCue(name, setN){
+function rotItem(name, setN){
   var list=SET_ROT[name];
-  if (!list||!list.length) return "";
+  if (!list||!list.length) return null;
   var i=((Number(setN)||1)-1)%list.length;
   if (i<0) i=0;
-  return list[i];
+  var item=list[i];
+  if (typeof item==="string") return {cue:item, head:""};
+  return {cue:item.cue||"", head:item.head||""};
+}
+function rotationCue(name, setN){
+  var item=rotItem(name, setN);
+  return item?item.cue:"";
 }
 function setGridHTML(ex){
   var rows=getRows(ex);
@@ -4398,8 +4403,8 @@ function setGridHTML(ex){
     h+='<td>'+setCellHTML(row.reps,"sg-r",flagMissing)+'</td>';
     h+='<td class="ok"><input class="sg-c" type="checkbox" aria-label="Confirm set '+row.n+'"'+(row.confirmed?" checked":"")+'></td>';
     h+='</tr>';
-    var cue=rotationCue(ex.name, row.n);
-    if (cue) h+='<tr class="rot-row"><td colspan="4"><span class="rot-tag">'+esc(cue)+'</span></td></tr>';
+    var rot=rotItem(ex.name, row.n);
+    if (rot&&rot.cue) h+='<tr class="rot-row"><td colspan="4"><button type="button" class="rot-tag" data-head="'+esc(rot.head)+'">'+esc(rot.cue)+'</button></td></tr>';
     if (row.note) h+='<tr class="sg-note-row"><td></td><td colspan="3" class="sg-note">'+esc(row.note)+'</td></tr>';
   });
   h+='</tbody></table>';
@@ -5878,173 +5883,6 @@ function renderPepMapView(){
   }
   return wrap;
 }
-var MOVE_OF={
-  "Banded Barbell Hip Thrust":"thrust",
-  "Barbell Back Squat":"squat",
-  "Deep Leg Press":"legpress",
-  "Leg Press Calf Raise":"calf",
-  "Bench Reverse Crunch":"crunch",
-  "Band-Assisted Chin-Up / Pull-Up":"pull",
-  "Barbell Bent-Over Row":"row",
-  "Dumbbell Incline Press":"press",
-  "Pec Deck Fly (or Cable Fly)":"fly",
-  "Face Pull":"rear",
-  "Dumbbell Lateral Raise":"raise",
-  "Rope Triceps Pushdown":"pushdown",
-  "Dumbbell Hammer Curl":"curl",
-  "Smith Romanian Deadlift":"hinge",
-  "Single-Leg Standing Leg Curl":"curlham",
-  "Seated Calf Raise":"calf",
-  "Leg Extension":"extend",
-  "Seated Hip Abduction":"abduct",
-  "Side Plank":"plank",
-  "Deadlift (Trap Bar or Barbell)":"hinge",
-  "Dumbbell Lateral Lunge":"squat",
-  "Dumbbell Bench Press":"press",
-  "Wide-Grip Lat Pulldown":"pull",
-  "Single-Arm Cable Row":"row",
-  "45° Back Extension (glute-focused)":"hinge",
-  "Cable Crunch":"crunch",
-  "Cable Curl":"curl",
-  "Overhead Cable Triceps Extension":"overhead"
-};
-var MOVE_TITLE={
-  hinge:"Hinge", squat:"Squat", legpress:"Leg press", calf:"Calf raise", abduct:"Hip abduction",
-  pull:"Pull", row:"Row", press:"Chest press", fly:"Fly", rear:"Face pull", raise:"Shoulder raise",
-  curl:"Curl", pushdown:"Pushdown", overhead:"Overhead extension", plank:"Side plank", crunch:"Crunch",
-  thrust:"Hip thrust", extend:"Leg extension", curlham:"Leg curl"
-};
-function moveDefs(kind){
-  return '<defs><marker id="mv'+kind+'" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#4ade80"/></marker></defs>';
-}
-function moveArrow(kind,x1,y1,x2,y2){
-  return '<line class="pull" x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="#4ade80" stroke-width="3" marker-end="url(#mv'+kind+')"/>';
-}
-function moveScene(kind){
-  var floor='<line x1="16" y1="156" x2="264" y2="156" stroke="#3f3f46" stroke-width="3"/>';
-  function bone(d,w){return '<path d="'+d+'" stroke="#d4d4d8" stroke-width="'+(w||16)+'" stroke-linecap="round" fill="none"/>';}
-  function head(x,y){return '<circle cx="'+x+'" cy="'+y+'" r="13" fill="#e4e4e7"/>';}
-  function glow(x,y,rx,ry){return '<ellipse class="glow" cx="'+x+'" cy="'+y+'" rx="'+rx+'" ry="'+ry+'"/>';}
-  function comp(x,y,rx,ry){return '<ellipse class="comp" cx="'+x+'" cy="'+y+'" rx="'+(rx||8)+'" ry="'+(ry||6)+'"/>';}
-  var scenes={
-    hinge:floor+
-      '<g class="limb thigh">'+bone("M150 118 L178 156",16)+glow(164,136,12,16)+'</g>'+
-      '<g class="limb torso">'+bone("M150 118 L114 62",18)+head(106,44)+bone("M128 88 L72 100",12)+comp(136,100,10,7)+'</g>'+
-      moveArrow(kind,148,104,100,104),
-    squat:floor+
-      '<g class="limb hips">'+head(132,34)+bone("M132 48 L132 86",18)+bone("M132 86 L164 124",15)+bone("M164 124 L164 156",13)+glow(150,108,12,16)+comp(132,74,9,6)+'</g>'+
-      moveArrow(kind,168,78,168,118),
-    legpress:
-      '<path d="M24 28 L78 128 L58 142 L18 42 Z" fill="#52525b"/>'+
-      '<g class="limb hips">'+head(70,108)+bone("M78 112 L128 124",15)+bone("M128 124 L188 86",15)+glow(104,118,16,10)+comp(78,100,8,6)+'</g>'+
-      '<g class="limb sled"><rect x="198" y="36" width="54" height="108" rx="8" fill="#6b7078"/></g>'+
-      moveArrow(kind,150,108,194,92),
-    calf:floor+
-      head(124,28)+bone("M124 42 L138 86",18)+bone("M138 86 L150 122",15)+glow(162,118,11,16)+
-      '<g class="limb heel">'+bone("M150 122 L186 146",13)+'</g>'+
-      moveArrow(kind,174,128,174,86),
-    abduct:
-      '<rect x="64" y="108" width="152" height="16" rx="5" fill="#52525b"/>'+
-      head(140,36)+bone("M140 50 L140 96",18)+
-      '<g class="limb kneeL">'+bone("M140 96 L104 142",14)+'</g>'+
-      '<g class="limb kneeR">'+bone("M140 96 L176 142",14)+'</g>'+
-      glow(112,100,13,8)+glow(168,100,13,8)+
-      moveArrow(kind,156,108,198,108),
-    pull:
-      head(150,30)+bone("M150 44 L150 132",18)+glow(122,78,16,22)+comp(108,108,8,9)+
-      '<g class="limb arms">'+bone("M150 58 L112 28",12)+bone("M150 58 L188 28",12)+'</g>'+
-      moveArrow(kind,150,48,150,100),
-    row:floor+
-      bone("M156 112 L176 156",15)+bone("M150 64 L156 112",17)+head(142,46)+glow(132,84,13,16)+comp(118,108,8,7)+
-      '<g class="limb arms">'+bone("M150 78 L96 90",12)+'</g>'+
-      moveArrow(kind,140,84,88,84),
-    press:
-      '<rect x="28" y="112" width="168" height="16" rx="4" fill="#52525b"/>'+
-      head(62,96)+bone("M74 100 L150 100",18)+glow(124,90,18,9)+comp(158,82,8,7)+
-      '<g class="limb arms">'+bone("M140 70 L140 28",13)+'</g>'+
-      moveArrow(kind,150,58,150,24),
-    fly:
-      '<rect x="40" y="118" width="180" height="16" rx="4" fill="#52525b"/>'+
-      head(78,100)+bone("M90 108 L176 108",18)+glow(140,96,20,9)+
-      '<g class="limb armL">'+bone("M140 72 L86 72",12)+'</g>'+
-      '<g class="limb armR">'+bone("M140 72 L194 72",12)+'</g>'+
-      moveArrow(kind,112,78,148,96),
-    rear:
-      head(150,32)+bone("M150 46 L150 136",18)+glow(116,68,14,12)+comp(150,50,11,6)+
-      '<g class="limb arms">'+bone("M150 70 L108 92",12)+bone("M150 70 L192 92",12)+'</g>'+
-      moveArrow(kind,136,74,92,64),
-    raise:
-      head(140,30)+bone("M140 44 L140 140",18)+glow(168,70,11,14)+comp(140,54,9,6)+
-      '<g class="limb arms">'+bone("M140 78 L206 78",13)+'</g>'+
-      moveArrow(kind,168,90,188,58),
-    curl:
-      head(132,30)+bone("M132 44 L132 140",18)+bone("M132 78 L168 78",13)+glow(150,96,12,16)+comp(150,66,9,6)+
-      '<g class="limb forearm">'+bone("M168 78 L168 128",12)+'</g>'+
-      moveArrow(kind,180,112,180,78),
-    pushdown:
-      head(132,28)+bone("M132 42 L132 140",18)+bone("M132 72 L150 72",12)+glow(158,88,9,16)+
-      '<g class="limb forearm">'+bone("M150 72 L150 124",12)+'</g>'+
-      moveArrow(kind,168,96,168,132),
-    overhead:
-      head(140,92)+bone("M140 80 L140 148",18)+glow(156,58,9,14)+
-      '<g class="limb forearm">'+bone("M140 46 L140 12",12)+'</g>'+
-      moveArrow(kind,156,40,156,12),
-    plank:floor+
-      '<g class="limb hips">'+head(52,108)+bone("M64 116 L214 104",16)+glow(128,100,16,9)+'</g>'+
-      comp(150,128,12,5)+
-      moveArrow(kind,128,92,128,72),
-    crunch:floor+
-      bone("M86 156 L150 120",13)+comp(116,138,9,6)+
-      '<g class="limb torso">'+bone("M150 120 L198 74",17)+head(210,60)+glow(172,102,15,9)+'</g>'+
-      moveArrow(kind,186,84,162,108),
-    thrust:
-      '<rect x="28" y="124" width="96" height="16" rx="4" fill="#52525b"/>'+
-      head(48,112)+bone("M60 118 L118 104",15)+comp(96,116,9,6)+
-      '<g class="limb hips">'+glow(136,92,18,12)+bone("M128 100 L188 146",15)+bone("M188 146 L236 146",13)+'</g>'+
-      moveArrow(kind,136,74,136,40),
-    extend:
-      '<rect x="24" y="64" width="78" height="56" rx="10" fill="#52525b"/>'+
-      comp(70,78,9,6)+glow(108,96,16,9)+
-      '<g class="limb shin">'+bone("M118 108 L196 108",15)+'</g>'+
-      moveArrow(kind,150,96,190,96),
-    curlham:
-      '<rect x="148" y="68" width="78" height="52" rx="10" fill="#52525b"/>'+
-      bone("M148 100 L130 100",14)+glow(136,116,14,9)+comp(108,128,8,6)+
-      '<g class="limb shin">'+bone("M130 100 L130 148",13)+'</g>'+
-      moveArrow(kind,112,124,84,146)
-  };
-  return moveDefs(kind)+(scenes[kind]||scenes.hinge);
-}
-function moveFigureHTML(name){
-  var kind=MOVE_OF[name];
-  if (!kind) return "";
-  return '<div class="move-fig"><div class="move-top"><div class="box-k">Rep loop · '+esc(MOVE_TITLE[kind]||kind)+'</div><button type="button" class="move-toggle" aria-pressed="false">Pause</button></div>'+
-    '<svg class="move-svg move-'+kind+'" viewBox="0 0 280 170" role="img" aria-label="'+esc(MOVE_TITLE[kind]||kind)+' rep">'+moveScene(kind)+'</svg>'+
-    '<div class="rot-note">Green lights up at the squeeze. Red is the muscle that takes over. The arrow is the pull.</div></div>';
-}
-function wireMoveFigure(detail){
-  var box=detail.querySelector(".move-fig");
-  if (!box) return;
-  var btn=box.querySelector(".move-toggle");
-  btn.addEventListener("click",function(e){
-    e.stopPropagation();
-    var paused=box.classList.toggle("is-paused");
-    btn.textContent=paused?"Play":"Pause";
-    btn.setAttribute("aria-pressed", paused?"true":"false");
-  });
-}
-function m165MoveCheck(){
-  var missing=[];
-  DAYS.forEach(function(d){ d.exercises.forEach(function(e){ if (!MOVE_OF[e.name]) missing.push(e.name); }); });
-  var calf=rotationCue("Leg Press Calf Raise",1)==="Toes straight" && rotationCue("Leg Press Calf Raise",2)==="Toes out" && rotationCue("Leg Press Calf Raise",3)==="Toes in";
-  var bi=rotationCue("Cable Curl",1).indexOf("Close")===0 && rotationCue("Cable Curl",3).indexOf("Neutral")===0;
-  var tri=rotationCue("Rope Triceps Pushdown",1).indexOf("Overhead")===0 && rotationCue("Rope Triceps Pushdown",2).indexOf("Flared")===0;
-  var demo=moveFigureHTML("Smith Romanian Deadlift");
-  var chest=POS_MAPS.chest && POS_MAPS.chest.options.length===3 && POS_MAPS.glutes && POS_MAPS.back && POS_MAPS.core && POS_MAPS.quads && POS_MAPS.hams;
-  window.__m165MoveOk=!missing.length && calf && bi && tri && demo.indexOf("move-toggle")>=0 && demo.indexOf("Pause")>=0 && !!chest;
-  window.__m165MoveMissing=missing;
-  if (!window.__m165MoveOk) console.error("move check failed", missing, calf, chest);
-}
 function m165MapCheck(){
   var names={}, bad=[], digits=[];
   MAP_PEPS.forEach(function(p){
@@ -6060,7 +5898,22 @@ function m165MapCheck(){
   if (!window.__m165MapOk) console.error("peptide map check failed", window.__m165MapBad);
 }
 m165MapCheck();
-m165MoveCheck();
+function m165HeadCheck(){
+  var calf=rotationCue("Leg Press Calf Raise",1)==="Toes straight" && rotationCue("Leg Press Calf Raise",2)==="Toes out" && rotationCue("Leg Press Calf Raise",3)==="Toes in";
+  var bi=rotationCue("Cable Curl",1).indexOf("Close")===0 && rotationCue("Cable Curl",3).indexOf("Neutral")===0;
+  var tri=rotationCue("Rope Triceps Pushdown",1).indexOf("Overhead")===0 && rotationCue("Rope Triceps Pushdown",2).indexOf("Flared")===0;
+  var maps=POS_MAPS.chest && POS_MAPS.glutes && POS_MAPS.back && POS_MAPS.core && POS_MAPS.quads && POS_MAPS.hams;
+  var inc=exerciseMedia("Dumbbell Incline Press");
+  var dead=exerciseMedia("Deadlift (Trap Bar or Barbell)");
+  var shot=exShotHTML("Dumbbell Incline Press");
+  var plain=exShotHTML("Deadlift (Trap Bar or Barbell)");
+  var noStick=shot.indexOf("move-fig")<0 && shot.indexOf("move-toggle")<0 && plain.indexOf("head-tab")<0;
+  var has=!!(inc && inc.headImages && inc.headImages.upper && inc.headImages.lower && shot.indexOf("data-head=\"upper\"")>=0);
+  var keeps=!!(dead && dead.img==="ex_trapbar_deadlift.jpg" && !dead.headImages && plain.indexOf("ex_trapbar_deadlift.jpg")>=0);
+  window.__m165HeadOk=!!(calf && bi && tri && maps && noStick && has && keeps);
+  if (!window.__m165HeadOk) console.error("head check failed", calf, bi, tri, !!maps, noStick, has, keeps);
+}
+m165HeadCheck();
 
 /* ---------- Settings (profile, targets, schedule, sync) ---------- */
 function dayChecks(cls,sel){ return '<div class="set-days">'+DOW.map(function(d,i){ return '<label><input type="checkbox" class="'+cls+'" value="'+i+'"'+(sel.indexOf(i)>=0?" checked":"")+'>'+d+'</label>'; }).join("")+'</div>'; }
@@ -6093,7 +5946,7 @@ function renderSettingsView(){
 }
 
 /* ---------- About / branding ---------- */
-var APP_VERSION="v5 draft · Nov 24, 2026 · muscle heads and rep loops";
+var APP_VERSION="v5 draft · Nov 24, 2026 · muscle heads, no stick figures";
 function renderAboutView(){
   var p=profile();
   var w=el('<div class="content about"><div class="about-hero"><img src="'+AVATAR_SRC+'" alt="Mission 165 mascot"><div><div class="hero-kicker">MISSION 165</div><div class="about-t">Train. Fuel. Recover. Track.</div><div class="hero-motto">Mantente Vigilante · Enfoca La Mira</div></div></div>'+
