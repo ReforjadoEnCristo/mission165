@@ -472,6 +472,8 @@
   .pos-opt{background:#101014;border:1px solid #3a3a44;border-radius:12px;padding:8px;text-align:left;color:var(--text);cursor:pointer;min-height:44px;}
   .pos-opt.on{border-color:#f4f4f5;box-shadow:0 0 0 1px #f4f4f5;}
   .pos-opt svg{width:100%;height:auto;display:block;background:#0c0c10;border-radius:8px;}
+  .pos-photo{width:100%;height:auto;display:block;border-radius:8px;background:#0c0c10;}
+  .pos-opt .cap{font-size:10px;color:#d6d6de;text-align:center;margin-top:4px;}
   .pos-h{display:flex;gap:6px;align-items:center;margin-top:6px;}
   .pos-num{width:20px;height:20px;border-radius:5px;background:#f4f4f5;color:#111;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:0 0 20px;}
   .pos-name{font-size:12px;font-weight:800;line-height:1.2;}
@@ -4961,111 +4963,38 @@ function initPosMaps(){
     rear:upperSVG('<path d="M36 48 L14 78" stroke="#d4d4d8" stroke-width="10" stroke-linecap="round"/><path d="M84 48 L106 78" stroke="#d4d4d8" stroke-width="10" stroke-linecap="round"/>'+armHot(30,52,"#f05252")+armHot(90,52,"#f05252"))
   };
   POS_MAPS.shoulders.options.forEach(function(o){ o.svg=shSvg[o.id]; });
-  function zone(id, shape, paints){
-    var tone=paints[id];
-    if (!tone) return "";
-    var fill=tone==="g"?"#22c55e":"#f43f5e";
-    return shape.split("FILL").join(fill);
-  }
-  function mannequin(side, paints){
-    paints=paints||{};
-    var s='<svg viewBox="0 0 120 168" aria-hidden="true"><rect width="120" height="168" rx="10" fill="#101014"/>';
-    s+='<circle cx="60" cy="20" r="11" fill="#d4d4d8"/>';
-    if (side==="front"){
-      s+='<path d="M38 38 Q60 32 82 38 L90 96 Q60 104 30 96 Z" fill="#c8c8ce"/>';
-      s+='<path d="M40 46 L26 92" stroke="#c8c8ce" stroke-width="11" stroke-linecap="round"/>';
-      s+='<path d="M80 46 L94 92" stroke="#c8c8ce" stroke-width="11" stroke-linecap="round"/>';
-      s+='<path d="M48 100 L44 150" stroke="#c8c8ce" stroke-width="14" stroke-linecap="round"/>';
-      s+='<path d="M72 100 L76 150" stroke="#c8c8ce" stroke-width="14" stroke-linecap="round"/>';
-      s+=zone("delt",'<ellipse cx="28" cy="50" rx="7" ry="9" fill="FILL"/><ellipse cx="92" cy="50" rx="7" ry="9" fill="FILL"/>',paints);
-      s+=zone("chestU",'<ellipse cx="60" cy="46" rx="16" ry="6" fill="FILL"/>',paints);
-      s+=zone("chestM",'<ellipse cx="60" cy="58" rx="18" ry="7" fill="FILL"/>',paints);
-      s+=zone("chestL",'<ellipse cx="60" cy="70" rx="16" ry="6" fill="FILL"/>',paints);
-      s+=zone("absU",'<ellipse cx="60" cy="82" rx="10" ry="6" fill="FILL"/>',paints);
-      s+=zone("absL",'<ellipse cx="60" cy="94" rx="8" ry="5" fill="FILL"/>',paints);
-      s+=zone("oblique",'<ellipse cx="42" cy="84" rx="6" ry="10" fill="FILL"/><ellipse cx="78" cy="84" rx="6" ry="10" fill="FILL"/>',paints);
-      s+=zone("latQuad",'<ellipse cx="40" cy="118" rx="6" ry="16" fill="FILL"/><ellipse cx="80" cy="118" rx="6" ry="16" fill="FILL"/>',paints);
-      s+=zone("vmo",'<ellipse cx="50" cy="136" rx="5" ry="7" fill="FILL"/><ellipse cx="70" cy="136" rx="5" ry="7" fill="FILL"/>',paints);
-      s+=zone("rectus",'<ellipse cx="48" cy="112" rx="5" ry="12" fill="FILL"/><ellipse cx="72" cy="112" rx="5" ry="12" fill="FILL"/>',paints);
-      s+=zone("adductor",'<ellipse cx="54" cy="124" rx="4" ry="12" fill="FILL"/><ellipse cx="66" cy="124" rx="4" ry="12" fill="FILL"/>',paints);
-      s+=zone("hip",'<ellipse cx="60" cy="102" rx="10" ry="5" fill="FILL"/>',paints);
-    } else {
-      s+='<path d="M38 36 Q60 30 82 36 L88 96 Q60 104 32 96 Z" fill="#c8c8ce"/>';
-      s+='<path d="M40 48 L28 96" stroke="#c8c8ce" stroke-width="11" stroke-linecap="round"/>';
-      s+='<path d="M80 48 L92 96" stroke="#c8c8ce" stroke-width="11" stroke-linecap="round"/>';
-      s+='<path d="M48 108 L46 152" stroke="#c8c8ce" stroke-width="13" stroke-linecap="round"/>';
-      s+='<path d="M72 108 L74 152" stroke="#c8c8ce" stroke-width="13" stroke-linecap="round"/>';
-      s+=zone("upperBack",'<ellipse cx="60" cy="50" rx="16" ry="8" fill="FILL"/>',paints);
-      s+=zone("lats",'<ellipse cx="40" cy="72" rx="10" ry="16" fill="FILL"/><ellipse cx="80" cy="72" rx="10" ry="16" fill="FILL"/>',paints);
-      s+=zone("arms",'<ellipse cx="26" cy="78" rx="6" ry="10" fill="FILL"/><ellipse cx="94" cy="78" rx="6" ry="10" fill="FILL"/>',paints);
-      s+=zone("lowBack",'<ellipse cx="60" cy="86" rx="8" ry="8" fill="FILL"/>',paints);
-      s+=zone("glutMed",'<ellipse cx="42" cy="104" rx="8" ry="6" fill="FILL"/><ellipse cx="78" cy="104" rx="8" ry="6" fill="FILL"/>',paints);
-      s+=zone("glutMax",'<ellipse cx="50" cy="116" rx="10" ry="8" fill="FILL"/><ellipse cx="70" cy="116" rx="10" ry="8" fill="FILL"/>',paints);
-      s+=zone("glutLow",'<ellipse cx="52" cy="128" rx="8" ry="5" fill="FILL"/><ellipse cx="68" cy="128" rx="8" ry="5" fill="FILL"/>',paints);
-      s+=zone("hamUp",'<ellipse cx="48" cy="138" rx="6" ry="8" fill="FILL"/><ellipse cx="72" cy="138" rx="6" ry="8" fill="FILL"/>',paints);
-      s+=zone("hamIn",'<ellipse cx="54" cy="146" rx="4" ry="8" fill="FILL"/><ellipse cx="66" cy="146" rx="4" ry="8" fill="FILL"/>',paints);
-      s+=zone("hamOut",'<ellipse cx="42" cy="146" rx="4" ry="8" fill="FILL"/><ellipse cx="78" cy="146" rx="4" ry="8" fill="FILL"/>',paints);
-      s+=zone("calf",'<ellipse cx="48" cy="156" rx="4" ry="5" fill="FILL"/><ellipse cx="72" cy="156" rx="4" ry="5" fill="FILL"/>',paints);
-    }
-    s+='<text x="8" y="164" fill="#86efac" font-size="8" font-family="Inter,sans-serif">green target</text>';
-    s+='<text x="64" y="164" fill="#fda4af" font-size="8" font-family="Inter,sans-serif">red takeover</text>';
-    return s+'</svg>';
-  }
   function headMap(id, title, cue, options){
-    POS_MAPS[id]={title:title, cue:cue, layout:"grid", options:options};
+    POS_MAPS[id]={title:title, cue:cue, layout:"grid", photo:true, options:options};
   }
   headMap("chest","Chest head placement","Green is the chest head to feel. Red is the front delt taking over if the elbows flare. Rotate upper, mid, and lower across the working sets.",[
     posOption("upper","1","Upper, clavicular","Upper chest","Front delt","About a 30 degree incline. Elbows near 45 degrees, not flared out wide."),
     posOption("mid","2","Mid, sternal","Mid chest","Front delt","Flat press or fly. Elbows stay under the wrists and the squeeze is at the sternum."),
     posOption("lower","3","Lower, costal","Lower chest","Front delt","Decline, or a high-to-low cable. The hands finish lower than the shoulders.")
   ]);
-  POS_MAPS.chest.options[0].side="front"; POS_MAPS.chest.options[0].paints={chestU:"g",delt:"r"};
-  POS_MAPS.chest.options[1].side="front"; POS_MAPS.chest.options[1].paints={chestM:"g",delt:"r"};
-  POS_MAPS.chest.options[2].side="front"; POS_MAPS.chest.options[2].paints={chestL:"g",delt:"r"};
-  POS_MAPS.chest.options.forEach(function(o){ o.svg=mannequin(o.side, o.paints); });
   headMap("quads","Quad head placement","Green is the quad head for that set. Red is the muscle that steals it if the feet or the knee path drift.",[
     posOption("outer","1","Outer sweep","Vastus lateralis","Adductors","Narrower stance, toes straight. Feel the outer thigh."),
     posOption("vmo","2","Teardrop / VMO","Vastus medialis","Hip flexors","Heels up a little. Let the knee travel over the toes through a full bend."),
     posOption("rf","3","Rectus femoris","Rectus femoris","Hip flexors","Leg extension, or a squat deep enough that the hip stays stretched. Do not swing the leg.")
   ]);
-  POS_MAPS.quads.options[0].side="front"; POS_MAPS.quads.options[0].paints={latQuad:"g",adductor:"r"};
-  POS_MAPS.quads.options[1].side="front"; POS_MAPS.quads.options[1].paints={vmo:"g",hip:"r"};
-  POS_MAPS.quads.options[2].side="front"; POS_MAPS.quads.options[2].paints={rectus:"g",hip:"r"};
-  POS_MAPS.quads.options.forEach(function(o){ o.svg=mannequin(o.side, o.paints); });
   headMap("hams","Hamstring placement","Hip-hinge work hits the upper and mid hamstrings. Knee flexion hits them at a long stretch. Toes change the inner and outer bias.",[
     posOption("hinge","1","Hip hinge","Upper / mid hamstrings","Low back","RDL or back extension. Toes neutral. Hips go back. The low back stays quiet."),
     posOption("in","2","Knee flexion, toes in","Inner hamstrings","Calves","Seated or standing curl. Toes turn in. Control the stretch."),
     posOption("out","3","Knee flexion, toes out","Outer hamstrings","Calves","Same curl. Toes turn out. Do not bounce.")
   ]);
-  POS_MAPS.hams.options[0].side="back"; POS_MAPS.hams.options[0].paints={hamUp:"g",lowBack:"r"};
-  POS_MAPS.hams.options[1].side="back"; POS_MAPS.hams.options[1].paints={hamIn:"g",calf:"r"};
-  POS_MAPS.hams.options[2].side="back"; POS_MAPS.hams.options[2].paints={hamOut:"g",calf:"r"};
-  POS_MAPS.hams.options.forEach(function(o){ o.svg=mannequin(o.side, o.paints); });
   headMap("glutes","Glute head placement","Upper glute is the shelf. Mid and lower glute max are the thrust, the deep press, and the hinge.",[
     posOption("upper","1","Upper glute","Glute med / min","Low back","Seated hip abduction, or the Charles Glass one-leg side press. Knees travel out."),
     posOption("mid","2","Mid glute max","Glute max","Low back","Hip thrust. Pause and squeeze at the top. Ribs stay down."),
     posOption("low","3","Lower glute","Lower glute / tie-in","Hamstrings","Deep leg press or RDL. Full hip bend, then drive the hips through.")
   ]);
-  POS_MAPS.glutes.options[0].side="back"; POS_MAPS.glutes.options[0].paints={glutMed:"g",lowBack:"r"};
-  POS_MAPS.glutes.options[1].side="back"; POS_MAPS.glutes.options[1].paints={glutMax:"g",lowBack:"r"};
-  POS_MAPS.glutes.options[2].side="back"; POS_MAPS.glutes.options[2].paints={glutLow:"g",hamUp:"r"};
-  POS_MAPS.glutes.options.forEach(function(o){ o.svg=mannequin(o.side, o.paints); });
   headMap("back","Back placement","Elbow path picks the muscle. Tight elbows are lats. Flared elbows are the upper back.",[
     posOption("lats","1","Lats","Lats","Biceps","Elbows tight to the ribs. Drive the elbow toward the hip."),
     posOption("upper","2","Upper back","Traps / rhomboids","Biceps","Elbows flare about 45 to 60 degrees. Pull to the mid-chest and squeeze the blades.")
   ]);
-  POS_MAPS.back.options[0].side="back"; POS_MAPS.back.options[0].paints={lats:"g",arms:"r"};
-  POS_MAPS.back.options[1].side="back"; POS_MAPS.back.options[1].paints={upperBack:"g",arms:"r"};
-  POS_MAPS.back.options.forEach(function(o){ o.svg=mannequin(o.side, o.paints); });
   headMap("core","Core and obliques","Green is the torso muscle to brace. Red is the hip or low back taking the rep.",[
     posOption("side","1","Side plank","Obliques","Low back","Anti-rotation and side plank. Hips stay up in one line."),
     posOption("upper","2","Upper abs","Upper abs","Hip flexors","Braced flexion. Ribs curl toward the belt. The hips stay still."),
     posOption("lower","3","Lower abs","Lower abs","Hip flexors","Reverse crunch. The pelvis curls. Do not swing the legs.")
   ]);
-  POS_MAPS.core.options[0].side="front"; POS_MAPS.core.options[0].paints={oblique:"g",absL:"r"};
-  POS_MAPS.core.options[1].side="front"; POS_MAPS.core.options[1].paints={absU:"g",hip:"r"};
-  POS_MAPS.core.options[2].side="front"; POS_MAPS.core.options[2].paints={absL:"g",hip:"r"};
-  POS_MAPS.core.options.forEach(function(o){ o.svg=mannequin(o.side, o.paints); });
   POS_BY_EX={
     "Leg Press Calf Raise":["calf"],
     "Seated Calf Raise":["calf"],
@@ -5095,6 +5024,13 @@ function initPosMaps(){
     "Cable Crunch":["core"]
   };
 }
+function headShot(exerciseName, opt){
+  var m=exerciseMedia(exerciseName);
+  var spec=m&&m.headImages&&m.headImages[opt.id];
+  if (spec&&spec.img) return {src:spec.img, cap:spec.label||opt.name};
+  if (m&&m.img) return {src:m.img, cap:opt.name};
+  return null;
+}
 function positionMapHTML(exerciseName){
   var ids=POS_BY_EX[exerciseName]||[];
   if (!ids.length) return "";
@@ -5120,7 +5056,10 @@ function positionMapHTML(exerciseName){
       h+='<div class="pos-grid">';
       map.options.forEach(function(o,i){
         h+='<button type="button" class="pos-opt'+(i===0?" on":"")+'" data-id="'+esc(o.id)+'" data-detail="'+esc(o.detail)+'">';
-        h+=(o.svg||"");
+        if (map.photo){
+          var shot=headShot(exerciseName, o);
+          if (shot) h+='<img class="pos-photo" src="'+shot.src+'" alt="'+esc(o.name)+'"><div class="cap">'+esc(shot.cap)+'</div>';
+        } else h+=(o.svg||"");
         h+='<div class="pos-h"><span class="pos-num">'+esc(o.n)+'</span><span class="pos-name">'+esc(o.name)+'</span></div>';
         h+='<div class="pos-pri">'+esc(o.primary)+'</div>';
         if (o.secondary) h+='<div class="pos-sec">'+esc(o.secondary)+'</div>';
@@ -6208,7 +6147,11 @@ function m165HeadCheck(){
   var noStick=shot.indexOf("move-fig")<0 && shot.indexOf("move-toggle")<0 && plain.indexOf("head-tab")<0;
   var has=!!(inc && inc.headImages && inc.headImages.upper && inc.headImages.lower && shot.indexOf("data-head=\"upper\"")>=0);
   var keeps=!!(dead && dead.img==="ex_trapbar_deadlift.jpg" && !dead.headImages && plain.indexOf("ex_trapbar_deadlift.jpg")>=0);
-  window.__m165HeadOk=!!(calf && bi && tri && maps && noStick && has && keeps);
+  var pulldown=positionMapHTML("Wide-Grip Lat Pulldown");
+  var inclineMap=positionMapHTML("Dumbbell Incline Press");
+  var noFig=pulldown.indexOf("green target")<0 && pulldown.indexOf("<svg")<0 && pulldown.indexOf("Elbows tight")>=0;
+  var chestPhoto=inclineMap.indexOf("ex_incline_upper.jpg")>=0 && inclineMap.indexOf("green target")<0;
+  window.__m165HeadOk=!!(calf && bi && tri && maps && noStick && has && keeps && noFig && chestPhoto);
   if (!window.__m165HeadOk) console.error("head check failed", calf, bi, tri, !!maps, noStick, has, keeps);
 }
 m165HeadCheck();
