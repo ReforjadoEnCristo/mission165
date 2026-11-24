@@ -428,8 +428,6 @@
   .anat-svg .mg{stroke-linejoin:round;}
   .anat-svg .mg[data-g^="glute"].hl-primary,.anat-svg .mg[data-g^="glute"].hl-secondary{stroke-width:4;stroke-opacity:.9;}
 
-  /* draft review ribbon — remove when this build is approved to publish */
-  .draft-ribbon{background:#3b2a06;color:#fde68a;text-align:center;font-size:12px;font-weight:800;letter-spacing:.2px;padding:8px 12px;border-bottom:2px solid var(--amber);line-height:1.35;}
   .confirm-tag{border-radius:999px;padding:1px 8px;font-size:9.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;background:rgba(244,183,64,.15);color:var(--amber);border:1px solid rgba(244,183,64,.45);}
 
   .sg-box{background:var(--panel2);border:1px solid var(--border);border-radius:12px;padding:10px;margin:12px 0;}
@@ -1831,7 +1829,6 @@ function renderApp(){
   clearAllIntervals();
   var app=document.getElementById("app");
   app.innerHTML="";
-  app.appendChild(el('<div class="draft-ribbon">Draft for your review. Nothing here is live until you approve it.</div>'));
   if (state.view==="workout"){ app.appendChild(renderHero()); app.appendChild(renderTodayTop()); }
   app.appendChild(renderNav());
   if (state.view==="workout") app.appendChild(renderWorkout());
@@ -5946,7 +5943,7 @@ function renderSettingsView(){
 }
 
 /* ---------- About / branding ---------- */
-var APP_VERSION="v5 draft · Nov 24, 2026 · muscle heads, no stick figures";
+var APP_VERSION="v5 · Nov 24, 2026";
 function renderAboutView(){
   var p=profile();
   var w=el('<div class="content about"><div class="about-hero"><img src="'+AVATAR_SRC+'" alt="Mission 165 mascot"><div><div class="hero-kicker">MISSION 165</div><div class="about-t">Train. Fuel. Recover. Track.</div><div class="hero-motto">Mantente Vigilante · Enfoca La Mira</div></div></div>'+
