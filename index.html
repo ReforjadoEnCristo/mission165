@@ -505,6 +505,31 @@
   .pend-miss{color:var(--amber);font-weight:800;}
   .pend-id{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:8px;font-size:13px;margin-top:6px;}
   .pend-paste{width:100%;min-height:72px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:8px;font-size:12px;margin-top:6px;}
+
+  .map-view .pmap-wrap{background:#0d0d12;border:1px solid var(--border);border-radius:16px;overflow:hidden;margin:8px 0;}
+  .map-view .pmap-svg{width:100%;max-height:380px;height:auto;display:block;margin:0 auto;}
+  .pmap-svg .org{cursor:pointer;stroke-linejoin:round;}
+  .pmap-svg .org.idle{fill:#2dd4bf;fill-opacity:.16;stroke:#5eead4;stroke-opacity:.45;stroke-width:2;}
+  .pmap-svg .org.logged{fill:#a855f7;fill-opacity:.55;stroke:#e9d5ff;stroke-width:3;filter:drop-shadow(0 0 10px #a855f7);}
+  .pmap-svg .org.due{fill:#2dd4bf;fill-opacity:.62;stroke:#99f6e4;stroke-width:3;filter:drop-shadow(0 0 14px #2dd4bf);animation:pepPulse 1.7s ease-in-out infinite;}
+  .pmap-svg .org.on{stroke:#fff;stroke-width:4;}
+  @keyframes pepPulse{0%,100%{fill-opacity:.38;}50%{fill-opacity:.78;}}
+  .map-leg{display:flex;flex-wrap:wrap;gap:8px 12px;font-size:11px;color:var(--muted);margin:6px 0 8px;}
+  .map-leg b{color:var(--text);font-weight:800;}
+  .ev{display:inline-flex;gap:3px;vertical-align:middle;margin-right:4px;}
+  .ev i{width:8px;height:8px;border-radius:50%;background:#3f3f46;display:inline-block;}
+  .ev.e3 i.on{background:#c084fc;}
+  .ev.e2 i.on{background:#2dd4bf;}
+  .ev.e1 i.on{background:#f4b740;}
+  .map-chips{display:flex;flex-wrap:wrap;gap:6px;padding-bottom:6px;}
+  .map-chips .t-chip{flex:0 0 auto;display:flex;align-items:center;gap:6px;}
+  .pip{width:8px;height:8px;border-radius:50%;background:#3f3f46;flex:0 0 8px;}
+  .pip.due{background:#2dd4bf;box-shadow:0 0 6px #2dd4bf;}
+  .pip.logged{background:#a855f7;box-shadow:0 0 6px #a855f7;}
+  .map-card .k{color:#5eead4;}
+  .map-days{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0;}
+  .map-days button{min-width:36px;min-height:36px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--muted);font-weight:800;font-size:12px;}
+  .map-days button.on{border-color:#2dd4bf;color:#ccfbf1;background:rgba(45,212,191,.15);}
 </style>
 </head>
 <body>
@@ -1807,6 +1832,7 @@ function renderApp(){
   else if (state.view==="fuel") app.appendChild(renderFuelView());
   else if (state.view==="meal") app.appendChild(renderMealView());
   else if (state.view==="peptide") app.appendChild(renderPeptideView());
+  else if (state.view==="map") app.appendChild(renderPepMapView());
   else if (state.view==="body") app.appendChild(renderBodyView());
   else if (state.view==="recover") app.appendChild(renderRecoverView());
   else app.appendChild(renderHistoryView());
@@ -3567,6 +3593,9 @@ function renderPeptideView(){
   yB.addEventListener("click",function(){ state.pepDate=yesterdayStr(); renderApp(); });
   dI.addEventListener("change",function(){ if(dI.value){ state.pepDate=dI.value; renderApp(); } });
   dr.appendChild(tB); dr.appendChild(yB); dr.appendChild(dI); wrap.appendChild(dr);
+  var mapJump=el('<button type="button" class="v4-btn ghost" style="width:100%;margin-bottom:10px">Open peptide map</button>');
+  mapJump.addEventListener("click",function(){ goView("map"); });
+  wrap.appendChild(mapJump);
   var nDone=doses.filter(function(d){return logged[d.key];}).length;
   var wn=pepWeekNum(date);
   var tc=el('<div class="fuel-card pep-today"><div class="k">'+dn+' · '+esc(formatDate(date))+' — '+nDone+'/'+doses.length+' logged</div>'+
@@ -5024,7 +5053,7 @@ var NAV_GROUPS=[
   {id:"today",label:"Today",icon:"🏠",views:[["workout","Workout"]]},
   {id:"train",label:"Train",icon:"🏋️",views:[["build","Build"],["recover","Recover"],["history","History"]]},
   {id:"fuel",label:"Fuel",icon:"🍽️",views:[["fuel","Fuel"],["meal","Meal Prep"]]},
-  {id:"pep",label:"Peptides",icon:"💉",views:[["peptide","Peptides"],["guide","Guide"]]},
+  {id:"pep",label:"Peptides",icon:"💉",views:[["peptide","Log"],["map","Map"],["guide","Guide"]]},
   {id:"more",label:"More",icon:"☰",views:[["body","Body"],["anatomy","Anatomy"],["settings","Settings"],["about","About"]]}
 ];
 function navGroupOf(view){ for (var i=0;i<NAV_GROUPS.length;i++) if (NAV_GROUPS[i].views.some(function(v){return v[0]===view;})) return NAV_GROUPS[i]; return NAV_GROUPS[0]; }
@@ -5367,6 +5396,249 @@ function renderAnatomyView(){
   return wrap;
 }
 
+/* ---------- Mission 165 peptide map (nine peptides, no amounts) ---------- */
+var MAP_PEPS=[
+  {id:"tesa",logId:"tesa",name:"Tesamorelin",organs:["gh","fat"],evidence:3,evidenceLabel:"Strong human evidence for an approved medical use",
+    does:"It asks the pituitary to release your own growth hormone in pulses. That signal is studied for abdominal fat and overnight repair. It is an approved medicine for a specific condition, not a general fat-loss product. Your clinic directs this use.",
+    where:"Pituitary and the growth-hormone axis, with effects on belly fat.",
+    train:"Recovery and body composition, not the lift itself. The clinic places it at night in the fasted window, which sits with sleep after training days.",
+    days:[5,6,0,1,3],slot:"night"},
+  {id:"glow",logId:"glowkpv",name:"GLOW+KPV",organs:["skin","joints","gut"],evidence:1,evidenceLabel:"Mostly lab or animal research",
+    does:"A clinic blend aimed at tissue repair, skin, and calming inflammation. The usual mix is studied mostly in animals and lab work, not in large human trials. Confirm the contents with your clinic.",
+    where:"Skin, tendons and joints, and the gut lining.",
+    train:"Supports the joints and connective tissue between hard lower-body days. The clinic lists it every morning.",
+    days:[0,1,2,3,4,5,6],slot:"wake"},
+  {id:"motsc",logId:"motsc",name:"MOTS-c",organs:["fat","muscle"],evidence:1,evidenceLabel:"Mostly lab or animal research",
+    does:"A mitochondrial peptide studied as an exercise-like signal for muscle fuel and insulin sensitivity. Human evidence is still thin. It is not an approved treatment.",
+    where:"Skeletal muscle and metabolic tissues.",
+    train:"The research link is muscle fuel. The clinic places it on Friday before training, plus Monday and Wednesday mornings.",
+    days:[5,1,3],slot:"wake"},
+  {id:"semax",logId:"semax",name:"Semax/Selank",organs:["brain"],evidence:2,evidenceLabel:"Some human research, not an approved use here",
+    does:"Two short brain peptides used together on your clinic list. Published human work is mostly small studies from where they are registered medicines. They are not approved in the United States.",
+    where:"Brain pathways tied to focus and calm.",
+    train:"For alertness and steadiness on patrol, not for the muscle worked in the gym. The clinic puts it before shift on work days, and on waking on Tuesday.",
+    days:[5,6,0,1,2],slotFor:function(day){ return day===2?"wake":"shift"; }},
+  {id:"tirz",logId:"tirz",name:"Tirzepatide",organs:["gut","fat"],evidence:3,evidenceLabel:"Strong human evidence for an approved medical use",
+    does:"It turns on two gut-hormone signals that slow appetite and help blood sugar on its approved labels. Your clinic directs how it fits the mission. This map does not change that plan.",
+    where:"Gut, appetite, and abdominal fat.",
+    train:"It supports the waist goal between lifting days. It is not a performance drug for the session itself. The clinic lists Monday and Thursday nights.",
+    days:[1,4],slot:"night"},
+  {id:"testcyp",logId:"testcyp",name:"Testosterone Cyp",organs:["muscle"],evidence:3,evidenceLabel:"Strong human evidence for an approved medical use",
+    does:"Testosterone in a slow-release form, used as replacement when a clinic has confirmed it is needed. It is not a peptide, and it is not an approved performance drug.",
+    where:"Muscle, bone, and other androgen-sensitive tissues.",
+    train:"Supports the muscle you train, on the clinic's hormone plan. Listed on Saturday and Wednesday mornings, around the training week.",
+    days:[6,3],slot:"wake"},
+  {id:"gluta",logId:"gluta",name:"Glutathione",organs:["liver"],evidence:2,evidenceLabel:"Some human research, not an approved use here",
+    does:"The body's main small antioxidant. Clinics offer it for recovery. Injected wellness use is not an approved drug indication.",
+    where:"Liver and whole-body antioxidant defense.",
+    train:"A recovery piece after hard sessions, not a muscle-builder. The clinic lists Saturday, Tuesday, and Thursday nights.",
+    days:[6,2,4],slot:"night"},
+  {id:"nad",logId:"nad",name:"NAD+",organs:["brain","muscle"],evidence:2,evidenceLabel:"Some human research, not an approved use here",
+    does:"A cell energy coenzyme, not a peptide. Every cell uses it. Wellness injections are still being studied and are not an approved energy treatment.",
+    where:"Mitochondria in muscle and brain.",
+    train:"Recovery and energy on easier mornings. The clinic lists Sunday, Tuesday, and Thursday mornings, not the heavy lift days.",
+    days:[0,2,4],slot:"wake"},
+  {id:"dihexa",logId:"dihexa",name:"Dihexa",organs:["brain"],evidence:1,evidenceLabel:"Mostly lab or animal research",logKind:"dihexa",
+    does:"A lab-made molecule studied in animals for synapse growth and memory. There is no adequate human trial, and it is not an approved medicine.",
+    where:"Brain signaling studied in animals.",
+    train:"Not part of the lifting plan. It is logged on its own. Days stay blank until your clinic sets them. This map will not guess.",
+    days:[],slot:"day"}
+];
+var MAP_BY_ID={};
+MAP_PEPS.forEach(function(p){ MAP_BY_ID[p.id]=p; });
+var MAP_DAYS_KEY="m165-pepmap-days";
+var MAP_SLOT_LABEL={wake:"On waking",shift:"Before shift",night:"At night",day:"Whenever your clinic set"};
+function mapSavedDays(){ var o=jparse(store.get(MAP_DAYS_KEY),{}); return (o&&typeof o==="object")?o:{}; }
+function mapDays(p){
+  var saved=mapSavedDays()[p.id];
+  if (Array.isArray(saved)) return saved.map(Number);
+  return (p.days||[]).slice();
+}
+function mapSlot(p, day){ return p.slotFor?p.slotFor(day):(p.slot||"day"); }
+function mapLastLog(p){
+  var best=null;
+  if (p.logKind==="dihexa"){
+    for (var i=0;i<localStorage.length;i++){
+      var k=localStorage.key(i);
+      if (!k||k.indexOf("m165-dihexa-")!==0) continue;
+      var ds=k.slice(12);
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(ds)) continue;
+      var rec=jparse(localStorage.getItem(k),{});
+      if (!rec||!rec.taken) continue;
+      if (!best||ds>best.date) best={date:ds,time:rec.taken};
+    }
+    return best;
+  }
+  var tail="-"+p.logId;
+  for (var j=0;j<localStorage.length;j++){
+    var key=localStorage.key(j);
+    if (!key||!/^m165-pep-\d{4}-\d{2}-\d{2}$/.test(key)) continue;
+    var day=key.slice(9);
+    var log=jparse(localStorage.getItem(key),{});
+    if (!log||typeof log!=="object") continue;
+    Object.keys(log).forEach(function(slotKey){
+      if (slotKey.slice(-tail.length)!==tail) return;
+      if (!log[slotKey]) return;
+      if (!best||day>best.date) best={date:day,time:String(log[slotKey])};
+    });
+  }
+  return best;
+}
+function mapWhen(dateStr){
+  if (!dateStr) return "Not logged yet";
+  if (dateStr===todayStr()) return "Today";
+  if (dateStr===yesterdayStr()) return "Yesterday";
+  var names=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+  return names[new Date(dateStr+"T00:00:00").getDay()]||"Earlier";
+}
+function mapNextLabel(p){
+  var days=mapDays(p);
+  if (!days.length) return "No clinic day set";
+  var last=mapLastLog(p);
+  for (var i=0;i<8;i++){
+    var d=new Date(); d.setHours(12,0,0,0); d.setDate(d.getDate()+i);
+    if (days.indexOf(d.getDay())<0) continue;
+    if (i===0 && last && last.date===todayStr()) continue;
+    var when=i===0?"Today":(i===1?"Tomorrow":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][d.getDay()]);
+    return when+" · "+MAP_SLOT_LABEL[mapSlot(p, d.getDay())];
+  }
+  return "No clinic day set";
+}
+function mapStatus(p){
+  var last=mapLastLog(p);
+  var days=mapDays(p);
+  var due=days.indexOf(new Date().getDay())>=0;
+  var logged=!!(last&&last.date===todayStr());
+  return {last:last, logged:logged, due:due, hot:due&&!logged?"due":(logged?"logged":"idle"), next:mapNextLabel(p)};
+}
+function mapOrganHot(areaId){
+  var hot="idle", rank={idle:0,logged:1,due:2};
+  MAP_PEPS.forEach(function(p){
+    if (p.organs.indexOf(areaId)<0) return;
+    var st=mapStatus(p).hot;
+    if (rank[st]>rank[hot]) hot=st;
+  });
+  return hot;
+}
+function mapEvidenceHTML(n){
+  var h='<span class="ev e'+n+'" aria-label="Evidence '+n+' of 3">';
+  for (var i=1;i<=3;i++) h+='<i'+(i<=n?' class="on"':'')+'></i>';
+  return h+'</span>';
+}
+function mapFigureSVG(){
+  var sel=state.mapArea;
+  var s='<svg class="pmap-svg" viewBox="0 0 '+ANAT_W+' '+ANAT_H+'" role="img" aria-label="Peptide map on the Mission 165 figure">';
+  s+='<image href="anat_front.jpg" x="0" y="0" width="'+ANAT_W+'" height="'+ANAT_H+'" preserveAspectRatio="xMidYMid meet"/>';
+  PEP_AREAS.forEach(function(a){
+    var hot=mapOrganHot(a.id);
+    var on=sel===a.id || (state.mapPep && MAP_BY_ID[state.mapPep] && MAP_BY_ID[state.mapPep].organs.indexOf(a.id)>=0);
+    var cls="org "+hot+(on?" on":"");
+    if (!a.sh) return;
+    if (a.sh[0]==="e") s+='<ellipse class="'+cls+'" data-a="'+a.id+'" cx="'+a.sh[1]+'" cy="'+a.sh[2]+'" rx="'+a.sh[3]+'" ry="'+a.sh[4]+'"/>';
+    else a.sh[1].forEach(function(c){ [c[0],ANAT_W-c[0]].forEach(function(x){ s+='<circle class="'+cls+'" data-a="'+a.id+'" cx="'+x+'" cy="'+c[1]+'" r="'+c[2]+'"/>'; }); });
+  });
+  return s+'</svg>';
+}
+function mapToggleLog(p){
+  if (p.logKind==="dihexa"){
+    var rec=jparse(store.get("m165-dihexa-"+todayStr()),{});
+    if (rec.taken) delete rec.taken; else rec.taken=nowHM();
+    store.set("m165-dihexa-"+todayStr(), JSON.stringify(rec));
+    return;
+  }
+  var slot=mapSlot(p, new Date().getDay());
+  var key=slot+"-"+p.logId;
+  var logged=jparse(store.get(PEPK(todayStr())),{});
+  if (logged[key]) delete logged[key]; else logged[key]=nowHM();
+  store.set(PEPK(todayStr()), JSON.stringify(logged));
+}
+function renderPepMapView(){
+  if (!state.mapPep) state.mapPep=null;
+  var wrap=el('<div class="content map-view"></div>');
+  wrap.appendChild(el('<div class="coach-title" style="font-size:26px">Peptide Map</div>'));
+  wrap.appendChild(el('<div class="pend-note">Your nine peptides only. Tap a glow or a name. Amounts stay with your clinic and are not shown here.</div>'));
+  wrap.appendChild(el('<div class="map-leg"><span><b style="color:#2dd4bf">Teal pulse</b> due today</span><span><b style="color:#c084fc">Purple</b> logged today</span><span>Dim means not today</span></div>'));
+  wrap.appendChild(el('<div class="map-leg"><span>'+mapEvidenceHTML(3)+' strong human evidence</span><span>'+mapEvidenceHTML(2)+' some human research</span><span>'+mapEvidenceHTML(1)+' mostly lab or animal</span></div>'));
+  var fig=el('<div class="pmap-wrap">'+mapFigureSVG()+'</div>');
+  fig.querySelectorAll(".org").forEach(function(node){
+    node.addEventListener("click",function(){
+      var area=node.getAttribute("data-a");
+      state.mapArea=area;
+      var hits=MAP_PEPS.filter(function(p){ return p.organs.indexOf(area)>=0; });
+      state.mapPep=hits.length===1?hits[0].id:null;
+      renderApp();
+    });
+  });
+  wrap.appendChild(fig);
+  var chips=el('<div class="map-chips"></div>');
+  MAP_PEPS.forEach(function(p){
+    var st=mapStatus(p);
+    var b=el('<button type="button" class="t-chip'+(state.mapPep===p.id?" on":"")+'"><span class="pip '+st.hot+'"></span>'+mapEvidenceHTML(p.evidence)+esc(p.name)+'</button>');
+    b.addEventListener("click",function(){ state.mapPep=p.id; state.mapArea=p.organs[0]; renderApp(); });
+    chips.appendChild(b);
+  });
+  wrap.appendChild(chips);
+  if (state.mapArea && !state.mapPep){
+    var area=PEP_AREAS.filter(function(a){ return a.id===state.mapArea; })[0];
+    var hits=MAP_PEPS.filter(function(p){ return p.organs.indexOf(state.mapArea)>=0; });
+    var box=el('<div class="fuel-card map-card"><div class="k">'+esc(area?area.label:"Area")+'</div><div class="pend-note">'+esc(area?area.desc:"")+'</div></div>');
+    hits.forEach(function(p){
+      var btn=el('<button type="button" class="t-chip" style="margin:4px 4px 0 0">'+esc(p.name)+'</button>');
+      btn.addEventListener("click",function(){ state.mapPep=p.id; renderApp(); });
+      box.appendChild(btn);
+    });
+    wrap.appendChild(box);
+  }
+  if (state.mapPep && MAP_BY_ID[state.mapPep]){
+    var p=MAP_BY_ID[state.mapPep];
+    var st=mapStatus(p);
+    var card=el('<div class="fuel-card map-card" id="map-card"><div class="k">'+esc(p.name)+'</div>'+
+      '<div class="pend-note">'+mapEvidenceHTML(p.evidence)+esc(p.evidenceLabel)+'</div>'+
+      '<div class="pep-note"><b>What it does.</b> '+esc(p.does)+'</div>'+
+      '<div class="pep-note"><b>Where it works.</b> '+esc(p.where)+'</div>'+
+      '<div class="pep-note"><b>Training and recovery.</b> '+esc(p.train)+'</div>'+
+      '<div class="pep-note"><b>Last logged.</b> '+esc(st.last?mapWhen(st.last.date):"Not logged yet")+'</div>'+
+      '<div class="pep-note"><b>Next up.</b> '+esc(st.next)+'</div>'+
+      '<button type="button" class="v4-btn map-log" style="width:100%;margin-top:8px">'+(st.logged?"Undo today's log":"Log today")+'</button>'+
+      '<div class="a-sub">Clinic days</div><div class="map-days"></div>'+
+      '<div class="pend-note">Dosing stays with your clinic. Nothing on this card is an amount.</div></div>');
+    card.querySelector(".map-log").addEventListener("click",function(){ mapToggleLog(p); showSaveToast(st.logged?"Log cleared":"Logged"); renderApp(); });
+    var days=mapDays(p);
+    var names=["S","M","T","W","T","F","S"];
+    var row=card.querySelector(".map-days");
+    names.forEach(function(label, idx){
+      var b=el('<button type="button"'+(days.indexOf(idx)>=0?' class="on"':'')+'>'+label+'</button>');
+      b.addEventListener("click",function(){
+        var cur=mapDays(p);
+        var pos=cur.indexOf(idx);
+        if (pos>=0) cur.splice(pos,1); else cur.push(idx);
+        var all=mapSavedDays(); all[p.id]=cur; store.set(MAP_DAYS_KEY, JSON.stringify(all));
+        renderApp();
+      });
+      row.appendChild(b);
+    });
+    wrap.appendChild(card);
+  } else if (!state.mapArea){
+    wrap.appendChild(el('<div class="fuel-card map-card"><div class="k">Tap the figure</div><div class="pend-note">Glows follow today\'s clinic schedule and what you have already logged. Open a peptide to read the card or check it off.</div></div>'));
+  }
+  return wrap;
+}
+function m165MapCheck(){
+  var names={}, bad=[], digits=[];
+  MAP_PEPS.forEach(function(p){
+    names[p.name]=1;
+    var blob=[p.name,p.does,p.where,p.train,p.evidenceLabel].join(" ");
+    if (/\d/.test(blob)) digits.push(p.id);
+    if (!p.organs||!p.organs.length||!p.logId) bad.push(p.id);
+  });
+  var need=["Tesamorelin","GLOW+KPV","MOTS-c","Semax/Selank","Tirzepatide","Testosterone Cyp","Glutathione","NAD+","Dihexa"];
+  var missing=need.filter(function(n){ return !names[n]; });
+  window.__m165MapOk=MAP_PEPS.length===9 && !missing.length && !digits.length && !bad.length;
+  window.__m165MapBad={missing:missing,digits:digits,bad:bad};
+  if (!window.__m165MapOk) console.error("peptide map check failed", window.__m165MapBad);
+}
+m165MapCheck();
+
 /* ---------- Settings (profile, targets, schedule, sync) ---------- */
 function dayChecks(cls,sel){ return '<div class="set-days">'+DOW.map(function(d,i){ return '<label><input type="checkbox" class="'+cls+'" value="'+i+'"'+(sel.indexOf(i)>=0?" checked":"")+'>'+d+'</label>'; }).join("")+'</div>'; }
 function renderSettingsView(){
@@ -5398,7 +5670,7 @@ function renderSettingsView(){
 }
 
 /* ---------- About / branding ---------- */
-var APP_VERSION="v5 draft · Nov 24, 2026";
+var APP_VERSION="v5 draft · Nov 24, 2026 · peptide map";
 function renderAboutView(){
   var p=profile();
   var w=el('<div class="content about"><div class="about-hero"><img src="'+AVATAR_SRC+'" alt="Mission 165 mascot"><div><div class="hero-kicker">MISSION 165</div><div class="about-t">Train. Fuel. Recover. Track.</div><div class="hero-motto">Mantente Vigilante · Enfoca La Mira</div></div></div>'+
