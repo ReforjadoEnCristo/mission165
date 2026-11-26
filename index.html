@@ -2362,7 +2362,9 @@ var EX_IMG={
   "Overhead Cable Triceps Extension":{img:"ex_overhead_ext.jpg",cap:R+"triceps, long head (primary)"+O+"core bracing (secondary)"},
   "Bench Reverse Crunch":{img:"ex_reverse_crunch.jpg",cap:R+"lower abs (primary)"+O+"obliques (secondary)"},
   "Side Plank":{img:"ex_side_plank.jpg",cap:R+"obliques (primary)"+O+"glute med, abs (secondary)"},
-  "Cable Crunch":{img:"ex_cable_crunch.jpg",cap:R+"abs (primary)"+O+"obliques, lats (secondary)"}
+  "Cable Crunch":{img:"ex_cable_crunch.jpg",cap:R+"abs (primary)"+O+"obliques, lats (secondary)"},
+  "Wide-Grip Lat Pulldown":{img:"ex_pulldown_lats.jpg",cap:R+"lats (primary)"+O+"biceps (secondary)"},
+  "45° Back Extension (glute-focused)":{img:"ex_backext_glut_mid.jpg",cap:R+"glute max (primary)"+O+"hamstrings (secondary)"}
 };
 function exerciseMedia(name){
   return EX_MEDIA[GLASS_BY_NAME[name]]||EX_IMG[name]||null;
@@ -2390,6 +2392,105 @@ attachHeads("Rope Triceps Pushdown",{
   long:{label:"Long",img:"ex_tri_long.jpg",cap:"<b>Long head</b> lit · "+R+"triceps long head"+O+"forearms"},
   lateral:{label:"Lateral",img:"ex_tri_lateral.jpg",cap:"<b>Lateral head</b> lit · "+R+"outer triceps"+O+"forearms"},
   medial:{label:"Medial",img:"ex_tri_medial.jpg",cap:"<b>Medial head</b> lit · "+R+"medial head, above the elbow"+O+"forearms"}
+});
+var HEAD_ALIAS={rf:"rectus",side:"oblique",hip:"lats"};
+function headSpec(m, key){
+  if (!m||!m.headImages||!key) return null;
+  var h=m.headImages;
+  if (h[key]) return h[key];
+  var alt=HEAD_ALIAS[key];
+  return alt&&h[alt]?h[alt]:null;
+}
+attachHeads("Pec Deck Fly (or Cable Fly)",{
+  upper:{label:"Upper",img:"ex_pec_upper.jpg",cap:"<b>Upper chest</b> lit · "+R+"clavicular head"+O+"front delts"},
+  mid:{label:"Mid",img:"ex_pec_mid.jpg",cap:"<b>Mid chest</b> lit · "+R+"sternal head"+O+"front delts"},
+  lower:{label:"Lower",img:"ex_pec_lower.jpg",cap:"<b>Lower chest</b> lit · "+R+"costal head"+O+"front delts"}
+});
+EX_IMG["Cable Fly (or Pec Deck)"].headImages=EX_IMG["Pec Deck Fly (or Cable Fly)"].headImages;
+attachHeads("Dumbbell Bench Press",{
+  upper:{label:"Upper",img:"ex_bench_upper.jpg",cap:"<b>Upper chest</b> lit · "+R+"clavicular head"+O+"front delts"},
+  mid:{label:"Mid",img:"ex_bench_mid.jpg",cap:"<b>Mid chest</b> lit · "+R+"sternal head"+O+"front delts"},
+  lower:{label:"Lower",img:"ex_bench_lower.jpg",cap:"<b>Lower chest</b> lit · "+R+"costal head"+O+"front delts"}
+});
+attachHeads("Leg Extension",{
+  outer:{label:"Outer",img:"ex_legext_outer.jpg",cap:"<b>Outer sweep</b> lit · "+R+"vastus lateralis"+O+"hip flexors"},
+  vmo:{label:"VMO",img:"ex_legext_vmo.jpg",cap:"<b>Teardrop</b> lit · "+R+"vastus medialis"+O+"hip flexors"},
+  rectus:{label:"Rectus",img:"ex_legext_rectus.jpg",cap:"<b>Rectus femoris</b> lit · "+R+"rectus femoris"+O+"hip flexors"}
+});
+attachHeads("Barbell Back Squat",{
+  outer:{label:"Outer",img:"ex_squat_outer.jpg",cap:"<b>Outer sweep</b> lit · "+R+"vastus lateralis"+O+"adductors"},
+  vmo:{label:"VMO",img:"ex_squat_vmo.jpg",cap:"<b>Teardrop</b> lit · "+R+"vastus medialis"+O+"hip flexors"},
+  rectus:{label:"Rectus",img:"ex_squat_rectus.jpg",cap:"<b>Rectus femoris</b> lit · "+R+"rectus femoris"+O+"hip flexors"}
+});
+attachHeads("Deep Leg Press",{
+  outer:{label:"Outer quad",img:"ex_legpress_quad_outer.jpg",cap:"<b>Outer sweep</b> lit · "+R+"vastus lateralis"+O+"adductors"},
+  vmo:{label:"VMO",img:"ex_legpress_vmo.jpg",cap:"<b>Teardrop</b> lit · "+R+"vastus medialis"+O+"hip flexors"},
+  rectus:{label:"Rectus",img:"ex_legpress_rectus.jpg",cap:"<b>Rectus femoris</b> lit · "+R+"rectus femoris"+O+"hip flexors"},
+  upper:{label:"Upper glute",img:"ex_legpress_glut_upper.jpg",cap:"<b>Upper glute</b> lit · "+R+"glute med / min"+O+"quads"},
+  mid:{label:"Mid glute",img:"ex_legpress_glut_mid.jpg",cap:"<b>Mid glute</b> lit · "+R+"glute max"+O+"quads"},
+  low:{label:"Lower glute",img:"ex_legpress_glut_low.jpg",cap:"<b>Lower glute</b> lit · "+R+"lower glute"+O+"hamstrings"}
+});
+attachHeads("Smith Romanian Deadlift",{
+  hinge:{label:"Hinge",img:"ex_rdl_hinge.jpg",cap:"<b>Hip hinge</b> lit · "+R+"upper / mid hamstrings"+O+"low back"},
+  "in":{label:"Toes in",img:"ex_rdl_toes_in.jpg",cap:"<b>Toes in</b> lit · "+R+"inner hamstrings"+O+"calves"},
+  out:{label:"Toes out",img:"ex_rdl_toes_out.jpg",cap:"<b>Toes out</b> lit · "+R+"outer hamstrings"+O+"calves"},
+  upper:{label:"Upper glute",img:"ex_rdl_glut_upper.jpg",cap:"<b>Upper glute</b> lit · "+R+"glute med / min"+O+"low back"},
+  mid:{label:"Mid glute",img:"ex_rdl_glut_mid.jpg",cap:"<b>Mid glute</b> lit · "+R+"glute max"+O+"hamstrings"},
+  low:{label:"Lower glute",img:"ex_rdl_glut_low.jpg",cap:"<b>Lower glute</b> lit · "+R+"lower glute"+O+"hamstrings"}
+});
+attachHeads("Single-Leg Standing Leg Curl",{
+  hinge:{label:"Neutral",img:"ex_legcurl_hinge.jpg",cap:"<b>Toes neutral</b> lit · "+R+"hamstrings"+O+"calf"},
+  "in":{label:"Toes in",img:"ex_legcurl_toes_in.jpg",cap:"<b>Toes in</b> lit · "+R+"inner hamstrings"+O+"calf"},
+  out:{label:"Toes out",img:"ex_legcurl_toes_out.jpg",cap:"<b>Toes out</b> lit · "+R+"outer hamstrings"+O+"calf"}
+});
+attachHeads("45° Back Extension (glute-focused)",{
+  hinge:{label:"Hinge",img:"ex_backext_hinge.jpg",cap:"<b>Hip hinge</b> lit · "+R+"upper / mid hamstrings"+O+"low back"},
+  "in":{label:"Toes in",img:"ex_backext_toes_in.jpg",cap:"<b>Toes in</b> lit · "+R+"inner hamstrings"+O+"calves"},
+  out:{label:"Toes out",img:"ex_backext_toes_out.jpg",cap:"<b>Toes out</b> lit · "+R+"outer hamstrings"+O+"calves"},
+  upper:{label:"Upper glute",img:"ex_backext_glut_upper.jpg",cap:"<b>Upper glute</b> lit · "+R+"glute med / min"+O+"low back"},
+  mid:{label:"Mid glute",img:"ex_backext_glut_mid.jpg",cap:"<b>Mid glute</b> lit · "+R+"glute max"+O+"low back"},
+  low:{label:"Lower glute",img:"ex_backext_glut_low.jpg",cap:"<b>Lower glute</b> lit · "+R+"lower glute"+O+"hamstrings"}
+});
+attachHeads("Banded Barbell Hip Thrust",{
+  upper:{label:"Upper",img:"ex_thrust_upper.jpg",cap:"<b>Upper glute</b> lit · "+R+"glute med / min"+O+"hamstrings"},
+  mid:{label:"Mid",img:"ex_thrust_mid.jpg",cap:"<b>Mid glute</b> lit · "+R+"glute max"+O+"hamstrings, quads"},
+  low:{label:"Lower",img:"ex_thrust_low.jpg",cap:"<b>Lower glute</b> lit · "+R+"lower glute"+O+"hamstrings"}
+});
+attachHeads("Seated Hip Abduction",{
+  upper:{label:"Upper",img:"ex_abduct_upper.jpg",cap:"<b>Upper glute</b> lit · "+R+"glute med / min"+O+"TFL"},
+  mid:{label:"Mid",img:"ex_abduct_mid.jpg",cap:"<b>Mid glute</b> lit · "+R+"glute max"+O+"upper glute"},
+  low:{label:"Lower",img:"ex_abduct_low.jpg",cap:"<b>Lower glute</b> lit · "+R+"lower glute"+O+"hamstrings"}
+});
+attachHeads("Band-Assisted Chin-Up / Pull-Up",{
+  lats:{label:"Lats",img:"ex_pullup_lats.jpg",cap:"<b>Lats</b> lit · "+R+"lats"+O+"biceps"},
+  upper:{label:"Upper back",img:"ex_pullup_upper.jpg",cap:"<b>Upper back</b> lit · "+R+"traps / rhomboids"+O+"biceps"}
+});
+attachHeads("Wide-Grip Lat Pulldown",{
+  lats:{label:"Lats",img:"ex_pulldown_lats.jpg",cap:"<b>Lats</b> lit · "+R+"lats"+O+"biceps"},
+  upper:{label:"Upper back",img:"ex_pulldown_upper.jpg",cap:"<b>Upper back</b> lit · "+R+"traps / rhomboids"+O+"biceps"}
+});
+attachHeads("Barbell Bent-Over Row",{
+  lats:{label:"Lats",img:"ex_row_lats.jpg",cap:"<b>Lats</b> lit · "+R+"lats"+O+"biceps"},
+  upper:{label:"Upper back",img:"ex_row_upper.jpg",cap:"<b>Upper back</b> lit · "+R+"traps / rhomboids"+O+"biceps, rear delts"}
+});
+attachHeads("Single-Arm Cable Row",{
+  lats:{label:"Lats",img:"ex_cablerow_lats.jpg",cap:"<b>Lats</b> lit · "+R+"lats"+O+"biceps"},
+  upper:{label:"Upper back",img:"ex_cablerow_upper.jpg",cap:"<b>Upper back</b> lit · "+R+"traps / rhomboids"+O+"biceps"}
+});
+attachHeads("Side Plank",{
+  oblique:{label:"Obliques",img:"ex_sideplank_oblique.jpg",cap:"<b>Obliques</b> lit · "+R+"obliques"+O+"glute med"},
+  upper:{label:"Upper abs",img:"ex_sideplank_upper.jpg",cap:"<b>Upper abs</b> lit · "+R+"upper abs"+O+"hip flexors"},
+  lower:{label:"Lower abs",img:"ex_sideplank_lower.jpg",cap:"<b>Lower abs</b> lit · "+R+"lower abs"+O+"hip flexors"}
+});
+attachHeads("Bench Reverse Crunch",{
+  oblique:{label:"Obliques",img:"ex_revcrunch_oblique.jpg",cap:"<b>Obliques</b> lit · "+R+"obliques"+O+"hip flexors"},
+  upper:{label:"Upper abs",img:"ex_revcrunch_upper.jpg",cap:"<b>Upper abs</b> lit · "+R+"upper abs"+O+"hip flexors"},
+  lower:{label:"Lower abs",img:"ex_revcrunch_lower.jpg",cap:"<b>Lower abs</b> lit · "+R+"lower abs"+O+"hip flexors"}
+});
+attachHeads("Cable Crunch",{
+  oblique:{label:"Obliques",img:"ex_cablecrunch_oblique.jpg",cap:"<b>Obliques</b> lit · "+R+"obliques"+O+"hip flexors"},
+  upper:{label:"Upper abs",img:"ex_cablecrunch_upper.jpg",cap:"<b>Upper abs</b> lit · "+R+"upper abs"+O+"hip flexors"},
+  lower:{label:"Lower abs",img:"ex_cablecrunch_lower.jpg",cap:"<b>Lower abs</b> lit · "+R+"lower abs"+O+"hip flexors"}
 });
 function exShotHTML(name){
   var m=exerciseMedia(name); if (!m||!m.img) return "";
@@ -2420,7 +2521,7 @@ function wireHeadSwap(detail, name){
     });
   }
   function show(key){
-    var spec=m.headImages[key];
+    var spec=headSpec(m, key);
     if (!spec||!img) return;
     var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     function commit(){
@@ -5026,7 +5127,7 @@ function initPosMaps(){
 }
 function headShot(exerciseName, opt){
   var m=exerciseMedia(exerciseName);
-  var spec=m&&m.headImages&&m.headImages[opt.id];
+  var spec=headSpec(m, opt.id);
   if (spec&&spec.img) return {src:spec.img, cap:spec.label||opt.name};
   if (m&&m.img) return {src:m.img, cap:opt.name};
   return null;
@@ -6151,7 +6252,11 @@ function m165HeadCheck(){
   var inclineMap=positionMapHTML("Dumbbell Incline Press");
   var noFig=pulldown.indexOf("green target")<0 && pulldown.indexOf("<svg")<0 && pulldown.indexOf("Elbows tight")>=0;
   var chestPhoto=inclineMap.indexOf("ex_incline_upper.jpg")>=0 && inclineMap.indexOf("green target")<0;
-  window.__m165HeadOk=!!(calf && bi && tri && maps && noStick && has && keeps && noFig && chestPhoto);
+  var pd=exerciseMedia("Wide-Grip Lat Pulldown");
+  var be=exerciseMedia("45° Back Extension (glute-focused)");
+  var pdOk=!!(pd && pd.img==="ex_pulldown_lats.jpg" && pd.headImages && pd.headImages.upper && pulldown.indexOf("ex_pulldown_lats.jpg")>=0 && pulldown.indexOf("ex_pulldown_upper.jpg")>=0);
+  var beOk=!!(be && be.headImages && be.headImages.hinge && be.headImages.low && positionMapHTML("45° Back Extension (glute-focused)").indexOf("ex_backext_glut_mid.jpg")>=0);
+  window.__m165HeadOk=!!(calf && bi && tri && maps && noStick && has && keeps && noFig && chestPhoto && pdOk && beOk);
   if (!window.__m165HeadOk) console.error("head check failed", calf, bi, tri, !!maps, noStick, has, keeps);
 }
 m165HeadCheck();
