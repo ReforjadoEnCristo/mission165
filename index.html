@@ -472,6 +472,17 @@
   .sg-pm button{width:40px;height:40px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:22px;font-weight:700;line-height:1;cursor:pointer;}
   .sg-pm button:disabled{opacity:.35;}
   .sg-hint{font-size:11px;color:var(--muted);}
+  .top-track{background:var(--panel2);border:1px solid var(--border);border-radius:12px;padding:12px;margin:0 0 12px;}
+  .top-track .box-k{margin-bottom:6px;}
+  .top-track-line{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-top:4px;}
+  .top-track-k{font-size:11px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:var(--muted);}
+  .top-track-val{font-family:'Oswald',sans-serif;font-size:28px;font-weight:700;line-height:1;letter-spacing:.2px;}
+  .top-track-ind{display:inline-flex;align-items:center;justify-content:center;margin-top:10px;min-height:40px;padding:8px 16px;border-radius:999px;font-size:16px;font-weight:800;letter-spacing:.3px;}
+  .top-track-ind.up{color:#bbf7d0;background:rgba(34,197,94,.18);border:1px solid rgba(34,197,94,.75);}
+  .top-track-ind.same{color:#fde68a;background:rgba(244,183,64,.16);border:1px solid rgba(244,183,64,.7);}
+  .top-track-ind.down{color:#fecdd3;background:rgba(244,63,94,.16);border:1px solid rgba(244,63,94,.7);}
+  .top-track-note{font-size:15px;font-weight:700;color:var(--text);margin-top:6px;line-height:1.35;}
+  .top-track-sub{font-size:12px;color:var(--muted);margin-top:8px;font-weight:600;}
   .rot-row td{padding:0 3px 6px;}
   .rot-tag{display:inline-block;max-width:100%;font-size:11px;font-weight:800;line-height:1.25;color:#ccfbf1;background:rgba(45,212,191,.14);border:1px solid rgba(45,212,191,.5);border-radius:999px;padding:3px 8px;cursor:pointer;font-family:inherit;text-align:left;}
   .rot-tag.on{color:#fecaca;background:rgba(248,113,113,.16);border-color:#f87171;}
@@ -2281,6 +2292,7 @@ function buildDetail(detail,ex,i,card){
   h+='</div>';
   h+=exShotHTML(ex.name);
   h+=setGridHTML(ex);
+  h+=sampleTopHTML(ex);
   var lw=lastWeightFor(ex.name);
   if (lw) h+='<div class="last-logged">Last logged: <strong>'+esc(lw.weight)+'</strong> on '+esc(formatDate(lw.date))+'</div>';
   if (isDeloadWeek()) h+='<div class="last-logged" style="color:#bae6fd">Light week: use about 60% of your normal weight'+(lw&&parseFloat(lw.weight)?' (about <strong>'+(Math.round(parseFloat(lw.weight)*0.6/5)*5)+' lb</strong>)':'')+' and '+deloadSets(ex.sets)+' sets.</div>';
@@ -5193,6 +5205,137 @@ function voiceMicHTML(cls){
 function rowsHaveVoice(ex){
   return getRows(ex).some(function(r){ return r && r.source==="voice"; });
 }
+/* Sample, Lower A hip thrust only. Working top set for this log date against
+   the previous session of the same lift. Warm-up notes never count. Names
+   already in the alias table (glute driver, hip thrust) count as this lift.
+   The manual "log your hardest set" box is a different control and is not read. */
+function isSampleTopCard(ex){
+  var day=DAYS[state.dayIdx];
+  return !!(ex && ex.name==="Banded Barbell Hip Thrust" && day && day.id===1);
+}
+function isWarmupRow(row){
+  var note=String(row&&row.note||"").trim();
+  if (!note) return false;
+  if (/not a warm[\s-]*up/i.test(note)) return false;
+  return /warm[\s-]*up/i.test(note);
+}
+function workingTopFromRows(rows){
+  var best=null;
+  (rows||[]).forEach(function(row){
+    if (!row || isWarmupRow(row)) return;
+    if (row.planned && isBlankVal(row.weight) && isBlankVal(row.reps)) return;
+    if (isBlankVal(row.weight) || isBlankVal(row.reps)) return;
+    var w=Number(row.weight), r=Number(row.reps);
+    if (!isFinite(w) || !isFinite(r)) return;
+    if (!best || w>best.weight || (w===best.weight && r>best.reps)) best={weight:w, reps:r};
+  });
+  return best;
+}
+function sameLift(logged, name){
+  if (!logged || !name) return false;
+  if (logged===name) return true;
+  var a=exerciseStorageName(logged), b=exerciseStorageName(name);
+  if (a && b && a===b) return true;
+  return nameMatches(logged, name) || nameMatches(name, logged);
+}
+function formatTopNum(n){
+  var x=Number(n);
+  if (!isFinite(x)) return "";
+  if (Math.abs(x-Math.round(x))<1e-6) return String(Math.round(x));
+  return String(x);
+}
+function formatTopSet(t){
+  return formatTopNum(t.weight)+" x "+formatTopNum(t.reps);
+}
+function compareTopSets(today, prev){
+  if (!today || !prev) return "";
+  if (today.weight>prev.weight) return "up";
+  if (today.weight<prev.weight) return "down";
+  if (today.reps>prev.reps) return "up";
+  if (today.reps<prev.reps) return "down";
+  return "same";
+}
+function historyRowsFor(name, date, dayId){
+  var rows=[];
+  (state.history||[]).forEach(function(h){
+    if (!h || h.date!==date) return;
+    if (dayId!=null && h.dayId!=null && Number(h.dayId)!==Number(dayId)) return;
+    (h.exercises||[]).forEach(function(e){
+      if (e && sameLift(e.name, name) && Array.isArray(e.sets)) rows=rows.concat(e.sets);
+    });
+  });
+  return rows;
+}
+function sessionWorkingTop(name, date, dayId){
+  var grid=loadSetGrid(date, dayId);
+  var fromGrid=workingTopFromRows(matchingGridRows(grid, name));
+  if (fromGrid) return fromGrid;
+  return workingTopFromRows(historyRowsFor(name, date, dayId));
+}
+function previousWorkingTop(name, logDate, dayId){
+  var seen={}, list=[];
+  function add(date, dId){
+    if (!date) return;
+    var id=date+"-"+(dId==null?"":dId);
+    if (seen[id]) return;
+    seen[id]=1;
+    list.push({date:date, dayId:dId});
+  }
+  (state.history||[]).forEach(function(h){
+    if (!h||!h.date) return;
+    var hit=false;
+    (h.exercises||[]).forEach(function(e){ if (e && sameLift(e.name, name)) hit=true; });
+    if (hit) add(h.date, h.dayId);
+  });
+  try{
+    for (var i=0;i<localStorage.length;i++){
+      var m=/^m165-setgrid-draft-(\d{4}-\d{2}-\d{2})-(\d+)$/.exec(localStorage.key(i)||"");
+      if (!m) continue;
+      var grid=loadSetGrid(m[1], Number(m[2]));
+      if (matchingGridRows(grid, name)) add(m[1], Number(m[2]));
+    }
+  }catch(e){}
+  var best=null;
+  list.forEach(function(s){
+    if (s.date>logDate) return;
+    if (s.date===logDate && (s.dayId==null || Number(s.dayId)===Number(dayId))) return;
+    var top=sessionWorkingTop(name, s.date, s.dayId);
+    if (!top) return;
+    var closer=!best || s.date>best.date || (s.date===best.date && Number(s.dayId)===Number(dayId) && Number(best.dayId)!==Number(dayId));
+    if (closer) best={date:s.date, dayId:s.dayId, top:top};
+  });
+  return best;
+}
+function sampleTopHTML(ex){
+  if (!isSampleTopCard(ex)) return "";
+  var day=DAYS[state.dayIdx];
+  var today=sessionWorkingTop(ex.name, state.logDate, day.id);
+  var prev=previousWorkingTop(ex.name, state.logDate, day.id);
+  var dir=compareTopSets(today, prev&&prev.top);
+  var h='<div class="top-track" data-dir="'+esc(dir)+'" data-today="'+(today?esc(formatTopSet(today)):"")+'" data-prev="'+(prev?esc(formatTopSet(prev.top)):"")+'">';
+  h+='<div class="box-k">Top set</div>';
+  if (!prev){
+    if (today) h+='<div class="top-track-val">'+esc(formatTopSet(today))+'</div>';
+    h+='<div class="top-track-note">First logged session</div>';
+    if (today) h+='<div class="top-track-sub">Warm-ups not counted</div>';
+    return h+'</div>';
+  }
+  h+='<div class="top-track-line"><span class="top-track-k">Today</span><span class="top-track-val">'+(today?esc(formatTopSet(today)):"—")+'</span></div>';
+  h+='<div class="top-track-line"><span class="top-track-k">Last · '+esc(formatDate(prev.date))+'</span><span class="top-track-val">'+esc(formatTopSet(prev.top))+'</span></div>';
+  if (dir==="up") h+='<div class="top-track-ind up" aria-label="Up">▲ Up</div>';
+  else if (dir==="down") h+='<div class="top-track-ind down" aria-label="Down">▼ Down</div>';
+  else if (dir==="same") h+='<div class="top-track-ind same" aria-label="Same">● Same</div>';
+  else h+='<div class="top-track-note">No working set logged yet</div>';
+  h+='<div class="top-track-sub">Warm-ups not counted</div>';
+  return h+'</div>';
+}
+function refreshSampleTop(detail, ex){
+  if (!detail || !isSampleTopCard(ex)) return;
+  var box=detail.querySelector(".top-track");
+  if (!box) return;
+  var node=el(sampleTopHTML(ex));
+  if (node) box.replaceWith(node);
+}
 function setGridHTML(ex){
   var rows=getRows(ex);
   var notes=noteFor(ex);
@@ -5250,6 +5393,7 @@ function wireSetGrid(detail, ex){
       writeRows(ex, next);
       paintBlank(w, row);
       paintBlank(r, row);
+      refreshSampleTop(detail, ex);
     }
     w.addEventListener("input", function(){ update("weight", w); });
     r.addEventListener("input", function(){ update("reps", r); });
@@ -5261,6 +5405,7 @@ function wireSetGrid(detail, ex){
       row.confirmed=!!c.checked;
       writeRows(ex, next);
       tr.classList.toggle("is-ok", row.confirmed);
+      refreshSampleTop(detail, ex);
       // Voice-log rows use this same checkbox, so checking one starts the rest too.
       // A sync pull does not: those rows can arrive long after the set, there is no
       // tap to unlock sound, and it is not "I just racked the bar."
@@ -6138,6 +6283,21 @@ function m165SelfCheck(){
   assert("typed set survives voice", typed.rows.length===1 && typed.rows[0].weight===100 && typed.rows[0].reps===15 && typed.rows[0].source==="manual");
   var replayVoice=mergeSetRows(aliasGrid["Smith Romanian Deadlift"], [{n:1, weight:185, reps:10, source:"voice", confirmed:true}], {date:"2026-11-29", dayId:3, exercise:"Smith Romanian Deadlift"});
   assert("same voice set twice stays one row", replayVoice.rows.length===1 && replayVoice.skipped.length===1);
+  var hipRows=[
+    {n:1, weight:130, reps:8, note:"Warm-up 1"},
+    {n:2, weight:185, reps:8, note:"Warm-up 2"},
+    {n:3, weight:275, reps:8, note:"Working set 1"},
+    {n:4, weight:275, reps:8, note:"Working set 2"},
+    {n:5, weight:285, reps:8, note:"Working set 3"}
+  ];
+  var hipTop=workingTopFromRows(hipRows);
+  assert("hip top skips warm-ups", !!hipTop && hipTop.weight===285 && hipTop.reps===8);
+  assert("alias glute driver", sameLift("glute driver","Banded Barbell Hip Thrust"));
+  assert("alias plain hip thrust", sameLift("hip thrust","Banded Barbell Hip Thrust"));
+  assert("heavier weight is up", compareTopSets({weight:285,reps:8},{weight:270,reps:8})==="up");
+  assert("same weight more reps is up", compareTopSets({weight:270,reps:10},{weight:270,reps:8})==="up");
+  assert("matching top set is same", compareTopSets({weight:270,reps:8},{weight:270,reps:8})==="same");
+  assert("lighter weight is down", compareTopSets({weight:260,reps:12},{weight:270,reps:8})==="down");
   window.__m165SelfCheck=results;
   window.__m165SelfCheckOk=results.every(function(r){return r.ok;});
   if (!window.__m165SelfCheckOk) console.error("m165 self-check failed", results.filter(function(r){return !r.ok;}));
