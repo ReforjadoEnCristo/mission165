@@ -434,11 +434,14 @@
 
   .sg-box{background:var(--panel2);border:1px solid var(--border);border-radius:12px;padding:10px;margin:12px 0;}
   .sg-voice{font-size:11.5px;color:#fde68a;line-height:1.4;margin:4px 0 8px;}
+  .sg-mic,.hist-mic{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;margin-left:4px;color:#fde68a;vertical-align:-2px;}
+  .sg-mic svg,.hist-mic svg{display:block;width:12px;height:12px;}
+  .hist-mic{margin:0 3px 0 0;vertical-align:-1px;}
   .sg-exnote{font-size:11.5px;color:#d4d4dc;line-height:1.45;margin:0 0 8px;}
   .sg{width:100%;border-collapse:collapse;}
   .sg th{font-size:10px;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);font-weight:800;text-align:left;padding:0 3px 6px;}
   .sg td{padding:3px;vertical-align:top;}
-  .sg .n{font-weight:800;text-align:center;width:42px;padding-top:10px;font-size:14px;}
+  .sg .n{font-weight:800;text-align:center;width:auto;min-width:28px;padding-top:10px;font-size:14px;white-space:nowrap;}
   .sg-in{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:16px;font-weight:700;padding:8px 4px;text-align:center;outline:none;}
   .sg-in.blank{border-color:var(--amber);background:rgba(244,183,64,.12);}
   .sg-in.blank::placeholder{color:var(--amber);opacity:1;}
@@ -1453,17 +1456,18 @@ function mergeHistorySession(local, incoming, ctx){
   out.doneCount=(out.exercises||[]).length;
   if (incoming.total && (!out.total || Number(incoming.total)>Number(out.total))) out.total=incoming.total;
   if (!out.total) out.total=out.doneCount;
-  return out;
+  return applyProgramMeta(out);
 }
 function mergeHistoryArrays(localArr, incomingArr, ctx){
   var byId={}, order=[];
-  function take(h){
+  function take(h, fromVoice){
     if (!h||!h.id) return;
+    if (fromVoice) h=normalizeVoiceSession(h);
     if (!byId[h.id]){ byId[h.id]=h; order.push(h.id); return; }
     byId[h.id]=mergeHistorySession(byId[h.id], h, ctx);
   }
-  (Array.isArray(localArr)?localArr:[]).forEach(take);
-  (Array.isArray(incomingArr)?incomingArr:[]).forEach(take);
+  (Array.isArray(localArr)?localArr:[]).forEach(function(h){ take(h, false); });
+  (Array.isArray(incomingArr)?incomingArr:[]).forEach(function(h){ take(h, true); });
   return order.map(function(id){ return byId[id]; });
 }
 function mergeMetricsArrays(localArr,incomingArr,preferIncoming){
@@ -1529,8 +1533,80 @@ function mergeSnapshot(data,mode){
       localStorage.setItem(k,inc);
     }
   });
+  reconcileHistoryWithGrids();
   if (dupCtx.skipped.length) showDupNotice();
   return added;
+}
+function rowHasLog(r){
+  return !!(r && (r.confirmed || r.source==="voice" || r.source==="seed" || !isBlankVal(r.weight) || !isBlankVal(r.reps)));
+}
+function summarizeLoggedSets(sets){
+  return (sets||[]).filter(rowHasLog).map(function(s){
+    return (isBlankVal(s.weight)?"—":s.weight)+"x"+(isBlankVal(s.reps)?"—":s.reps);
+  }).join(", ");
+}
+// The set grid is what the phone is showing. After a merge, history for that
+// same date and day follows it, so a number typed on the phone is the one
+// history reports too.
+function reconcileHistoryWithGrids(){
+  var hist=jparse(localStorage.getItem(HISTORY_KEY), []);
+  if (!Array.isArray(hist)) return;
+  var keys=[];
+  for (var i=0;i<localStorage.length;i++) keys.push(localStorage.key(i));
+  var changed=false;
+  keys.forEach(function(k){
+    var m=/^m165-setgrid-draft-(\d{4}-\d{2}-\d{2})-(\d+)$/.exec(k||"");
+    if (!m) return;
+    var grid=jparse(localStorage.getItem(k), {});
+    var session=null;
+    var id=m[1]+"-"+m[2];
+    hist.forEach(function(h){ if (h&&h.id===id) session=h; });
+    if (!session) return;
+    Object.keys(grid||{}).forEach(function(name){
+      if (!name || name.charAt(0)==="_") return;
+      var logged=(Array.isArray(grid[name])?grid[name]:[]).filter(rowHasLog);
+      if (!logged.length) return;
+      var canon=exerciseStorageName(name);
+      var ex=null;
+      (session.exercises||[]).forEach(function(e){
+        if (e && exerciseStorageName(e.name)===canon) ex=e;
+      });
+      if (!ex){
+        ex={name:canon, weight:"", bonus:"", topSet:null, sets:[]};
+        session.exercises=session.exercises||[];
+        session.exercises.push(ex);
+        changed=true;
+      }
+      var byN={};
+      (ex.sets||[]).forEach(function(s){ if (s&&s.n!=null) byN[Number(s.n)]=Object.assign({}, s); });
+      logged.forEach(function(r){
+        var n=Number(r.n);
+        var weight=isBlankVal(r.weight)?null:r.weight;
+        var reps=isBlankVal(r.reps)?null:r.reps;
+        var cur=byN[n];
+        if (!cur){
+          byN[n]={n:n, weight:weight, reps:reps, note:r.note||"", confirmed:!!r.confirmed, source:r.source||""};
+          changed=true;
+          return;
+        }
+        if (!isBlankVal(weight) && !loadsEqual(cur.weight, weight)){ cur.weight=weight; changed=true; }
+        if (!isBlankVal(reps) && !loadsEqual(cur.reps, reps)){ cur.reps=reps; changed=true; }
+        if (r.source==="manual" && cur.source!=="manual"){ cur.source="manual"; changed=true; }
+        else if (r.source && !cur.source){ cur.source=r.source; changed=true; }
+        if (r.confirmed && !cur.confirmed){ cur.confirmed=true; changed=true; }
+        byN[n]=cur;
+      });
+      var next=Object.keys(byN).map(function(n){ return byN[n]; }).sort(function(a,b){ return Number(a.n)-Number(b.n); });
+      if (JSON.stringify(ex.sets||[])!==JSON.stringify(next)){ ex.sets=next; changed=true; }
+      var summary=summarizeLoggedSets(next);
+      if (summary && ex.weight!==summary){ ex.weight=summary; changed=true; }
+      if (ex.name!==canon){ ex.name=canon; changed=true; }
+    });
+    session.doneCount=(session.exercises||[]).length;
+  });
+  if (changed){
+    try{ localStorage.setItem(HISTORY_KEY, JSON.stringify(hist)); }catch(e){}
+  }
 }
 function v4MergeKey(k){ return /^m165-(food-|pep-\d|dihexa-\d|mealprep-saved$|mealprep-list-|mealplan-supps$)/.test(k); }
 function v4MergeValue(k,a,b,preferIncoming){
@@ -2143,7 +2219,7 @@ function renderCard(ex,i){
     '<button class="chk" aria-label="toggle"><span class="m">✓</span></button>'+
     '<div class="card-main">'+
       '<div class="card-title-row">'+
-        '<span class="ex-name">'+esc(ex.name)+'</span>'+
+        '<span class="ex-name">'+esc(ex.name)+(rowsHaveVoice(ex)?voiceMicHTML("sg-mic"):"")+'</span>'+
         '<span class="stars">'+stars+'</span>'+
         (gluteFocus?'<span class="glute-tag '+gluteFocus+'">Glute '+gluteFocus+'</span>':"")+
         (gridAttention(ex)?'<span class="confirm-tag">'+gridAttention(ex)+' to confirm</span>':"")+
@@ -2799,7 +2875,7 @@ function renderHistoryView(){
       if (x.sets&&x.sets.length){
         setHtml=x.sets.map(function(s){
           var wBlank=isBlankVal(s.weight), rBlank=isBlankVal(s.reps);
-          return '<div class="b">set '+s.n+': '+(wBlank?'<span class="pend-miss">weight not recorded</span>':esc(setVal(s.weight)))+' x '+(rBlank?'<span class="pend-miss">reps not recorded</span>':esc(setVal(s.reps)))+(s.note?' · '+esc(s.note):'')+'</div>';
+          return '<div class="b">'+(s.source==="voice"?voiceMicHTML("hist-mic"):"")+'set '+s.n+': '+(wBlank?'<span class="pend-miss">weight not recorded</span>':esc(setVal(s.weight)))+' x '+(rBlank?'<span class="pend-miss">reps not recorded</span>':esc(setVal(s.reps)))+(s.note?' · '+esc(s.note):'')+'</div>';
         }).join("");
       }
       var d=el('<div class="hist-ex"><div class="row"><span>✓ '+esc(x.name)+'</span>'+
@@ -4255,13 +4331,13 @@ function mergeSetRows(localRows, incomingRows, ctx){
       order.forEach(function(n){ if (n>max) max=n; });
       var nn=max+1;
       order.push(nn);
-      byN[nn]={n:nn, weight:weight, reps:reps, note:s.note||"", confirmed:!!s.confirmed, planned:!!s.planned, source:s.source||"voice", loggedAt:when};
+      byN[nn]={n:nn, weight:weight, reps:reps, note:s.note||"", confirmed:!!s.confirmed, planned:!!s.planned, source:s.source||"", loggedAt:when};
       return;
     }
     var n=Number(s.n);
     if (!byN[n]){
       order.push(n);
-      byN[n]={n:n, weight:weight, reps:reps, note:s.note||"", confirmed:!!s.confirmed, planned:!!s.planned, source:s.source||"voice", loggedAt:when};
+      byN[n]={n:n, weight:weight, reps:reps, note:s.note||"", confirmed:!!s.confirmed, planned:!!s.planned, source:s.source||"", loggedAt:when};
       return;
     }
     var row=byN[n];
@@ -4279,6 +4355,7 @@ function mergeSetRows(localRows, incomingRows, ctx){
       if (isBlankVal(row[f])){
         if (row.confirmed && !deliberate) return;
         row[f]=inc;
+        if (!row.source && s.source) row.source=s.source;
         return;
       }
       if (String(row[f])!==String(inc)){
@@ -4296,51 +4373,70 @@ function mergeSetRows(localRows, incomingRows, ctx){
 function mergeSetGridObjects(localGrid, incomingGrid, ctx){
   localGrid=(localGrid && typeof localGrid==="object" && !Array.isArray(localGrid))?localGrid:{};
   incomingGrid=(incomingGrid && typeof incomingGrid==="object" && !Array.isArray(incomingGrid))?incomingGrid:{};
-  var names={}, out={};
-  Object.keys(localGrid).forEach(function(k){ names[k]=1; });
-  Object.keys(incomingGrid).forEach(function(k){ names[k]=1; });
-  Object.keys(names).forEach(function(k){
-    if (k==="_notes"){
-      var ln=(localGrid._notes && typeof localGrid._notes==="object")?localGrid._notes:{};
-      var inn=(incomingGrid._notes && typeof incomingGrid._notes==="object")?incomingGrid._notes:{};
-      var notes=Object.assign({}, inn);
-      Object.keys(ln).forEach(function(nk){ if (ln[nk]) notes[nk]=ln[nk]; });
-      out._notes=notes;
-      return;
-    }
-    if (k==="_sessionNote"){
-      out._sessionNote=localGrid._sessionNote || incomingGrid._sessionNote || "";
-      return;
-    }
-    if (k.charAt(0)==="_"){
-      out[k]=localGrid[k]!=null?localGrid[k]:incomingGrid[k];
-      return;
-    }
-    var folded=mergeSetRows(Array.isArray(localGrid[k])?localGrid[k]:[], Array.isArray(incomingGrid[k])?incomingGrid[k]:[], Object.assign({}, ctx||{}, {exercise:k}));
-    out[k]=folded.rows;
+  var out={};
+  var ln=(localGrid._notes && typeof localGrid._notes==="object")?localGrid._notes:{};
+  var inn=(incomingGrid._notes && typeof incomingGrid._notes==="object")?incomingGrid._notes:{};
+  var notes=Object.assign({}, inn);
+  Object.keys(ln).forEach(function(nk){ if (ln[nk]) notes[nk]=ln[nk]; });
+  var foldedNotes={};
+  Object.keys(notes).forEach(function(nk){
+    var ck=exerciseStorageName(nk);
+    if (notes[nk] && !foldedNotes[ck]) foldedNotes[ck]=notes[nk];
+  });
+  if (Object.keys(foldedNotes).length) out._notes=foldedNotes;
+  if (localGrid._sessionNote || incomingGrid._sessionNote) out._sessionNote=localGrid._sessionNote || incomingGrid._sessionNote || "";
+  var order=[], seen={};
+  function claim(grid){
+    Object.keys(grid||{}).forEach(function(k){
+      if (!k || k.charAt(0)==="_") return;
+      var ck=exerciseStorageName(k);
+      if (!seen[ck]){ seen[ck]=1; order.push(ck); }
+    });
+  }
+  claim(localGrid);
+  claim(incomingGrid);
+  order.forEach(function(name){
+    var localRows=[], incomingRows=[];
+    Object.keys(localGrid).forEach(function(k){
+      if (!k || k.charAt(0)==="_") return;
+      if (exerciseStorageName(k)===name && Array.isArray(localGrid[k])) localRows=localRows.concat(localGrid[k]);
+    });
+    Object.keys(incomingGrid).forEach(function(k){
+      if (!k || k.charAt(0)==="_") return;
+      if (exerciseStorageName(k)===name && Array.isArray(incomingGrid[k])) incomingRows=incomingRows.concat(incomingGrid[k]);
+    });
+    out[name]=mergeSetRows(localRows, incomingRows, Object.assign({}, ctx||{}, {exercise:name})).rows;
+  });
+  ["localGrid","incomingGrid"].forEach(function(which){
+    var grid=which==="localGrid"?localGrid:incomingGrid;
+    Object.keys(grid).forEach(function(k){
+      if (!k || k.charAt(0)!=="_" || k==="_notes" || k==="_sessionNote") return;
+      if (out[k]==null) out[k]=grid[k];
+    });
   });
   return out;
 }
 function mergeExerciseLists(localEx, incomingEx, ctx){
   var byName={}, order=[];
-  (localEx||[]).forEach(function(ex){
+  function take(ex, incoming){
     if (!ex||!ex.name) return;
-    if (!byName[ex.name]) order.push(ex.name);
-    byName[ex.name]=Object.assign({}, ex, {sets:(ex.sets||[]).map(function(s){ return Object.assign({}, s); })});
-  });
-  (incomingEx||[]).forEach(function(ex){
-    if (!ex||!ex.name) return;
-    if (!byName[ex.name]){
-      order.push(ex.name);
-      byName[ex.name]=Object.assign({}, ex, {sets:(ex.sets||[]).map(function(s){ return Object.assign({confirmed:false}, s); })});
-      return;
-    }
-    var cur=byName[ex.name];
-    var merged=mergeSetRows(cur.sets, ex.sets, Object.assign({}, ctx||{}, {exercise:ex.name}));
+    var name=exerciseStorageName(ex.name);
+    var sets=(ex.sets||[]).map(function(s){
+      return incoming?Object.assign({confirmed:false}, s):Object.assign({}, s);
+    });
+    var copy=Object.assign({}, ex, {name:name, sets:sets});
+    if (!byName[name]){ order.push(name); byName[name]=copy; return; }
+    var cur=byName[name];
+    var merged=mergeSetRows(cur.sets, sets, Object.assign({}, ctx||{}, {exercise:name}));
     cur.sets=merged.rows;
-    if (ex.note && !cur.note) cur.note=ex.note;
-    byName[ex.name]=cur;
-  });
+    if (copy.note && !cur.note) cur.note=copy.note;
+    if (copy.bonus && !cur.bonus) cur.bonus=copy.bonus;
+    if (copy.topSet && !cur.topSet) cur.topSet=copy.topSet;
+    if (copy.weight && !cur.weight) cur.weight=copy.weight;
+    byName[name]=cur;
+  }
+  (localEx||[]).forEach(function(ex){ take(ex, false); });
+  (incomingEx||[]).forEach(function(ex){ take(ex, true); });
   return order.map(function(n){ return byName[n]; });
 }
 function mergePendingEntry(local, incoming){
@@ -4383,7 +4479,33 @@ var EX_NAME_ALIASES={
   "smith rdl":"Smith Romanian Deadlift",
   "face pull":"Face Pull",
   "hammer curl":"Dumbbell Hammer Curl",
-  "cable curl":"Cable Curl"
+  "cable curl":"Cable Curl",
+  "leg curl":"Single-Leg Standing Leg Curl",
+  "standing leg curl":"Single-Leg Standing Leg Curl",
+  "single leg leg curl":"Single-Leg Standing Leg Curl",
+  "seated calf":"Seated Calf Raise",
+  "hip abduction":"Seated Hip Abduction",
+  "abduction":"Seated Hip Abduction",
+  "trap bar deadlift":"Deadlift (Trap Bar or Barbell)",
+  "deadlift":"Deadlift (Trap Bar or Barbell)",
+  "lat pulldown":"Wide-Grip Lat Pulldown",
+  "pulldown":"Wide-Grip Lat Pulldown",
+  "bench press":"Dumbbell Bench Press",
+  "lateral lunge":"Dumbbell Lateral Lunge",
+  "back extension":"45° Back Extension (glute-focused)",
+  "incline press":"Dumbbell Incline Press",
+  "chin-up":"Band-Assisted Chin-Up / Pull-Up",
+  "pull-up":"Band-Assisted Chin-Up / Pull-Up",
+  "chin up":"Band-Assisted Chin-Up / Pull-Up",
+  "pull up":"Band-Assisted Chin-Up / Pull-Up",
+  "bent over row":"Barbell Bent-Over Row",
+  "bent-over row":"Barbell Bent-Over Row",
+  "pec deck":"Pec Deck Fly (or Cable Fly)",
+  "lateral raise":"Dumbbell Lateral Raise",
+  "pushdown":"Rope Triceps Pushdown",
+  "triceps pushdown":"Rope Triceps Pushdown",
+  "cable crunch":"Cable Crunch",
+  "overhead extension":"Overhead Cable Triceps Extension"
 };
 function canonicalExerciseName(name){
   var raw=String(name||"").trim();
@@ -4391,7 +4513,52 @@ function canonicalExerciseName(name){
   if (EX_BY_NAME[raw]) return raw;
   var key=raw.toLowerCase();
   if (EX_NAME_ALIASES[key]) return EX_NAME_ALIASES[key];
-  return raw;
+  var found="";
+  Object.keys(EX_BY_NAME).forEach(function(n){
+    if (!found && n.toLowerCase()===key) found=n;
+  });
+  return found||raw;
+}
+function exerciseStorageName(name){
+  return canonicalExerciseName(name)||String(name||"");
+}
+function programDay(id){
+  var n=Number(id);
+  for (var i=0;i<DAYS.length;i++) if (DAYS[i].id===n) return DAYS[i];
+  return null;
+}
+// Titles the voice logger used before they were updated to match DAYS.
+var STALE_DAY_TITLES={
+  "Upper A — Chest, Back & Arms":1,
+  "Lower B — Glute & Hamstring Focus":1,
+  "Monday — Conditioning / Recovery":1
+};
+function applyProgramMeta(session){
+  if (!session) return session;
+  var day=programDay(session.dayId);
+  if (!day) return session;
+  if (!session.dayTitle || STALE_DAY_TITLES[session.dayTitle]) session.dayTitle=day.title;
+  if (!session.total || (Number(session.total)===6 && day.exercises.length!==6)) session.total=day.exercises.length;
+  return session;
+}
+function renameExercises(list, ctx){
+  var byName={}, order=[];
+  (list||[]).forEach(function(ex){
+    if (!ex||!ex.name) return;
+    var name=exerciseStorageName(ex.name);
+    var copy=Object.assign({}, ex, {name:name, sets:(ex.sets||[]).map(function(s){ return Object.assign({}, s); })});
+    if (!byName[name]){ order.push(name); byName[name]=copy; return; }
+    var merged=mergeSetRows(byName[name].sets, copy.sets, Object.assign({}, ctx||{}, {exercise:name, mode:"merge"}));
+    byName[name].sets=merged.rows;
+    if (copy.note && !byName[name].note) byName[name].note=copy.note;
+  });
+  return order.map(function(n){ return byName[n]; });
+}
+function normalizeVoiceSession(h){
+  if (!h||typeof h!=="object") return h;
+  var out=Object.assign({}, h);
+  out.exercises=renameExercises(h.exercises||[], {date:h.date, dayId:h.dayId});
+  return applyProgramMeta(out);
 }
 function normalizeExercise(ex){
   if (!ex || typeof ex!=="object") return null;
@@ -4543,9 +4710,20 @@ function defaultSetRows(ex){
   for (var i=1;i<=n;i++) rows.push({n:i, weight:null, reps:null, confirmed:false, note:"", source:"manual", planned:false});
   return rows;
 }
+function matchingGridRows(grid, name){
+  var canon=exerciseStorageName(name);
+  if (Array.isArray(grid[canon]) && grid[canon].length) return grid[canon];
+  var found=null;
+  Object.keys(grid||{}).forEach(function(k){
+    if (found || !k || k.charAt(0)==="_") return;
+    if (exerciseStorageName(k)===canon && Array.isArray(grid[k]) && grid[k].length) found=grid[k];
+  });
+  return found;
+}
 function getRows(ex){
   var grid=loadSetGrid(state.logDate, DAYS[state.dayIdx].id);
-  if (Array.isArray(grid[ex.name]) && grid[ex.name].length) return grid[ex.name];
+  var rows=matchingGridRows(grid, ex.name);
+  if (rows) return rows;
   return defaultSetRows(ex);
 }
 function noteFor(ex){
@@ -4558,6 +4736,9 @@ function writeRows(ex, rows){
   if (folded.skipped.length) showDupNotice();
   var grid=loadSetGrid(state.logDate, dayId);
   grid[ex.name]=folded.rows;
+  Object.keys(grid).forEach(function(k){
+    if (k!==ex.name && k.charAt(0)!=="_" && exerciseStorageName(k)===ex.name) delete grid[k];
+  });
   saveSetGrid(state.logDate, dayId, grid);
 }
 function copyRows(ex){
@@ -4584,7 +4765,7 @@ function confirmedSetsFor(exName){
   var rows=grid[exName];
   if (!Array.isArray(rows)) return [];
   return rows.filter(function(r){ return r && r.confirmed; }).map(function(r){
-    return {n:r.n, weight:isBlankVal(r.weight)?null:r.weight, reps:isBlankVal(r.reps)?null:r.reps, note:r.note||"", confirmed:true};
+    return {n:r.n, weight:isBlankVal(r.weight)?null:r.weight, reps:isBlankVal(r.reps)?null:r.reps, note:r.note||"", confirmed:true, source:r.source||""};
   });
 }
 function uncheckedAttentionCount(){
@@ -4646,6 +4827,12 @@ function rotationCue(name, setN){
   var item=rotItem(name, setN);
   return item?item.cue:"";
 }
+function voiceMicHTML(cls){
+  return '<span class="'+(cls||"sg-mic")+'" title="From voice" aria-label="From voice"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 14a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v5a3 3 0 0 0 3 3zm5.3-3a5.3 5.3 0 0 1-4.3 5.2V19h2v2h-6v-2h2v-2.8A5.3 5.3 0 0 1 6.7 11H8a4 4 0 0 0 8 0h1.3z"/></svg></span>';
+}
+function rowsHaveVoice(ex){
+  return getRows(ex).some(function(r){ return r && r.source==="voice"; });
+}
 function setGridHTML(ex){
   var rows=getRows(ex);
   var notes=noteFor(ex);
@@ -4653,14 +4840,14 @@ function setGridHTML(ex){
   var hasRot=!!SET_ROT[ex.name];
   var h='<div class="sg-box" data-ex="'+esc(ex.name)+'">';
   h+='<div class="box-k">Set by set</div>';
-  if (voice) h+='<div class="sg-voice">From the voice log. An empty weight or rep was not recorded, so it stays blank. Check OK on a row before it is saved.</div>';
+  if (voice) h+='<div class="sg-voice">From voice. A mic marks each set that came in that way. An empty weight or rep stays blank.</div>';
   if (hasRot) h+='<div class="rot-note">Rotate the setup across the sets so every head gets a turn. Three working sets cover them. You do not do three sets of each head.</div>';
   if (notes) h+='<div class="sg-exnote">'+esc(notes)+'</div>';
   h+='<table class="sg"><thead><tr><th>Set</th><th>Weight</th><th>Reps</th><th>OK</th></tr></thead><tbody>';
   rows.forEach(function(row){
     h+='<tr data-n="'+row.n+'"'+(row.confirmed?' class="is-ok"':'')+'>';
     var flagMissing=rowNeedsFlag(row);
-    h+='<td class="n">'+row.n+(row.planned?'<span class="planned-tag">plan</span>':"")+'</td>';
+    h+='<td class="n">'+row.n+(row.source==="voice"?voiceMicHTML("sg-mic"):"")+(row.planned?'<span class="planned-tag">plan</span>':"")+'</td>';
     h+='<td>'+setCellHTML(row.weight,"sg-w",flagMissing)+'</td>';
     h+='<td>'+setCellHTML(row.reps,"sg-r",flagMissing)+'</td>';
     h+='<td class="ok"><input class="sg-c" type="checkbox" aria-label="Confirm set '+row.n+'"'+(row.confirmed?" checked":"")+'></td>';
@@ -5562,6 +5749,16 @@ function m165SelfCheck(){
   var onlyLower=DAYS.filter(function(d){ return d.exercises.some(function(e){ return e.name==="Seated Hip Abduction"; }); });
   assert("saturday removed", upper.length===0 && onlyLower.length===1 && onlyLower[0].id===3);
   assert("coach lifts", ["Face Pull","Banded Barbell Hip Thrust","Deep Leg Press","Smith Romanian Deadlift","Dumbbell Hammer Curl","Cable Curl"].every(function(n){return !!COACH[n];}));
+  assert("spoken squat", canonicalExerciseName("Squat")==="Barbell Back Squat");
+  assert("spoken rdl", canonicalExerciseName("RDL")==="Smith Romanian Deadlift");
+  var aliasGrid=mergeSetGridObjects({}, {"RDL":[{n:1, weight:185, reps:10, confirmed:true, source:"voice"}]});
+  assert("rdl lands on the smith rdl card", !!aliasGrid["Smith Romanian Deadlift"] && aliasGrid["Smith Romanian Deadlift"][0].weight===185 && aliasGrid["Smith Romanian Deadlift"][0].source==="voice" && !aliasGrid.RDL);
+  var histAlias=mergeHistoryArrays([], [{id:"2026-11-29-3", date:"2026-11-29", dayId:3, dayTitle:"Lower B — Glute & Hamstring Focus", total:6, exercises:[{name:"RDL", sets:[{n:1, weight:185, reps:10, source:"voice", confirmed:true}]}]}]);
+  assert("voice history uses the program day", histAlias.length===1 && histAlias[0].dayTitle==="Lower B — Hinge & Hamstrings" && histAlias[0].exercises[0].name==="Smith Romanian Deadlift" && histAlias[0].exercises[0].sets[0].source==="voice");
+  var typed=mergeSetRows([{n:1, weight:100, reps:15, confirmed:true, source:"manual"}], [{n:1, weight:200, reps:10, source:"voice", confirmed:true}], {date:"2026-11-29", dayId:3, exercise:"Leg Extension"});
+  assert("typed set survives voice", typed.rows.length===1 && typed.rows[0].weight===100 && typed.rows[0].reps===15 && typed.rows[0].source==="manual");
+  var replayVoice=mergeSetRows(aliasGrid["Smith Romanian Deadlift"], [{n:1, weight:185, reps:10, source:"voice", confirmed:true}], {date:"2026-11-29", dayId:3, exercise:"Smith Romanian Deadlift"});
+  assert("same voice set twice stays one row", replayVoice.rows.length===1 && replayVoice.skipped.length===1);
   window.__m165SelfCheck=results;
   window.__m165SelfCheckOk=results.every(function(r){return r.ok;});
   if (!window.__m165SelfCheckOk) console.error("m165 self-check failed", results.filter(function(r){return !r.ok;}));
