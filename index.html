@@ -491,6 +491,8 @@
   .pos-opt{background:#101014;border:1px solid #3a3a44;border-radius:12px;padding:8px;text-align:left;color:var(--text);cursor:pointer;min-height:44px;}
   .pos-opt.on{border-color:#f4f4f5;box-shadow:0 0 0 1px #f4f4f5;}
   .pos-opt svg{width:100%;height:auto;display:block;background:#0c0c10;border-radius:8px;}
+  .pos-photo{width:100%;height:auto;display:block;border-radius:8px;background:#0c0c10;}
+  .pos-opt .cap{font-size:10px;color:#d6d6de;text-align:center;margin-top:4px;}
   .pos-h{display:flex;gap:6px;align-items:center;margin-top:6px;}
   .pos-num{width:20px;height:20px;border-radius:5px;background:#f4f4f5;color:#111;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:0 0 20px;}
   .pos-name{font-size:12px;font-weight:800;line-height:1.2;}
@@ -2482,6 +2484,11 @@ attachHeads("Rope Triceps Pushdown",{
   long:{label:"Long",img:"ex_tri_long.jpg",cap:"<b>Long head</b> lit · "+R+"triceps long head"+O+"forearms"},
   lateral:{label:"Lateral",img:"ex_tri_lateral.jpg",cap:"<b>Lateral head</b> lit · "+R+"outer triceps"+O+"forearms"},
   medial:{label:"Medial",img:"ex_tri_medial.jpg",cap:"<b>Medial head</b> lit · "+R+"medial head, above the elbow"+O+"forearms"}
+});
+attachHeads("Banded Barbell Hip Thrust",{
+  upper:{label:"Upper",img:"ex_thrust_upper.jpg",cap:"<b>Upper glute</b> lit · "+R+"glute med / min"+O+"hamstrings"},
+  mid:{label:"Mid",img:"ex_thrust_mid.jpg",cap:"<b>Mid glute</b> lit · "+R+"glute max"+O+"hamstrings, quads"},
+  low:{label:"Lower",img:"ex_thrust_low.jpg",cap:"<b>Lower glute</b> lit · "+R+"lower glute"+O+"hamstrings"}
 });
 function exShotHTML(name){
   var m=exerciseMedia(name); if (!m||!m.img) return "";
@@ -5646,6 +5653,13 @@ function initPosMaps(){
     "Cable Crunch":["core"]
   };
 }
+function headPhotoFor(exerciseName, opt){
+  var m=exerciseMedia(exerciseName);
+  if (!m||!m.headImages||!opt) return null;
+  var spec=m.headImages[opt.id];
+  if (!spec||!spec.img) return null;
+  return spec;
+}
 function positionMapHTML(exerciseName){
   var ids=POS_BY_EX[exerciseName]||[];
   if (!ids.length) return "";
@@ -5671,7 +5685,11 @@ function positionMapHTML(exerciseName){
       h+='<div class="pos-grid">';
       map.options.forEach(function(o,i){
         h+='<button type="button" class="pos-opt'+(i===0?" on":"")+'" data-id="'+esc(o.id)+'" data-detail="'+esc(o.detail)+'">';
-        h+=(o.svg||"");
+        var photo=headPhotoFor(exerciseName, o);
+        if (photo){
+          h+='<img class="pos-photo" src="'+esc(photo.img)+'" alt="'+esc(o.name)+'">';
+          h+='<div class="cap">'+esc(photo.label||o.name)+'</div>';
+        } else h+=(o.svg||"");
         h+='<div class="pos-h"><span class="pos-num">'+esc(o.n)+'</span><span class="pos-name">'+esc(o.name)+'</span></div>';
         h+='<div class="pos-pri">'+esc(o.primary)+'</div>';
         if (o.secondary) h+='<div class="pos-sec">'+esc(o.secondary)+'</div>';
